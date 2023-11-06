@@ -7,10 +7,10 @@ import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ResizeModule from "@ssumo/quill-resize-module";
 Quill.register("modules/resize", ResizeModule);
-import Delta from 'quill-delta';
 
-const BlockEmbed  = Quill.import('blots/block/embed');
-const Code = Quill.import('formats/code');
+
+const BlockEmbed  = Quill.import('blots/embed');
+const Code = Quill.import('blots/embed');
 const Parchment = Quill.imports.parchment;
 const Inline = Quill.import('blots/inline');
 
@@ -120,11 +120,31 @@ export default function Create({auth}){
         }
         return new File([buffer.buffer], file.name, {type: file.type});
     }
-
- 
-    class CodeBlot extends Code {
+    
+    let Inline = Quill.import('blots/inline');
+    class BoldBlot extends Inline {
         static create (value) {
-            let domnode = super.create(value);
+            let domnode = super.create();
+            //let text = node.textContent;
+         
+            let pre = document.createElement('pre');
+            pre.className = 'code';
+            let code = document.createElement('code');
+            code.textContent = value;
+            pre.appendChild(code);
+            domnode.appendChild(pre);
+        
+            return domnode;
+        }
+    }
+    BoldBlot.blotName = 'bold_test';
+    BoldBlot.tagName = 'strong';
+    Quill.register('formats/bold', BoldBlot);
+
+
+    class CodeBlot extends BlockEmbed {
+        static create (value) {
+            let domnode = super.create();
             //let text = node.textContent;
          
             let pre = document.createElement('pre');
@@ -137,38 +157,37 @@ export default function Create({auth}){
             return domnode;
         }
 
+        insertAt(index, value, def) {
+            if (def != null) return;
+            let [text, offset] = this.descendant(TextBlot, index);
+            text.insertAt(offset, value);
+          }
+
     
         
     }
 
     
     class Code02Blot extends Code {
-        static create(value) {
-            let {lang, content} = value;
-            let node = super.create(value);
-            const code = document.createElement('code');
-            code.setAttribute('class', lang);
-            code.textContent = content;
-            node.appendChild(code);
-            return node;
-          }
-        
-          static value(node) {
-            return {
-              lang: node.firstChild.getAttribute('class'),
-              content: node.firstChild.innerText
-            };
-          }
+        static create (value) {
+            let domnode = super.create();
+            //let text = node.textContent;
+         /*
+            let pre = document.createElement('pre');
+            pre.className = 'code';
+            let code = document.createElement('code');
+            code.textContent = value;
+            pre.appendChild(code);
+            domnode.appendChild(pre);
+        */
+            return domnode;
+        }
  
     }
 
     Code02Blot.blotName = 'code_blot02';
     Code02Blot.tagName = 'div';
     Code02Blot.className = 'language-markup';
-
-
-
-
     Quill.register(Code02Blot,true);
 
 
@@ -200,12 +219,12 @@ export default function Create({auth}){
                     ['bold', 'italic', 'underline','strike', 'blockquote'],
                     [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
                     [{ 'color': [] }, { 'background': [] }],  
-                    ["code_blot","image","link",'code_blot02'],
+                    ["code_blot","image","video","link",'code_blot02', 'bold_test'],
                     [{ size: [] }],
                     ['clean']   
                 ],
                 handlers: {
-                    "code_blot": funcAddCodeBlot,
+                    "code_blot02": funcAddCodeBlot,
                 }
               },
               resize: {
@@ -242,7 +261,7 @@ export default function Create({auth}){
                             id="content"
                             modules={modules}
                             onChange={handleChangeWysiwyg}
-                            onSelect={handleBlurLength}
+                
                             value={data.content}
                             className="form_control_item_textarea article_content"
                             ref={ref}

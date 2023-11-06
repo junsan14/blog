@@ -1,5 +1,5 @@
 import {ModalShow,formatDate, addClassPage} from "@/script.jsx";
-import { usePage } from '@inertiajs/react'
+import {usePage } from '@inertiajs/react'
 import {useState} from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import parse from 'html-react-parser';

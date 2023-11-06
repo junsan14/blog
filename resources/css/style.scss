@@ -1417,9 +1417,8 @@ img {
 				p{				
 					margin-top: 10px;					
 				}	
-				.language-markup,{
+				.language-markup,ql-syntax{
 					background: rgba(#eee,.4);
-					
 					line-height: 0;
 					margin: 10px 0;
 					max-height: 300px;
@@ -1429,7 +1428,7 @@ img {
 					margin:20px 10px;
 				
 					}
-					.code{
+					.code,&::before{
 						line-height: 20px;
 						display: block;
 						width: 100%;
@@ -1444,9 +1443,7 @@ img {
 						code{
 							 font-family: 'Murecho', sans-serif;
 						}
-						
-
-
+					
 					}
 					
 					.markup-area-copy{
