@@ -48,7 +48,9 @@ export default function Contact() {
                 </div>
                 <div className="form_control_item">
                     <label htmlFor="email">アドレス</label>
-                    <input  type="email" id="user_email" className="form_control_item_input" name="user_email"
+                    <input  type="email" id="user_email" 
+                    className="form_control_item_input" 
+                    name="user_email"
                             required
                             value={data.user_email}
                             onChange={handleChange}

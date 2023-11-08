@@ -17,12 +17,12 @@ class PostsController extends Controller
     //
 
     public function home(){
-        $showBlog = Blog::where('is_show',1)->take(4)->get();
+        $showBlog = Blog::where('is_show',1)->latest()->take(4)->get();
        return Inertia::render('Home',['posts'=>new BlogCollection($showBlog)]);
     }
 
     public function index(){
-        $showBlog = Blog::where('is_show',1)->get();
+        $showBlog = Blog::where('is_show',1)->latest()->get();
        return Inertia::render('Posts/Index',['posts'=>new BlogCollection($showBlog)]);
     }
 
@@ -32,7 +32,6 @@ class PostsController extends Controller
         
         if(!$post->isEmpty()){
             return Inertia::render('Posts/Page',[$post]);
-            dd($post);
         }else{
             return to_route('blog');
         }
@@ -40,10 +39,31 @@ class PostsController extends Controller
     public function create(){
         return Inertia::render('Posts/Create');
     }
-    public function preview(Request $request){
-        
+    public function preview(Request $request){ 
         $data = $request->query('data');
         return Inertia::render('Posts/Preview', [$data]);
+    }
+    public function tempStore(Request $request){
+    
+        $post = Blog::updateOrInsert(
+            ['id'=>"134"],
+            [
+            'title' => $request->title,
+            'content' => $request->content,
+            'author_id'=>Auth::id(),
+            'excerpt'=>$request->excerpt,
+            'keywords'=>$request->keywords,
+            'category'=>$request->category,
+            'tag'=>$request->tag,
+            'thumbnail'=> $request->thumbnail,
+            'is_show'=>$request->is_show
+    
+        ]);
+        $id = Blog::latest('id')->first()->id;
+        return Inertia::render('Posts/Create',[$id]);
+
+
+          
     }
     public function store(Request $request){
         
@@ -55,7 +75,6 @@ class PostsController extends Controller
         }else{
             $thumbnailPath ='/storage/images/blog/thumbnail/noImage.png';
         }
-        
         $wysiwygPath = [];
         $content= $request->content;
         if($uploadFiles){
@@ -99,7 +118,7 @@ class PostsController extends Controller
     }
 
     public function editIndex(){
-        return Inertia::render('Posts/EditIndex',['posts'=>new BlogCollection(Blog::all())]);
+        return Inertia::render('Posts/EditIndex',['posts'=>new BlogCollection(Blog::latest()->get())]);
     }
     
     public function edit(Request $request) {
@@ -128,17 +147,7 @@ class PostsController extends Controller
                 $base64 = array_search($uploadFile, $uploadFiles);
                 $content = str_replace($base64,$path,$content);
             }
-            $post = Blog::where('id', $request->id)->update([
-                'title' => $request->title,
-                'content' => $content,
-                'author_id'=>Auth::id(),
-                'excerpt'=>$request->excerpt,
-                'keywords'=>'2,10',
-                'category'=>'3',
-                'tag'=>'2',
-                'thumbnail'=> $thumbnailPath,
-                'is_show'=>true
-            ]);
+           
             
         }else{
             $post = Blog::where('id', $request->id)->update([
@@ -150,7 +159,7 @@ class PostsController extends Controller
                 'category'=>'3',
                 'tag'=>'2',
                 'thumbnail'=> $thumbnailPath,
-                'is_show'=>true
+                'is_show'=>$request->is_show
             ]);
 
         }

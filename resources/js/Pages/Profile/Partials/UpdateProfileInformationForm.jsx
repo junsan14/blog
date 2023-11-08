@@ -20,23 +20,16 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     };
 
     return (
-        <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
-
-            <form onSubmit={submit} className="mt-6 space-y-6">
-                <div>
+        <>
+            <h2 className="section_content_title">Profile Information</h2>
+            <form onSubmit={submit} className="form_control">
+                <div className='form_control_item'>
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
                         value={data.name}
+                        className="form_control_item_input"
                         onChange={(e) => setData('name', e.target.value)}
                         required
                         isFocused
@@ -46,13 +39,13 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.name} />
                 </div>
 
-                <div>
+                <div className='form_control_item'>
                     <InputLabel htmlFor="email" value="Email" />
 
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="form_control_item_input"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
@@ -84,8 +77,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </div>
                 )}
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <div className='form_control_item'>
+                    <PrimaryButton className='form_control_item_submit' disabled={processing}>Save</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -94,10 +87,10 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">Saved.</p>
+                        <p className="text-sm -gray-600">Saved.</p>
                     </Transition>
                 </div>
             </form>
-        </section>
+        </>
     );
 }

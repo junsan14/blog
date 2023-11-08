@@ -2,25 +2,19 @@
 import { usePage, Link,useForm,router } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useState,useMemo,ref,useRef } from 'react';
-import $ from "jquery";
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ResizeModule from "@ssumo/quill-resize-module";
 
 
-
-Quill.register("modules/resize", ResizeModule);
-
-
 export default function Update({auth}){
     const editPost = usePage().props[0][0];
-    console.log(editPost);
     const ref = useRef(null);
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState(editPost.thumbnail);
     const [test, setTest] = useState(editPost.content);
-    
-    
+    Quill.register("modules/resize", ResizeModule);
+
 
     const { data, setData, progress } = useForm({
         id:editPost.id,
@@ -32,11 +26,12 @@ export default function Update({auth}){
         keywords:editPost.keyword,
         thumbnail:editPost.thumbnail,
         is_show:true,
+        created_at: editPost.created_at,
         wysiwygData:{},
         _method: 'PATCH'
     })
-      console.log(test);
-      console.log(data.content);
+      //console.log(test);
+      //console.log(data);
     const submit = (e) => {
         e.preventDefault();
         router.post('/blog/admin/edit', data);
@@ -105,8 +100,8 @@ export default function Update({auth}){
             [key]: value,
         }))
 
-        console.log(`保存枚数${storedImageNum}` )
-        console.log(`エディター枚数${currentImageNum}` )
+        //console.log(`保存枚数${storedImageNum}` )
+        //console.log(`エディター枚数${currentImageNum}` )
     }
     function convertToFile (imgData, file) {
         // ここでバイナリにしている
@@ -121,18 +116,13 @@ export default function Update({auth}){
     const modules = useMemo(() => {
             return {
               toolbar: {
-                handlers: {
-                  //image: selectLocalImage,
-                  
-                },
                 container: [
-                    [{ 'header': [1, 2, false] }],
-                    ['blockquote', 'code-block'],
-                    ['bold', 'italic', 'underline','strike', 'blockquote'],
-                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                    [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
+                    ['bold', 'italic', 'underline','strike'],
                     [{ 'color': [] }, { 'background': [] }],  
-                    ["image","link"],
-                    [{ size: [] }],
+                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                    ['blockquote', 'code-block'],
+                    ["image","video","link"],
                     ['clean']   
                 ],
               },
@@ -167,14 +157,14 @@ export default function Update({auth}){
 
                         </div>
                 
-                        <div className="form_control_item" >
+                        <div className="form_control_item page_content" >
                             <label htmlFor="content" >内容</label>
                             <ReactQuill theme="snow"
                             id="content"
                             modules={modules}
                             onChange={handleChangeWysiwyg}
                             defaultValue ={data.content}
-                            className="form_control_item_textarea"
+                            className="form_control_item_textarea article_content edit"
                             ref={ref}
 
                             >
@@ -234,9 +224,20 @@ export default function Update({auth}){
                              rows="5" value={data.excerpt} onChange={handleChange} >
                             </textarea>
                         </div>
+                        <div  className="form_control_item button">
+                            <Link href="/blog/admin/preview" method='get' data={{ data: data }}
+                                className="form_control_item_submit js-add-blank" preserveState>
+                                プレビュー
+                            </Link>
+                        </div>
                     </div>
                     <div  className="form_control_item button">
-                        <input type="submit" value="更新" className="form_control_item_submit" onChange={handleChange} />
+                        <button type="submit" value="0" className="form_control_item_submit" id="is_show" onClick={handleChange}>
+                            下書
+                        </button>
+                        <button type="submit" value="1" className="form_control_item_submit" onChange={handleChange} >
+                            更新
+                        </button>
                             {progress && (
                                     <progress value={progress.percentage} max="100">
                                         {progress.percentage}%

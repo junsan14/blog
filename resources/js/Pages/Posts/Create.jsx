@@ -1,7 +1,7 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {useState,useEffect,useMemo,ref,useRef } from 'react';
-import {useForm, router,Link  } from '@inertiajs/react';
+import {useState,useMemo,ref,useRef } from 'react';
+import {useForm, router, Link, usePage  } from '@inertiajs/react';
 import $ from "jquery";
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -9,18 +9,17 @@ import ResizeModule from "@ssumo/quill-resize-module";
 Quill.register("modules/resize", ResizeModule);
 
 
-const BlockEmbed  = Quill.import('blots/embed');
-const Code = Quill.import('blots/embed');
-const Parchment = Quill.imports.parchment;
-const Inline = Quill.import('blots/inline');
-
-
+const id = usePage().props[0]?usePage().props[0]:"";
 
 export default function Create({auth}){
+
     const ref = useRef(null);
+    //const id = usePage().props[0]?usePage().props[0]:"";
+    //console.log(id);
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
     const { data, setData, post, progress } = useForm({
+        id: id,
         title: "",
         content: "",   
         excerpt:"",
@@ -29,11 +28,11 @@ export default function Create({auth}){
         keywords:"",
         thumbnail:"",
         is_show:"",
-        wysiwygData:{}
-    })
-    useEffect(()=>{
-        console.log(2);
-    }, [data.wysiwygData])
+        wysiwygData:{},
+        remember: false,
+    });
+
+
     const submit = (e) => {
         console.log(data)
         e.preventDefault();
@@ -41,22 +40,33 @@ export default function Create({auth}){
  
     };
     function handleChange(e){
-        console.log(e);
+ 
         const key = e.target.id;
         const value = e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-       console.log(data);
+       //console.log(data);
     }
 
-    function handleClickPreview(){
-        router.get('/blog/admin/preview', data);
+    function autoSavePreview(e){
+        e.preventDefault();
+        console.log(data);
+        router.patch('/blog/admin/create', 
+            data,
+            {preserveScroll:true}
+        );
     }
-    function handleBlurLength(e){
-        console.log(e);
+
+    function handleClickPreview(e){
+        e.preventDefault();
+        router.get('/blog/admin/preview', 
+            data,
+            { preserveState:true }
+        );
     }
+
 
 
     function handleChangeWysiwyg(content, delta, source, editor, oldDelta) {
@@ -121,124 +131,34 @@ export default function Create({auth}){
         return new File([buffer.buffer], file.name, {type: file.type});
     }
     
-    let Inline = Quill.import('blots/inline');
-    class BoldBlot extends Inline {
-        static create (value) {
-            let domnode = super.create();
-            //let text = node.textContent;
-         
-            let pre = document.createElement('pre');
-            pre.className = 'code';
-            let code = document.createElement('code');
-            code.textContent = value;
-            pre.appendChild(code);
-            domnode.appendChild(pre);
-        
-            return domnode;
-        }
-    }
-    BoldBlot.blotName = 'bold_test';
-    BoldBlot.tagName = 'strong';
-    Quill.register('formats/bold', BoldBlot);
 
 
-    class CodeBlot extends BlockEmbed {
-        static create (value) {
-            let domnode = super.create();
-            //let text = node.textContent;
-         
-            let pre = document.createElement('pre');
-            pre.className = 'code';
-            let code = document.createElement('code');
-            code.textContent = value;
-            pre.appendChild(code);
-            domnode.appendChild(pre);
-        
-            return domnode;
-        }
-
-        insertAt(index, value, def) {
-            if (def != null) return;
-            let [text, offset] = this.descendant(TextBlot, index);
-            text.insertAt(offset, value);
-          }
-
-    
-        
-    }
-
-    
-    class Code02Blot extends Code {
-        static create (value) {
-            let domnode = super.create();
-            //let text = node.textContent;
-         /*
-            let pre = document.createElement('pre');
-            pre.className = 'code';
-            let code = document.createElement('code');
-            code.textContent = value;
-            pre.appendChild(code);
-            domnode.appendChild(pre);
-        */
-            return domnode;
-        }
- 
-    }
-
-    Code02Blot.blotName = 'code_blot02';
-    Code02Blot.tagName = 'div';
-    Code02Blot.className = 'language-markup';
-    Quill.register(Code02Blot,true);
-
-
-    CodeBlot.blotName = 'code_blot';
-    CodeBlot.tagName = 'div';
-    CodeBlot.className = 'language-markup';
-    Quill.register(CodeBlot, true);
-
-    function funcAddCodeBlot (){
-        const quill = this.quill;
-        const selection = quill.getSelection(true);
-        const range = quill.getSelection();
-        let selectedText = range.length == 0? '': quill.getText(range.index, range.length);
-        quill.deleteText(range.index, range.length);
-        let cursor_index = selection.index;
-        
-        quill.insertEmbed(cursor_index, 'code_blot', selectedText);
-        
-
-        quill.setSelection(cursor_index + 1);
-    }
       
     const modules = useMemo(() => {
-            return {
-              toolbar: {
-                container: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['blockquote', 'code-block'],
-                    ['bold', 'italic', 'underline','strike', 'blockquote'],
-                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                    [{ 'color': [] }, { 'background': [] }],  
-                    ["code_blot","image","video","link",'code_blot02', 'bold_test'],
-                    [{ size: [] }],
-                    ['clean']   
-                ],
-                handlers: {
-                    "code_blot02": funcAddCodeBlot,
-                }
-              },
-              resize: {
-                locale: {
-                  altTip: "按住alt键比例缩放",
-                  inputTip: "回车键确认",
-                  floatLeft: "左",
-                  floatRight: "右",
-                  center: "中央",
-                  restore: "元に戻す",
-                },
-              },
-            };
-    }, []);
+        return {
+          toolbar: {
+            container: [
+                [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
+                ['bold', 'italic', 'underline','strike'],
+                [{ 'color': [] }, { 'background': [] }],  
+                [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                ['blockquote', 'code-block'],
+                ["image","video","link"],
+                ['clean']   
+            ],
+          },
+          resize: {
+            locale: {
+              altTip: "按住alt键比例缩放",
+              inputTip: "回车键确认",
+              floatLeft: "左",
+              floatRight: "右",
+              center: "中央",
+              restore: "元に戻す",
+            },
+          },
+        };
+}, []);
         
     return(
         <AuthenticatedLayout 
@@ -253,7 +173,9 @@ export default function Create({auth}){
                     <div className='main'>
                         <div  className="form_control_item">
                             <label htmlFor="title" >タイトル</label>
-                            <input type="text" id="title" className="form_control_item_input" value={data.title} onChange={handleChange} />
+                            <input type="text" id="title" className="form_control_item_input" value={data.title} 
+                                onChange={handleChange} onBlur={autoSavePreview}
+                            />
                         </div>     
                         <div className="form_control_item page_content" >
                             <label htmlFor="content" >内容</label>
@@ -261,9 +183,9 @@ export default function Create({auth}){
                             id="content"
                             modules={modules}
                             onChange={handleChangeWysiwyg}
-                
+                            onBlur={autoSavePreview}
                             value={data.content}
-                            className="form_control_item_textarea article_content"
+                            className="form_control_item_textarea article_content create"
                             ref={ref}
                             >
                             </ReactQuill>
@@ -275,6 +197,7 @@ export default function Create({auth}){
                             <label htmlFor="excerpt">カテゴリ</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
+                                onBlur={autoSavePreview}
                             >
                                 <option value="1">wiki</option>
                                 <option value="2">Note</option>
@@ -287,6 +210,7 @@ export default function Create({auth}){
                             <label htmlFor="excerpt" >タグ</label>
                             <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
                                 value={data.tag} onChange={(e)=>handleChange(e)}
+                                onBlur={autoSavePreview}
                             />
                             <datalist id='tag_list'>
                                 <option value='tag1' />
@@ -297,6 +221,7 @@ export default function Create({auth}){
                             <label htmlFor="keywords" >キーワード</label>
                             <input name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
                                 value={data.keywords} onChange={(e)=>handleChange(e)}
+                                onBlur={autoSavePreview}
                             />
                             <datalist id='keyword_list'>
                                 <option value='keyword1' />
@@ -306,43 +231,48 @@ export default function Create({auth}){
                         <div  className="form_control_item">
                             <label htmlFor="thumbnail" >サムネイル</label>
                             <input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
-                            value={thumbnailValue} onChange={(e)=>{
+                            value={thumbnailValue} 
+                            onBlur={autoSavePreview}
+                            onChange={(e)=>{
                                 setThumbnailValue(e.target.value);
                                 setData("thumbnail", e.target.files[0]);
                                 setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));
                                 
                             }} />
                             <div className="form_control_item_input_preview">
-                                <img src={thumbnailPreview} />
+                                {thumbnailPreview && <img src={thumbnailPreview} /> }
                             </div>
                         </div>
                         <div  className="form_control_item">
                             <label htmlFor="excerpt" >抜粋</label>
                             <textarea id="excerpt" name='excerpt' className="form_control_item_input"  
-                             rows="5" value={data.excerpt} onChange={handleChange} >
+                             rows="5" value={data.excerpt} onChange={handleChange} onBlur={autoSavePreview} >
                             </textarea>
                         </div>
+                        <div  className="form_control_item button">
+                            <Link href="/blog/admin/preview" method='get' data={{ data: data }}
+                                className="form_control_item_submit" preserveState>
+                                プレビュー
+                            </Link>
+                        </div>
                     </div>
-                    <div  className="form_control_item button">
-                        <Link href="/blog/admin/preview" method="get" as="button" type="button" data={{ data: data }}
-                        preserveState>
-                        プレビュー
-                        </Link>
-                        <button type="get"  className="form_control_item_submit" onClick={handleClickPreview}>
-                        プレビュー2
-                        </button> 
-                        <button type="submit" value="0" className="form_control_item_submit" id="is_show" onClick={handleChange}>
-                        下書
-                        </button>
-                        <button type="submit" value="1" className="form_control_item_submit" id="is_show" onClick={handleChange} >
-                        公開
-                        </button>
+
+                        <div  className="form_control_item button">
+                            <button type="submit" value="0" className="form_control_item_submit" id="is_show" onClick={handleChange}>
+                            下書
+                            </button>
+                            <button type="submit" value="1" className="form_control_item_submit" id="is_show" onClick={handleChange} >
+                            公開
+                            </button>
+                            <button type="submit" value="1" className="form_control_item_submit" id="is_show" onClick={autoSavePreview} >
+                            PV保存
+                            </button>
+                        </div>
                             {progress && (
                                     <progress value={progress.percentage} max="100">
                                         {progress.percentage}%
                                     </progress>
                             )}
-                    </div>
                 </form>
                 </section>
             </div>

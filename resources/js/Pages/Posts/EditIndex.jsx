@@ -2,7 +2,7 @@ import parse from 'html-react-parser';
 import { usePage, Link,useForm,router  } from '@inertiajs/react'
 import React, {useEffect, useState,useRef } from "react";
 import $ from 'jquery';
-import {BiSearchAlt2} from 'react-icons/bi';
+import {BsSearch} from 'react-icons/bs';
 import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
 import { ModalShow,fixedSearch,formatDate} from "@/script";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -17,7 +17,7 @@ export default function Blog({auth}) {
     const [tagid,setTagid] = useState('');
     const loadPosts = usePage().props.posts.data;
     const [posts, setPosts] = useState(loadPosts);
-    console.log(loadPosts);
+    //console.log(loadPosts);
     useEffect(() => { 
         setPosts(loadPosts);
         if(keyword){   
@@ -164,11 +164,10 @@ export default function Blog({auth}) {
                     </ul>
                     <div className="search_area js-search_area">
                         <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>リセット</button>
-                        <BiSearchAlt2 className="search_area_icon js-search_area_icon"  />
+                        <BsSearch className="search_area_icon js-search_area_icon"/>
                         <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
                             name="tag-choice" placeholder=""  
                             onChange={(e)=>{
-                                
                                 setKeyword(e.target.value);
                             }
                             } 

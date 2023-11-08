@@ -37,17 +37,10 @@ export default function UpdatePasswordForm({ className = '' }) {
     };
 
     return (
-        <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">Update Password</h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Ensure your account is using a long, random password to stay secure.
-                </p>
-            </header>
-
-            <form onSubmit={updatePassword} className="mt-6 space-y-6">
-                <div>
+        <>
+            <h2 className="section_content_title">Update Password</h2>
+            <form onSubmit={updatePassword} className="form_control">
+                <div className='form_control_item'>
                     <InputLabel htmlFor="current_password" value="Current Password" />
 
                     <TextInput
@@ -56,14 +49,14 @@ export default function UpdatePasswordForm({ className = '' }) {
                         value={data.current_password}
                         onChange={(e) => setData('current_password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="form_control_item_input"
                         autoComplete="current-password"
                     />
 
                     <InputError message={errors.current_password} className="mt-2" />
                 </div>
 
-                <div>
+                <div className='form_control_item'>
                     <InputLabel htmlFor="password" value="New Password" />
 
                     <TextInput
@@ -72,14 +65,14 @@ export default function UpdatePasswordForm({ className = '' }) {
                         value={data.password}
                         onChange={(e) => setData('password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="form_control_item_input"
                         autoComplete="new-password"
                     />
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div>
+                <div className='form_control_item'>
                     <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
 
                     <TextInput
@@ -87,15 +80,15 @@ export default function UpdatePasswordForm({ className = '' }) {
                         value={data.password_confirmation}
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="form_control_item_input"
                         autoComplete="new-password"
                     />
 
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <div className="form_control_item">
+                    <PrimaryButton className='form_control_item_submit' disabled={processing}>Save</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -108,6 +101,6 @@ export default function UpdatePasswordForm({ className = '' }) {
                     </Transition>
                 </div>
             </form>
-        </section>
+        </>
     );
 }

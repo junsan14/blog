@@ -29,6 +29,7 @@ $background-color:#f9f9f9;
 $content-width :85%;
 $no-focus-style:1px solid rgba(#111,.1);
 $focus-style:1px solid rgba(#111,.8);
+$border-color:rgba(209,213,219,1);
 body{
   font-size: 100%;
   font-family: 'Murecho', sans-serif;
@@ -58,10 +59,6 @@ img{
 	max-width: 100%;
 }
 
-li{
-	
-	
-}
 .header{
 	&.guest{
 		width: (100% - $content-width);
@@ -196,6 +193,7 @@ li{
 		width: 100%;
 		position: fixed;
 		background: rgba(#fff,.8);
+		z-index: 100;
 		.header_ul{
 			display: flex;
 			align-items: center;
@@ -423,6 +421,7 @@ img {
 		width: $content-width;
 		background: $background-color;
 		transition: all .7s ease-out;
+		min-height: 100vh;
 		@include mq(tab){
 			width: 100%;
 		}
@@ -440,7 +439,7 @@ img {
 		}
 		padding: 0 80px;
 		@include mq(sp){
-			padding: 0 20px;
+			padding: 0 5px;
 		}
 	}
 
@@ -523,12 +522,7 @@ img {
 			align-items: center;
 			transition:2s ease;
 			opacity:1;
-			&.edit{
-				.article{
-					width: 100%;
-					
-				}
-			}
+
 			.article{
 				width: 48%;
 			    display: flex;
@@ -565,6 +559,7 @@ img {
 						img{
 							width:80%;
 							height:80%;
+							padding: 5%;
 							object-fit: cover;
 							border-radius: 5px 0 0 5px;
 							@include mq(tab){
@@ -611,33 +606,34 @@ img {
 					&.unshown{
 						background: rgba(#111,.1);
 						img{
-							opacity: .3;
-							
+							opacity: .3;			
 						}
-						
 					}
-					.article_link{
-						width: 80%;
-					}
-					
-					.article_icon{
-						width: 20%;
-						display: flex;
-						align-items: center;
-						justify-content: space-around;
-						
-						& .icon{
-							font-size: 1.5rem;
-
+					.article{
+						&_link{
+							width: 80%;
+						}
+						&_icon{
+							width: 20%;
+							display: flex;
+							align-items: center;
+							justify-content: space-around;
 							@include mq(sp){
-								font-size: 0.8rem;
+								flex-flow: column;
 							}
-							&:hover{
-								color: rgba(#111 ,.3);
-								transition: .5s all;
+							& .icon{
+								font-size: 1.5rem;
+	
+								&:hover{
+									color: rgba(#111 ,.3);
+									transition: .5s all;
+								}
 							}
 						}
 					}
+
+					
+
 				}
 			}
 	}
@@ -684,6 +680,7 @@ img {
 			transition:.5s ease;
 			top:10px;
 			right:calc(50% - 90px);
+			
 			@include mq(tab){
 				top:10px;
 				left:10px;
@@ -701,6 +698,8 @@ img {
 			height: 50px;
 			border:$no-focus-style;
 			border-radius: 5px;
+			border-color: $border-color;
+			background-color: transparent;
 			margin-bottom: 50px;
 			padding-left: 10px;
 			transition:1s ease;
@@ -1135,7 +1134,6 @@ img {
 			&_icon{
 				width: 30%;
 				text-align: center;
-				
 				@include mq(tab){
 					width: 100%;
 					margin-bottom: 50px;
@@ -1145,6 +1143,9 @@ img {
 					height:auto;
 					text-align: center;
 					margin-bottom: 20px;
+					display: block;
+					margin-right: auto;
+					margin-left: auto;
 					filter: grayscale(90%);
 					@include mq(sp){
 						width: 150px;
@@ -1290,6 +1291,9 @@ img {
 				font-size: .9em;
 				margin-top: 50px;
 				line-height: 30px;
+				&.create,&.edit{
+					width: 100%;
+				}
 			
 				@include mq(tab){
 					font-size: 0.8em;
@@ -1493,12 +1497,19 @@ img {
 			width: calc(70% - 5px);
 			padding: 20px 30px;
 			background: rgba(#fff,.6);
-			
-		}
+			@include mq(sp){
+				width: 100%;
+				padding: 30px 10px;
+			}
+		}	
 		.sub{
 			width:calc(30% - 5px);
 			padding: 20px 30px;
 			background: rgba(#fff,.6);
+			@include mq(sp){
+				width: 100%;
+				padding: 20px 10px;
+			}
 
 		}
 	}
@@ -1509,9 +1520,17 @@ img {
 .form_control{
 	width:100%;
 	margin: 0 auto;
+	padding: 0 15%;
+	&.admin-content{
+		padding: 0;
+	}
+	&.delete{
+		padding: 10%;
+	}
 	@include mq(tab){
 		width: 100%;
 		font-size: .8em;
+		padding: 0 5%;
 	}
 	&_item{
 		width: 100%;
@@ -1524,15 +1543,18 @@ img {
 			height: auto;
 			min-height: 40px;
 			background: rgba(#fff,1);
+			border-color: $border-color;
 			border-radius: 3px;
 			padding-left: 10px;
-		
+
 			&_preview{
 				display: flex;
 				justify-content: center;
 				img{
 					width: 50%;
+					height: 100%;
 				}
+			
 			}
 			@include mq(tab){
 				min-height: 30px;
@@ -1577,10 +1599,21 @@ img {
 			}
 		}
 		&.button{
-			width: 40%;
-			margin-left: 60%;
+			width: auto;			
 			display: flex;
-			justify-content: flex-end;
+			margin-left: auto;
+			@include mq(sp){
+				width: calc(100%);
+				justify-content: space-between;
+				margin-left: 0;
+			}
+			& button{
+				margin-left: 30px;
+				@include mq(sp){
+					margin-left: 0;
+				}
+			}
+			
 		}
 		&_submit{
 			margin-top: 30px;

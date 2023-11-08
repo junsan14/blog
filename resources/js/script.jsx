@@ -243,10 +243,11 @@ function formatDate(date){
 function addClassPage(){
   $(function(){
     let $markupElements = $(".ql-syntax");
-  let $subContent = $("h3");
-  
+    let $subContent = $("h3");
+
   //setImgNum($(".js-show-modal").length)
   //imgタグにモーダル用のクラス付与
+  $previewLink.prop('target', "_blank")
   $("img").each((i,ele)=>{
     if(String($(ele).attr("class")).indexOf("wp-image") !== -1){
       //画像URLリサイズなし調整
@@ -298,6 +299,8 @@ function addClassPage(){
   })
   })
 }
+
+
 
 
 export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage};

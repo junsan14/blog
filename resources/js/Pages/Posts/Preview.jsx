@@ -32,10 +32,10 @@ function PreviewPage() {
                 <div className="" id={pageData.id} key={pageData.id}>
                   <div className="article_date">
                       <p className="article_date_publish">
-                        公開日: {formatDate(pageData.created_at)}
+                        公開日: {pageData.created_at ? formatDate(pageData.created_at):formatDate(new Date()) }
                       </p>
                       <p className="article_date_publish">
-                        更新日: {formatDate(pageData.updated_at)}
+                        更新日: {formatDate(new Date())}
                       </p>
                   </div>
                   <div className="article_content">

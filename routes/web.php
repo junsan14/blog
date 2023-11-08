@@ -54,6 +54,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/blog/admin/create', [PostsController::class, 'create']);
     Route::get('/blog/admin/preview',[PostsController::class, 'preview']);
+
+   
+
+    Route::patch('/blog/admin/create',[PostsController::class, 'tempStore']);
+
     Route::post('/blog/admin/create', [PostsController::class, 'store']);
 
     Route::get('/blog/admin/editIndex', [PostsController::class, 'editIndex'])->name('posts.editIndex');

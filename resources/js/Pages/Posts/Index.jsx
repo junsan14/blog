@@ -4,7 +4,7 @@ import $ from 'jquery';
 import search from '@/images/search.png';
 import {fixedSearch,formatDate } from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
-import {BiSearchAlt2} from 'react-icons/bi';
+import {BsSearch} from 'react-icons/bs';
 
 export default function Blog() {
     fixedSearch();
@@ -16,10 +16,8 @@ export default function Blog() {
     const loadPosts = usePage().props.posts.data;
     const [posts, setPosts] = useState(loadPosts);
 
-  console.log(loadPosts);
     useEffect(() => { 
-        if(keyword){   
-    
+        if(keyword){  
             setPosts(loadPosts.filter(post => post.keywords.indexOf(keyword) !==-1 ));
         }else if(category){
             setPosts(loadPosts.filter(post => post.category === category));
@@ -52,12 +50,12 @@ export default function Blog() {
            
          
      }
-     
+     /*
      const RendarSearch = ()=>{ 
         return(
           <div className="search_area js-search_area">
             <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>リセット</button>
-              <img src={search} alt="" className="search_area_icon js-search_area_icon" />
+              <BsSearch className="search_area_icon js-search_area_icon"  />
               <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
                 name="tag-choice" placeholder=""  
                 onChange={(e)=>{
@@ -71,6 +69,7 @@ export default function Blog() {
           </div>
         )
      }
+     */
      const RendarallPage = ()=>{
         if(posts.length>0){
             console.log(posts)
@@ -142,7 +141,7 @@ export default function Blog() {
                     </ul>
                     <div className="search_area js-search_area">
                         <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>リセット</button>
-                        <BiSearchAlt2 className="search_area_icon js-search_area_icon"/>
+                        <BsSearch className="search_area_icon js-search_area_icon"/>
                         <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
                             name="tag-choice" placeholder=""  
                             onChange={(e)=>{
