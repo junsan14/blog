@@ -6,6 +6,8 @@ import {fixedSearch,formatDate } from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
 import {MdUpdate} from 'react-icons/md';
+import {AiOutlineClear} from 'react-icons/ai';
+import {CSSTransition} from "react-transition-group";
 
 export default function Blog() {
     fixedSearch();
@@ -16,17 +18,20 @@ export default function Blog() {
     const [tagid,setTagid] = useState('');
     const loadPosts = usePage().props.posts.data;
     const [posts, setPosts] = useState(loadPosts);
+    const [inProp, setInProp] = useState(false);
 
     useEffect(() => { 
+        
         if(keyword){  
             setPosts(loadPosts.filter(post => post.keywords.indexOf(keyword) !==-1 ));
+            
         }else if(category){
             setPosts(loadPosts.filter(post => post.category === category));
            
         }else if(!keyword || !category){
             setPosts(loadPosts);
         }
-    
+        //postsTag.style.opacity = 1;
       }, [keyword,category,tagid]);
     
     const reset = ()=>{
@@ -77,7 +82,7 @@ export default function Blog() {
                 <>
                 {posts.map(({id, title, content,excerpt,thumbnail,updated_at} )=> {
                     return(
-                        <div className="article" id={id} key={id}>
+                        <div className="article fade" id={id} key={id}>
                             <Link href="/blog/page" data={{ id: id }} className='article_link'>
                                 <div className="article_link_img">
                                     <img className="thumbnail" src={thumbnail} alt="" />
@@ -100,7 +105,7 @@ export default function Blog() {
             )
         }else{
             return(
-                <>{keyword}のキーワードでは､記事がありません</>
+                <div className='fade'>{keyword}のキーワードでは､記事がありません</div>
                 
             )
         }
@@ -141,7 +146,9 @@ export default function Blog() {
                         </li>
                     </ul>
                     <div className="search_area js-search_area">
-                        <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>リセット</button>
+                        <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>
+                            <AiOutlineClear />
+                        </button>
                         <BsSearch className="search_area_icon js-search_area_icon"/>
                         <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
                             name="tag-choice" placeholder=""  
@@ -157,6 +164,7 @@ export default function Blog() {
                     </div>
                     <div className="section_content posts">
                         <RendarallPage />
+              
                     </div>
                 </section> 
         </GuestLayout> 

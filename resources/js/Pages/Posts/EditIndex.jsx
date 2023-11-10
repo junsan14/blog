@@ -100,8 +100,8 @@ export default function Blog({auth}) {
                                         {excerpt}
                                     </div>
                                     <p className="article_link_remarks_date">
-                                        <MdUpdate />: {formatDate(updated_at)} 
-                                        <MdAccessTime />: {formatDate(created_at)} 
+                                        <MdUpdate />{formatDate(updated_at)} 
+                                        <MdAccessTime /> {formatDate(created_at)} 
                                     </p>
 
                                 </div>

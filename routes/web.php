@@ -33,16 +33,8 @@ Route::get('/blog', [PostsController::class, 'index'])->name('blog');
 Route::get('/blog/page', [PostsController::class, 'show'])->name('page');
 
 
-Route::get('/test', function () {
-    return Inertia::render('About', [
-        'canLogin' => Route::has('login'),
-    ]);
-});
 
 
-Route::get('/wordpress', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
@@ -50,7 +42,6 @@ Route::get('/wordpress', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/blog/admin',  [PostsController::class, 'editIndex']);
-    Route::get('/dashboard',  [PostsController::class, 'editIndex']);
 
     Route::get('/blog/admin/create', [PostsController::class, 'create']);
     Route::get('/blog/page?id={id}?_preview',[PostsController::class, 'show'])->name('preview');

@@ -44,8 +44,11 @@ class PostsController extends Controller
     }
 
     public function create(){
-        return Inertia::render('Posts/Create');
+       
+        $id = Blog::latest('id')->first()->id; 
+        return Inertia::render('Posts/Create', ['id'=>$id]);
     }
+
     public function tempStore(Request $request){
         $uploadFiles = $request->wysiwygData;
         $content= $request->content;
@@ -83,12 +86,9 @@ class PostsController extends Controller
             'is_show'=>$request->is_show
         ]);
 
-        if($request->id){
+    
             return back();
-        }else{
-            $id = Blog::latest('id')->first()->id; 
-            return Inertia::render('Posts/Create', ['id'=>$id]);
-        }
+        
        
 
 
@@ -122,9 +122,9 @@ class PostsController extends Controller
                 'content' => $content,
                 'author_id'=>Auth::id(),
                 'excerpt'=>$request->excerpt,
-                'keywords'=>'2,10',
-                'category'=>'3',
-                'tag'=>'2',
+                'keywords'=>$request->keywords,
+                'category'=>$request->category,
+                'tag'=>$request->tag,
                 'thumbnail'=> $thumbnailPath,
                 'is_show'=>$request->is_show
             ]);
@@ -201,9 +201,9 @@ class PostsController extends Controller
                 'content' => $content,
                 'author_id'=>Auth::id(),
                 'excerpt'=>$request->excerpt,
-                'keywords'=>'2,10',
-                'category'=>'3',
-                'tag'=>'2',
+                'keywords'=>$request->keywords,
+                'category'=>$request->category,
+                'tag'=>$request->tag,
                 'thumbnail'=> $thumbnailPath,
                 'is_show'=>$request->is_show
             ]);

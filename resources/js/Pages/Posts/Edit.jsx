@@ -44,7 +44,7 @@ export default function Update({auth}){
             ...data,
             [key]: value,
         }))
-       console.log(data)
+       //console.log(data)
     }
 
     function autoSave(e){
@@ -59,10 +59,10 @@ export default function Update({auth}){
         setData('is_preview', 1);
  
     }
-
+    setTimeout(()=>{autoSave}, 10000);
 
     function handleChangeWysiwyg(content, delta) {
-        console.log(delta)
+       // console.log(delta)
         const key = "content";
         const value = content;
         let storedImageNum = Object.keys(data.wysiwygData).length;
@@ -99,7 +99,7 @@ export default function Update({auth}){
                             })
                             
                             let a = Object.keys(data.wysiwygData).filter((i)=>srcAry.indexOf(i) == -1 );
-                            console.log(a);
+                           
                             a.forEach((ele,i)=>{
                                 delete data.wysiwygData[ele];
                             })
@@ -226,7 +226,7 @@ export default function Update({auth}){
                                 setThumbnailValue(e.target.value);
                                 setData("thumbnail", e.target.files[0]);
                                 setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));
-                                console.log(data);
+                                //console.log(data);
                             }} />
                             <div className="form_control_item_input_preview">
                                 <img src={thumbnailPreview} />
@@ -239,12 +239,10 @@ export default function Update({auth}){
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
-                            <a href={route('page',
-                                 {
-                                    is_preview:data.is_preview,
-                                    data:data
-                                   }
-                            )}  target='_blank'
+                            <a href={route('page',{
+                                is_preview:data.is_preview,
+                                data:data
+                            })}  target='_blank'
                                 className="form_control_item_submit" 
                                 id='is_preview' onClick={handleClickPreview} >
                                 プレビュー

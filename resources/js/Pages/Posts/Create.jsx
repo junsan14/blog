@@ -13,13 +13,16 @@ Quill.register("modules/resize", ResizeModule);
 
 export default function Create({auth}){
 
-    const id = usePage().props.id?usePage().props.id:"";
-    
+   
+  
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
+    const [test, setTest]= useState("");
     
+    
+    //312→313
     const { data, setData, progress,processing } = useForm({
-        id: id,
+        id:"",
         title: "",
         content: "",   
         excerpt:"",
@@ -32,19 +35,23 @@ export default function Create({auth}){
         is_preview:0,
     });
 
+  
+
     const submit = (e) => {
         e.preventDefault();
         router.post('/blog/admin/create', data);
     };
     function handleChange(e){
-        setData('id', id);
+       
+        console.log(test);
+        setData('id', test);
         const key = e.target.id;
         const value =e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-    
+        console.log(data)
     }
 
     function autoSave(e){

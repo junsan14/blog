@@ -11,11 +11,12 @@ export default function Page() {
     const pageData = usePage().props.post[0]? usePage().props.post[0]:usePage().props.post ;
     console.log(pageData.length)
     const [isModalOpen,setIsModalOpen] = useState(false);
+    const [inProp, setInProp] = useState(false);
+
     const Renderpagedata = ()=>{
     //記事のスタイル装飾
 
       addClassPage();
-      console.log(pageData.created_at);
     
     return(
         <>

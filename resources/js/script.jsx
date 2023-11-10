@@ -180,13 +180,19 @@ function fixedSearch(){
     let $resetBtn = $(".js-search_area_reset");
     let $searchIcon = $(".js-search_area_icon");
     $searchBox.on("focus", function(){    
-       $searchIcon.addClass("fixed");      
+       $searchIcon.addClass("fixed");
+       $resetBtn.addClass("show");      
     })
 
     $searchBox.on("blur", function(){
       if(!$(this).val()){
         $searchIcon.removeClass("fixed");
+        $resetBtn.removeClass("show");
       }
+    })
+    
+    $resetBtn.on('click', function(){
+      $(this).removeClass('show');
     })
 
     $(window).on("scroll", ()=>{
@@ -201,8 +207,7 @@ function fixedSearch(){
           //console.log($searchBox.hasClass("fixed"))
            $searchArea.addClass("fixed"); 
            $resetBtn.addClass("fixed");
-           
-           //$searchBox.prop('disabled', true);
+
         }
        
       }
@@ -218,13 +223,13 @@ function fixedSearch(){
 
 
      $searchArea.on("click", function(){
-     // console.log(11)
+  
           if($searchArea.hasClass("fixed")){
             $searchArea.addClass("show");
             $searchBox.prop('disabled', false);
             $searchIcon.addClass("fixed");
           }
-        })
+     })
     })  
 
   
