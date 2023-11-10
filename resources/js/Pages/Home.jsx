@@ -4,6 +4,7 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 import {formatDate } from "@/script";
 import {Instagram} from "@/Components/Sns";
+import {MdUpdate} from 'react-icons/md';
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;
@@ -25,9 +26,10 @@ export default function Home() {
                                 <div className="article_link_remarks_text">
                                     {excerpt}
                                 </div>
-                                <p className="article_link_remarks_date">
-                                    更新日:{formatDate(updated_at)}<br/>
-                                </p>
+                                <div className="article_link_remarks_date">
+                                    <MdUpdate className='article_link_remarks_date_icon' />
+                                    {formatDate(updated_at)}<br/>
+                                </div>
                             </div>
                         </Link>
                     </div>

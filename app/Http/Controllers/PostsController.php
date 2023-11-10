@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Blog;
@@ -14,7 +13,6 @@ use Illuminate\Support\Facades\File;
 
 class PostsController extends Controller
 {
-    //
 
     public function home(){
         $showBlog = Blog::where('is_show',1)->latest()->take(4)->get();
@@ -26,48 +24,33 @@ class PostsController extends Controller
        return Inertia::render('Posts/Index',['posts'=>new BlogCollection($showBlog)]);
     }
 
-    public function page(Request $request){
+    public function show(Request $request){
         $id = $request->query('id');
-        $post = Blog::where([['id','=' ,$id], ['is_show', '=',1]])->get();
-        
-        if(!$post->isEmpty()){
-            return Inertia::render('Posts/Page',[$post]);
+        if($request->query('is_preview') == 1){
+            $post = $request->query('data');
+       
+            return Inertia::render('Posts/Page',['post'=>$post]);
         }else{
-            return to_route('blog');
+            $post = Blog::where([['id','=' ,$id], ['is_show', '=',1]])->get();
+            
+            if(!$post->isEmpty()){
+                return Inertia::render('Posts/Page',['post'=>$post]);
+            }else{
+                return to_route('blog');
+            }
+           
         }
+       
     }
+
     public function create(){
         return Inertia::render('Posts/Create');
     }
-    public function preview(Request $request){ 
-        $data = $request->query('data');
-        return Inertia::render('Posts/Preview', [$data]);
-    }
     public function tempStore(Request $request){
-    
-        $post = Blog::updateOrInsert(
-            ['id'=>"134"],
-            [
-            'title' => $request->title,
-            'content' => $request->content,
-            'author_id'=>Auth::id(),
-            'excerpt'=>$request->excerpt,
-            'keywords'=>$request->keywords,
-            'category'=>$request->category,
-            'tag'=>$request->tag,
-            'thumbnail'=> $request->thumbnail,
-            'is_show'=>$request->is_show
-    
-        ]);
-        $id = Blog::latest('id')->first()->id;
-        return Inertia::render('Posts/Create',[$id]);
-
-
-          
-    }
-    public function store(Request $request){
-        
         $uploadFiles = $request->wysiwygData;
+        $content= $request->content;
+        
+        //サムネイル格納
         if($request->file('thumbnail')){
             $thumbnailName = $request->file('thumbnail')->getClientOriginalName();  
             $thumbnailPath =str_replace('public', '/storage',$request->file('thumbnail')
@@ -75,8 +58,7 @@ class PostsController extends Controller
         }else{
             $thumbnailPath ='/storage/images/blog/thumbnail/noImage.png';
         }
-        $wysiwygPath = [];
-        $content= $request->content;
+
         if($uploadFiles){
             foreach($uploadFiles as $uploadFile){
                 $fileName = $uploadFile->getClientOriginalName();
@@ -84,37 +66,99 @@ class PostsController extends Controller
                         ->storeAs('public/images/blog/post',$fileName));
                 $base64 = array_search($uploadFile, $uploadFiles);
                 $content = str_replace($base64,$path,$content);
-                
+            }
+        }
+
+        $post = Blog::updateOrCreate(
+            ['id'=> $request->id],
+            [
+            'title' => $request->title,
+            'content' => $content,
+            'author_id'=>Auth::id(),
+            'excerpt'=>$request->excerpt,
+            'keywords'=>$request->keywords,
+            'category'=>$request->category,
+            'tag'=>$request->tag,
+            'thumbnail'=> $thumbnailPath,
+            'is_show'=>$request->is_show
+        ]);
+
+        if($request->id){
+            return back();
+        }else{
+            $id = Blog::latest('id')->first()->id; 
+            return Inertia::render('Posts/Create', ['id'=>$id]);
+        }
+       
+
+
+    }
+    public function store(Request $request){
+
+        $uploadFiles = $request->wysiwygData;
+        $content= $request->content;
+
+        //サムネイル格納
+            if($request->file('thumbnail')){
+                $thumbnailName = $request->file('thumbnail')->getClientOriginalName();  
+                $thumbnailPath =str_replace('public', '/storage',$request->file('thumbnail')
+                                ->storeAs('public/images/blog/thumbnail',$thumbnailName));     
+            }else{
+                $thumbnailPath ='/storage/images/blog/thumbnail/noImage.png';
+            }
+
+        if($uploadFiles){
+            foreach($uploadFiles as $uploadFile){
+                $fileName = $uploadFile->getClientOriginalName();
+                $path = str_replace('public', '/storage',$uploadFile
+                        ->storeAs('public/images/blog/post',$fileName));
+                $base64 = array_search($uploadFile, $uploadFiles);
+                $content = str_replace($base64,$path,$content);
                }
-            $post = Blog::create([
+        }
+        if($request->id){
+            $post = Blog::where('id', $request->id)->update([
                 'title' => $request->title,
                 'content' => $content,
                 'author_id'=>Auth::id(),
                 'excerpt'=>$request->excerpt,
-                'keywords'=>$request->keywords,
-                'category'=>$request->category,
-                'tag'=>$request->tag,
+                'keywords'=>'2,10',
+                'category'=>'3',
+                'tag'=>'2',
                 'thumbnail'=> $thumbnailPath,
                 'is_show'=>$request->is_show
-        
             ]);
+            if($request->is_autosave === 1){
+                $id = Blog::latest('id')->first()->id; 
+                return Inertia::render('Posts/Create',['id'=>$id]); 
+            }else{
+             
+                return Redirect::to('/blog/admin')->with('scuess', '投稿が完了しました');
+            }
             
         }else{
-            $post = Blog::create([
+            $post = Blog::create(
+                [
                 'title' => $request->title,
-                'content' => $content,
+                'content' => $request->content,
                 'author_id'=>Auth::id(),
                 'excerpt'=>$request->excerpt,
                 'keywords'=>$request->keywords,
                 'category'=>$request->category,
                 'tag'=>$request->tag,
-                'thumbnail'=> $thumbnailPath,
+                'thumbnail'=> $request->thumbnail,
                 'is_show'=>$request->is_show
-        
             ]);
-
+            if($request->is_autosave === 1){
+                $id = Blog::latest('id')->first()->id; 
+                return Inertia::render('Posts/Create',['id'=>$id]); 
+            }else{
+             
+                return Redirect::to('/blog/admin')->with('scuess', '投稿が完了しました');
+            } 
         }
-        return Redirect::to('/blog/admin')->with('scuess', '投稿が完了しました');
+
+             
     }
 
     public function editIndex(){
@@ -130,6 +174,7 @@ class PostsController extends Controller
     public function update(Request $request){
  
         $uploadFiles = $request->wysiwygData;
+        $content= $request->content;
         if($request->file('thumbnail')){
             $thumbnailName = $request->file('thumbnail')->getClientOriginalName();  
             $thumbnailPath =str_replace('public', '/storage',$request->file('thumbnail')
@@ -138,7 +183,7 @@ class PostsController extends Controller
             $thumbnailPath = $request->thumbnail;
         }
 
-        $content= $request->content;
+   
         if($uploadFiles){
             foreach($uploadFiles as $uploadFile){
                 $fileName = $uploadFile->getClientOriginalName();
@@ -147,9 +192,10 @@ class PostsController extends Controller
                 $base64 = array_search($uploadFile, $uploadFiles);
                 $content = str_replace($base64,$path,$content);
             }
+        }
            
             
-        }else{
+    
             $post = Blog::where('id', $request->id)->update([
                 'title' => $request->title,
                 'content' => $content,
@@ -162,7 +208,7 @@ class PostsController extends Controller
                 'is_show'=>$request->is_show
             ]);
 
-        }
+        
         return Redirect::to('/blog/admin')->with('scuess', '投稿の編集が完了しました');
 
     }
@@ -180,18 +226,15 @@ class PostsController extends Controller
                 'is_show'=>1
             ]);
         }
-        return Redirect::route('posts.editIndex')->with('success', 'Organization created.');
-        return to_route('posts.editIndex');
+       
+        return back();
         
         
     }
     public function destroy(Request $request)
     {
-
         $id = $request->query('id');
-        Blog::where('id', $id)->delete();
-        
-           
-        return to_route('posts.editIndex');
+        Blog::where('id', $id)->delete();   
+        return back();
     }
 }

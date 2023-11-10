@@ -30,7 +30,7 @@ Route::get('/about', function () {return Inertia::render('About');})->name('abou
 Route::get('/contact', [MailController::class, 'index'])->name('contact');
 Route::post('/contact', [MailController::class, 'send']);
 Route::get('/blog', [PostsController::class, 'index'])->name('blog');
-Route::get('/blog/page', [PostsController::class, 'page'])->name('page');
+Route::get('/blog/page', [PostsController::class, 'show'])->name('page');
 
 
 Route::get('/test', function () {
@@ -53,15 +53,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard',  [PostsController::class, 'editIndex']);
 
     Route::get('/blog/admin/create', [PostsController::class, 'create']);
-    Route::get('/blog/admin/preview',[PostsController::class, 'preview']);
+    Route::get('/blog/page?id={id}?_preview',[PostsController::class, 'show'])->name('preview');
 
    
 
     Route::patch('/blog/admin/create',[PostsController::class, 'tempStore']);
 
-    Route::post('/blog/admin/create', [PostsController::class, 'store']);
+    Route::post('/blog/admin/create', [PostsController::class, 'update']);
 
-    Route::get('/blog/admin/editIndex', [PostsController::class, 'editIndex'])->name('posts.editIndex');
+    Route::get('/blog/admin/editIndex', [PostsController::class, 'editIndex']);
     Route::patch('/blog/admin/editIndex', [PostsController::class, 'visible']);
     Route::delete('/blog/admin/editIndex', [PostsController::class, 'destroy']);
 

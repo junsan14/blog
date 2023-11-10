@@ -1,6 +1,6 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {useState,useMemo,ref,useRef } from 'react';
+import {useState,useMemo } from 'react';
 import {useForm, router, Link, usePage  } from '@inertiajs/react';
 import $ from "jquery";
 import ReactQuill, {Quill} from 'react-quill';
@@ -9,16 +9,16 @@ import ResizeModule from "@ssumo/quill-resize-module";
 Quill.register("modules/resize", ResizeModule);
 
 
-const id = usePage().props[0]?usePage().props[0]:"";
+
 
 export default function Create({auth}){
 
-    const ref = useRef(null);
-    //const id = usePage().props[0]?usePage().props[0]:"";
-    //console.log(id);
+    const id = usePage().props.id?usePage().props.id:"";
+    
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
-    const { data, setData, post, progress } = useForm({
+    
+    const { data, setData, progress,processing } = useForm({
         id: id,
         title: "",
         content: "",   
@@ -27,51 +27,46 @@ export default function Create({auth}){
         tag:"",
         keywords:"",
         thumbnail:"",
-        is_show:"",
+        is_show:0,
         wysiwygData:{},
-        remember: false,
+        is_preview:0,
     });
 
-
     const submit = (e) => {
-        console.log(data)
         e.preventDefault();
         router.post('/blog/admin/create', data);
- 
     };
     function handleChange(e){
- 
+        setData('id', id);
         const key = e.target.id;
-        const value = e.target.value;
+        const value =e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-       //console.log(data);
+    
     }
 
-    function autoSavePreview(e){
-        e.preventDefault();
-        console.log(data);
-        router.patch('/blog/admin/create', 
+    function autoSave(e){
+        if(e.target.value){
+            router.patch('/blog/admin/create', 
             data,
             {preserveScroll:true}
         );
+        }
+        
     }
-
+    
     function handleClickPreview(e){
-        e.preventDefault();
-        router.get('/blog/admin/preview', 
-            data,
-            { preserveState:true }
-        );
+        setData('is_preview', 1);
     }
 
-
+    
 
     function handleChangeWysiwyg(content, delta, source, editor, oldDelta) {
         const key = "content";
         const value = content;
+        setData('id', id);
         let storedImageNum = Object.keys(data.wysiwygData).length;
         let currentImageNum = content.match(/\img src="data:/g) == undefined?0:content.match(/\img src="data:/g).length;
 
@@ -174,7 +169,7 @@ export default function Create({auth}){
                         <div  className="form_control_item">
                             <label htmlFor="title" >タイトル</label>
                             <input type="text" id="title" className="form_control_item_input" value={data.title} 
-                                onChange={handleChange} onBlur={autoSavePreview}
+                                onChange={handleChange} onBlur={autoSave} disabled={processing}
                             />
                         </div>     
                         <div className="form_control_item page_content" >
@@ -183,10 +178,8 @@ export default function Create({auth}){
                             id="content"
                             modules={modules}
                             onChange={handleChangeWysiwyg}
-                            onBlur={autoSavePreview}
                             value={data.content}
                             className="form_control_item_textarea article_content create"
-                            ref={ref}
                             >
                             </ReactQuill>
                             
@@ -197,7 +190,7 @@ export default function Create({auth}){
                             <label htmlFor="excerpt">カテゴリ</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
-                                onBlur={autoSavePreview}
+                                
                             >
                                 <option value="1">wiki</option>
                                 <option value="2">Note</option>
@@ -210,7 +203,7 @@ export default function Create({auth}){
                             <label htmlFor="excerpt" >タグ</label>
                             <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
                                 value={data.tag} onChange={(e)=>handleChange(e)}
-                                onBlur={autoSavePreview}
+                            
                             />
                             <datalist id='tag_list'>
                                 <option value='tag1' />
@@ -221,7 +214,7 @@ export default function Create({auth}){
                             <label htmlFor="keywords" >キーワード</label>
                             <input name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
                                 value={data.keywords} onChange={(e)=>handleChange(e)}
-                                onBlur={autoSavePreview}
+                                
                             />
                             <datalist id='keyword_list'>
                                 <option value='keyword1' />
@@ -232,7 +225,7 @@ export default function Create({auth}){
                             <label htmlFor="thumbnail" >サムネイル</label>
                             <input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
                             value={thumbnailValue} 
-                            onBlur={autoSavePreview}
+                           
                             onChange={(e)=>{
                                 setThumbnailValue(e.target.value);
                                 setData("thumbnail", e.target.files[0]);
@@ -246,14 +239,21 @@ export default function Create({auth}){
                         <div  className="form_control_item">
                             <label htmlFor="excerpt" >抜粋</label>
                             <textarea id="excerpt" name='excerpt' className="form_control_item_input"  
-                             rows="5" value={data.excerpt} onChange={handleChange} onBlur={autoSavePreview} >
+                             rows="5" value={data.excerpt} onChange={handleChange} >
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
-                            <Link href="/blog/admin/preview" method='get' data={{ data: data }}
-                                className="form_control_item_submit" preserveState>
+                            <a href={route('page',
+                                {
+                                 is_preview:data.is_preview,
+                                 data:data
+                                }
+                            )} target='_blank'
+                                className="form_control_item_submit" 
+                                id='is_preview' onClick={handleClickPreview}
+                            >
                                 プレビュー
-                            </Link>
+                            </a>
                         </div>
                     </div>
 
@@ -263,9 +263,6 @@ export default function Create({auth}){
                             </button>
                             <button type="submit" value="1" className="form_control_item_submit" id="is_show" onClick={handleChange} >
                             公開
-                            </button>
-                            <button type="submit" value="1" className="form_control_item_submit" id="is_show" onClick={autoSavePreview} >
-                            PV保存
                             </button>
                         </div>
                             {progress && (

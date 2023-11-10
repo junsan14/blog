@@ -2,14 +2,9 @@ import './bootstrap';
 import '../css/app.css';
 import '../css/style.scss';
 import "../css/reset.css"
-
-
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp,Link } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-
-
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 

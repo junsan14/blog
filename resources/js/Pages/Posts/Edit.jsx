@@ -25,13 +25,13 @@ export default function Update({auth}){
         tag:editPost.tag,
         keywords:editPost.keyword,
         thumbnail:editPost.thumbnail,
-        is_show:true,
+        is_show:1,
         created_at: editPost.created_at,
         wysiwygData:{},
+        is_preview:0,
         _method: 'PATCH'
     })
-      //console.log(test);
-      //console.log(data);
+
     const submit = (e) => {
         e.preventDefault();
         router.post('/blog/admin/edit', data);
@@ -45,6 +45,19 @@ export default function Update({auth}){
             [key]: value,
         }))
        console.log(data)
+    }
+
+    function autoSave(e){
+        router.patch('/blog/admin/create', 
+            data,
+            {preserveScroll:true}
+        );
+    }
+    
+    function handleClickPreview(e){
+
+        setData('is_preview', 1);
+ 
     }
 
 
@@ -153,7 +166,8 @@ export default function Update({auth}){
                     <div className='main'>
                         <div  className="form_control_item">
                             <label htmlFor="title" >タイトル</label>
-                            <input type="text" id="title" className="form_control_item_input" value={data.title} onChange={handleChange} />
+                            <input type="text" id="title" className="form_control_item_input" 
+                            value={data.title} onChange={handleChange} onBlur={autoSave}/>
 
                         </div>
                 
@@ -225,10 +239,16 @@ export default function Update({auth}){
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
-                            <Link href="/blog/admin/preview" method='get' data={{ data: data }}
-                                className="form_control_item_submit js-add-blank" preserveState>
+                            <a href={route('page',
+                                 {
+                                    is_preview:data.is_preview,
+                                    data:data
+                                   }
+                            )}  target='_blank'
+                                className="form_control_item_submit" 
+                                id='is_preview' onClick={handleClickPreview} >
                                 プレビュー
-                            </Link>
+                            </a>
                         </div>
                     </div>
                     <div  className="form_control_item button">

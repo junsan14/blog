@@ -8,6 +8,7 @@ import { ModalShow,fixedSearch,formatDate} from "@/script";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 import { FaTrash,FaEdit } from 'react-icons/fa';
+import {MdAccessTime,MdUpdate} from 'react-icons/md';
 
 export default function Blog({auth}) {
     fixedSearch();
@@ -45,8 +46,9 @@ export default function Blog({auth}) {
         
         let id = e.currentTarget.id;
         router.delete(`/blog/admin/editIndex?id=${id}`, {
-            onBefore: () => confirm('本当に削除してよろしいですか?')
-        },{ preserveScroll: true })
+            onBefore: () => confirm('本当に削除してよろしいですか?'),
+            preserveScroll: true 
+        })
        
      }
      const reset = ()=>{
@@ -87,6 +89,7 @@ export default function Blog({auth}) {
                             <div className='article_id'>
                                 {id}
                             </div>
+                            
                             <div className='article_link'>
                                 <div className="article_link_img">
                                     <img className="thumbnail" src={thumbnail} alt="" />
@@ -97,11 +100,10 @@ export default function Blog({auth}) {
                                         {excerpt}
                                     </div>
                                     <p className="article_link_remarks_date">
-                                        公開日: {formatDate(created_at)} <br/>
+                                        <MdUpdate />: {formatDate(updated_at)} 
+                                        <MdAccessTime />: {formatDate(created_at)} 
                                     </p>
-                                    <p className="article_link_remarks_date">
-                                        更新日: {formatDate(created_at)} <br/>
-                                    </p>
+
                                 </div>
                             </div>
                             <div className='article_icon'>

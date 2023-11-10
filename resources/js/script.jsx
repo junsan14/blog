@@ -1,6 +1,6 @@
 import $ from "jquery";
 import {useState } from "react";
-
+import transparentImg from '../images/transparent.png';
 
 
 
@@ -68,7 +68,7 @@ function ModalShow(posted,srcType){
   $(function(){
     let $imageModal = $(".js-image-modal");
     let $showModal = $(".js-show-modal");
-  
+   
     $showModal.on("click", function(){
       let $url = $(this).children().attr("src");
       let index = $(this).data("index");
@@ -123,7 +123,8 @@ function ModalShow(posted,srcType){
             }
             isTouch = false;
           }
-          $imageModal.children(".js-modal-pic").attr("src", srcType==="wordpress"?$(images[index]).children().attr("src"):images[index].media_url); 
+          console.log($imageModal.children(".js-modal-pic"))
+          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).children().attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`)
         }
       })
@@ -137,7 +138,7 @@ function ModalShow(posted,srcType){
           }else{
             index = index - 1;
           }
-          $imageModal.children(".js-modal-pic").attr("src", srcType==="wordpress"?$(images[index]).children().attr("src"):images[index].media_url);
+          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).children().attr("src"));
           $(".js-slide-number").text(`${index+1}/${images.length}`) 
         }else if($(e.target).hasClass("js-right-arrow")){
           if(index === images.length-1){
@@ -145,12 +146,11 @@ function ModalShow(posted,srcType){
           }else{
             index = index + 1;
           }
-          $imageModal.children(".js-modal-pic").attr("src", srcType==="wordpress"?$(images[index]).children().attr("src"):images[index].media_url); 
+          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).children().attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`)
         }else if(!$(e.target).hasClass("js-modal-pic")){
-         
           $(".js-close-image-modal-btn").parent().removeClass("show");
-          $imageModal.children(".js-modal-pic").attr("src", "");
+          $imageModal.children(".js-modal-pic").attr("src", transparentImg);
           $("body").removeClass("noscroll")
           
         }
@@ -165,7 +165,7 @@ function ModalShow(posted,srcType){
       <div className="image_modal js-image-modal">
           <span className='js-left-arrow left-arrow'></span>
           <button className="js-close-image-modal-btn">✕</button>
-          <img className="js-modal-pic modal-pic" src="" alt="" />
+          <img className="js-modal-pic modal-pic" src='' alt="" />
           <span className='js-right-arrow right-arrow'></span> 
           <span className='js-slide-number slide-number'></span> 
       </div>
@@ -234,6 +234,12 @@ function fixedSearch(){
 function formatDate(date){
   let formatDate = new Date(date).getFullYear()+ "/" 
           +(new Date(date).getMonth()+1).toString().padStart(2, '0')+ "/" 
+          +new Date(date).getDate().toString().padStart(2, '0');
+  return formatDate;
+}
+function yyyymmddhhss(date){
+  let formatDate = new Date(date).getFullYear()+ "/" 
+          +(new Date(date).getMonth()+1).toString().padStart(2, '0')+ "/" 
           +new Date(date).getDate().toString().padStart(2, '0')+ " "
           +new Date(date).getHours().toString().padStart(2, '0')+ ":"
           +new Date(date).getMinutes().toString().padStart(2, '0'); 
@@ -247,14 +253,14 @@ function addClassPage(){
 
   //setImgNum($(".js-show-modal").length)
   //imgタグにモーダル用のクラス付与
-  $previewLink.prop('target', "_blank")
-  $("img").each((i,ele)=>{
-    if(String($(ele).attr("class")).indexOf("wp-image") !== -1){
-      //画像URLリサイズなし調整
-      $(ele).wrap(`<div class="js-show-modal" data-index="${i-2}"></div>`);
+
+  $(".article_content").find("img").each((i,ele)=>{
+
+      
+      $(ele).wrap(`<div class="js-show-modal" data-index="${i}"></div>`);
       $(ele).append(`<div class="image_modal js-image-modal"></div>`); 
       
-    }   
+      
   })
 
   $("table").each((i,ele)=>{

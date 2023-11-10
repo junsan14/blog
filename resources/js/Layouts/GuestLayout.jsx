@@ -1,9 +1,12 @@
-import { Link, router } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import {useState } from "react";
 import {SpMenuShow} from "@/script";
 import {FaXTwitter,FaInstagram} from 'react-icons/fa6';
-function Layout({user,children}){
+
+function Layout({user,children,status}){
   SpMenuShow();
+  let is_login = usePage().props.auth.user?true:false
+  console.log(usePage().props.auth.user)
   return(
     <>
     <header className="header guest">
@@ -18,7 +21,7 @@ function Layout({user,children}){
            <li className="nav_ul_li js-nav-ul-li"><Link href="/about">ABOUT</Link></li>
            <li className="nav_ul_li js-nav-ul-li"><Link href="/blog">BLOG</Link></li>     
            <li className="nav_ul_li js-nav-ul-li"><Link href="/contact">CONTACT</Link></li>
-          
+           {is_login&&  <li className="nav_ul_li js-nav-ul-li"><Link href="/dashboard">管理画面</Link></li>}
         </ul>
         <div className="nav_sns">
           <a href="https://twitter.com/junsan_junsan14" target="_blank" rel="noopener noreferrer">

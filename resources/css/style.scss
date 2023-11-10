@@ -250,19 +250,19 @@ img{
 
 .modal{
 	&-enter {
-  opacity: 0;
-}
-&-enter-active {
-  opacity: 1;
-  transition: opacity 2000ms;
-}
-&-exit {
-  opacity: 1;
-}
-&-exit-active {
-  opacity: 0;
-  transition: opacity 20000ms;
-}
+		opacity: 0;
+	}
+	&-enter-active {
+	opacity: 1;
+	transition: opacity 2000ms;
+	}
+	&-exit {
+	opacity: 1;
+	}
+	&-exit-active {
+	opacity: 0;
+	transition: opacity 20000ms;
+	}
 	&_blog{
 		transition:2s ease;
 		background:rgba(#111,.5);
@@ -274,9 +274,7 @@ img{
 		height:100%;
 		position:fixed;
 		&.show{
-					inset: 0;
-
-
+			inset: 0;
 		}	
 
 		&_close{
@@ -310,6 +308,7 @@ img{
 			}
 		}
 	}
+	
 
 	&_contact{
 			position: fixed;
@@ -592,6 +591,13 @@ img {
 							line-height:20px;
 						}
 						&_date{
+							display: flex;
+							justify-content: flex-end;
+							align-items: center;
+							&_icon{
+								font-size: 1rem;
+								margin-right: 5px;
+							}
 							font-size: 0.7rem;
 							text-align: right;
 							padding-top:5px;
@@ -857,7 +863,7 @@ img {
 			top:20px;
 		}
 		& .modal-pic{
-			width: 60%;
+			width: 50%;
 			height: auto;
 			position: absolute;
 			top: 50%;
@@ -1273,17 +1279,24 @@ img {
 	&_content{
 		.article{
 			&_date{
-				font-size: .8em;
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				font-size: .9em;
+				height: auto;
 				@include mq(sp){
-					font-size: .5em;
+					font-size: .7em;
 				}
 				&_publish{
+
+					&_icon{
+						font-size: 1.4em;
+						margin:0 5px;
+					}
 					text-align: right;
 					margin-bottom: 5px;
 				}
-				&_update{
-					text-align: right;
-				}
+				
 			}
 			&_content{
 				width: 80%;

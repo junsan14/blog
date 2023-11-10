@@ -5,6 +5,7 @@ import search from '@/images/search.png';
 import {fixedSearch,formatDate } from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
+import {MdUpdate} from 'react-icons/md';
 
 export default function Blog() {
     fixedSearch();
@@ -39,7 +40,7 @@ export default function Blog() {
      const LoadTag = ()=>{
         return(
             loadPosts.forEach((post)=> {
-                console.log(post)
+
                 return(
                     <option value="1" >タグ1</option>   
                 )
@@ -72,7 +73,6 @@ export default function Blog() {
      */
      const RendarallPage = ()=>{
         if(posts.length>0){
-            console.log(posts)
             return(
                 <>
                 {posts.map(({id, title, content,excerpt,thumbnail,updated_at} )=> {
@@ -88,7 +88,8 @@ export default function Blog() {
                                         {excerpt}
                                     </div>
                                     <p className="article_link_remarks_date">
-                                        更新日:{formatDate(updated_at)}<br/>
+                                       <MdUpdate className='article_link_remarks_date_icon' />
+                                       {formatDate(updated_at)}<br/>
                                     </p>
                                 </div>
                             </Link>

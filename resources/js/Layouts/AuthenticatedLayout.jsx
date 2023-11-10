@@ -10,7 +10,7 @@ import {FaRegListAlt} from 'react-icons/fa';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    
     return (
         <>
             <header className="header auth">
