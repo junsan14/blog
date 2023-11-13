@@ -17,13 +17,13 @@ export default function Create({auth}){
   
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
-    const [test, setTest]= useState("");
     
+    const {post} = usePage().props;
     
-    //312→313
+
     const { data, setData, progress,processing } = useForm({
         id:"",
-        title: "",
+        title:"",
         content: "",   
         excerpt:"",
         category:1,
@@ -36,44 +36,48 @@ export default function Create({auth}){
     });
 
   
-
     const submit = (e) => {
         e.preventDefault();
-        router.post('/blog/admin/create', data);
+
+         //router.post('/blog/admin/create', data);
     };
     function handleChange(e){
-       
-        console.log(test);
-        setData('id', test);
+        if(post){
+            setData('id',post.id)
+        }
         const key = e.target.id;
         const value =e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-        console.log(data)
+        
     }
 
-    function autoSave(e){
-        if(e.target.value){
+    function tempStore(e){
+            e.preventDefault()
+            if(post){
+                setData('id',post.id)
+            }
             router.patch('/blog/admin/create', 
             data,
             {preserveScroll:true}
-        );
-        }
-        
+            );    
     }
     
     function handleClickPreview(e){
+        console.log(processing)
         setData('is_preview', 1);
     }
 
-    
+
 
     function handleChangeWysiwyg(content, delta, source, editor, oldDelta) {
         const key = "content";
         const value = content;
-        setData('id', id);
+        if(post){
+            setData('id',post.id)
+        }
         let storedImageNum = Object.keys(data.wysiwygData).length;
         let currentImageNum = content.match(/\img src="data:/g) == undefined?0:content.match(/\img src="data:/g).length;
 
@@ -169,14 +173,14 @@ export default function Create({auth}){
             <div className="create">
                 <section className="section">
                 <h1 className="section_title">
-                    <div className="section_title_jp"></div>
+                    <div className="section_title_jp">新規投稿</div>
                 </h1>
                 <form onSubmit={submit} method='post' className='form_control admin-content' encType="multipart/form-data" >
                     <div className='main'>
                         <div  className="form_control_item">
                             <label htmlFor="title" >タイトル</label>
                             <input type="text" id="title" className="form_control_item_input" value={data.title} 
-                                onChange={handleChange} onBlur={autoSave} disabled={processing}
+                                onChange={handleChange}  disabled={processing}
                             />
                         </div>     
                         <div className="form_control_item page_content" >
@@ -194,7 +198,7 @@ export default function Create({auth}){
                     </div>
                     <div className='sub'>
                         <div  className="form_control_item">
-                            <label htmlFor="excerpt">カテゴリ</label>
+                            <label htmlFor="category">カテゴリ</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
                                 
@@ -207,7 +211,7 @@ export default function Create({auth}){
                             </select>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="excerpt" >タグ</label>
+                            <label htmlFor="tag" >タグ</label>
                             <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
                                 value={data.tag} onChange={(e)=>handleChange(e)}
                             
@@ -250,6 +254,9 @@ export default function Create({auth}){
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
+                            <button type="patch" className="form_control_item_submit" onClick={tempStore}>
+                            一時保存
+                            </button>
                             <a href={route('page',
                                 {
                                  is_preview:data.is_preview,
@@ -265,10 +272,12 @@ export default function Create({auth}){
                     </div>
 
                         <div  className="form_control_item button">
-                            <button type="submit" value="0" className="form_control_item_submit" id="is_show" onClick={handleChange}>
+                            <button type="submit" value="0" className="form_control_item_submit" 
+                            id="is_show" disabled={processing} onClick={handleChange}>
                             下書
                             </button>
-                            <button type="submit" value="1" className="form_control_item_submit" id="is_show" onClick={handleChange} >
+                            <button type="submit" value="1" className="form_control_item_submit" 
+                            id="is_show" onClick={handleChange} disabled={processing}>
                             公開
                             </button>
                         </div>

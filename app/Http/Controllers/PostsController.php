@@ -43,10 +43,10 @@ class PostsController extends Controller
        
     }
 
-    public function create(){
+    public function create(Request $request){
        
-        $id = Blog::latest('id')->first()->id; 
-        return Inertia::render('Posts/Create', ['id'=>$id]);
+       
+        return Inertia::render('Posts/Create');
     }
 
     public function tempStore(Request $request){
@@ -72,7 +72,7 @@ class PostsController extends Controller
             }
         }
 
-        $post = Blog::updateOrCreate(
+        Blog::updateOrCreate(
             ['id'=> $request->id],
             [
             'title' => $request->title,
@@ -85,9 +85,15 @@ class PostsController extends Controller
             'thumbnail'=> $thumbnailPath,
             'is_show'=>$request->is_show
         ]);
-
     
-            return back();
+        if($request->id){
+            $post =Blog::where('id', $request->id)->get();
+        }{
+           
+            $post =Blog::where('id', Blog::latest('id')->first()->id)->get();
+        }
+        
+        return Inertia::render('Posts/Edit',['post'=>$post]);
         
        
 
@@ -154,7 +160,7 @@ class PostsController extends Controller
                 return Inertia::render('Posts/Create',['id'=>$id]); 
             }else{
              
-                return Redirect::to('/blog/admin')->with('scuess', '投稿が完了しました');
+                return Redirect::to('/blog/admin');
             } 
         }
 
@@ -168,7 +174,7 @@ class PostsController extends Controller
     public function edit(Request $request) {
         $id = $request->query('id');
         $post =Blog::where('id', $id)->get();
-        return Inertia::render('Posts/Edit',[$post]);   
+        return Inertia::render('Posts/Edit',['post' =>$post]);   
     }
 
     public function update(Request $request){

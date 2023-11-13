@@ -8,15 +8,15 @@ import ResizeModule from "@ssumo/quill-resize-module";
 
 
 export default function Update({auth}){
-    const editPost = usePage().props[0][0];
+    const editPost = usePage().props.post[0];
+    console.log(editPost)
     const ref = useRef(null);
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState(editPost.thumbnail);
-    const [test, setTest] = useState(editPost.content);
     Quill.register("modules/resize", ResizeModule);
 
 
-    const { data, setData, progress } = useForm({
+    const { data, setData, progress, processing} = useForm({
         id:editPost.id,
         title: editPost.title,
         content: editPost.content,   
@@ -47,10 +47,12 @@ export default function Update({auth}){
        //console.log(data)
     }
 
-    function autoSave(e){
+    function tempStore(e){
+        e.preventDefault();
         router.patch('/blog/admin/create', 
             data,
-            {preserveScroll:true}
+            {preserveScroll:true,
+             preserveState:true}
         );
     }
     
@@ -59,7 +61,7 @@ export default function Update({auth}){
         setData('is_preview', 1);
  
     }
-    setTimeout(()=>{autoSave}, 10000);
+    
 
     function handleChangeWysiwyg(content, delta) {
        // console.log(delta)
@@ -82,7 +84,7 @@ export default function Update({auth}){
                     data.wysiwygData[id]= imgFile;
                 }
                 
-                    
+  
                 }
             }else if('delete' in c){
                     if(currentImageNum !== storedImageNum){
@@ -167,7 +169,7 @@ export default function Update({auth}){
                         <div  className="form_control_item">
                             <label htmlFor="title" >タイトル</label>
                             <input type="text" id="title" className="form_control_item_input" 
-                            value={data.title} onChange={handleChange} onBlur={autoSave}/>
+                            value={data.title} onChange={handleChange}/>
 
                         </div>
                 
@@ -188,7 +190,7 @@ export default function Update({auth}){
                     </div>
                     <div className='sub'>
                         <div  className="form_control_item">
-                            <label htmlFor="excerpt">カテゴリ</label>
+                            <label htmlFor="category">カテゴリ</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
                             >
@@ -200,13 +202,12 @@ export default function Update({auth}){
                             </select>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="excerpt" >タグ</label>
+                            <label htmlFor="tag" >タグ</label>
                             <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
                                 value={data.tag} onChange={(e)=>handleChange(e)}
                             />
                             <datalist id='tag_list'>
-                                <option value='tag1' />
-                                <option value='tag2' />
+         
                             </datalist>
                         </div>
                         <div  className="form_control_item">
@@ -239,6 +240,9 @@ export default function Update({auth}){
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
+                            <button type="patch" className="form_control_item_submit" onClick={tempStore}>
+                                一時保存
+                            </button>
                             <a href={route('page',{
                                 is_preview:data.is_preview,
                                 data:data
@@ -250,10 +254,12 @@ export default function Update({auth}){
                         </div>
                     </div>
                     <div  className="form_control_item button">
-                        <button type="submit" value="0" className="form_control_item_submit" id="is_show" onClick={handleChange}>
+                        <button type="submit" value="0" className="form_control_item_submit" 
+                            id="is_show" disabled={processing} onClick={handleChange}>
                             下書
                         </button>
-                        <button type="submit" value="1" className="form_control_item_submit" onChange={handleChange} >
+                        <button type="submit" value="1" className="form_control_item_submit" 
+                            disabled={processing} onChange={handleChange} >
                             更新
                         </button>
                             {progress && (

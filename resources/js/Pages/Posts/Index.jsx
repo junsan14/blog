@@ -7,7 +7,6 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
 import {MdUpdate} from 'react-icons/md';
 import {AiOutlineClear} from 'react-icons/ai';
-import {CSSTransition} from "react-transition-group";
 
 export default function Blog() {
     fixedSearch();

@@ -1629,6 +1629,7 @@ img {
 			width: auto;			
 			display: flex;
 			margin-left: auto;
+
 			@include mq(sp){
 				width: calc(100%);
 				justify-content: space-between;
@@ -1636,6 +1637,9 @@ img {
 			}
 			& button{
 				margin-left: 30px;
+				&:disabled{
+					cursor: none;
+				}
 				@include mq(sp){
 					margin-left: 0;
 				}

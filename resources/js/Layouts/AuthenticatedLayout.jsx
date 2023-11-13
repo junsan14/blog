@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
-
 import { Link } from '@inertiajs/react';
 import { CgProfile} from 'react-icons/cg';
 import { RxHome} from 'react-icons/rx';

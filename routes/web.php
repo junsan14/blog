@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/blog/admin/create',[PostsController::class, 'tempStore']);
 
-    Route::post('/blog/admin/create', [PostsController::class, 'update']);
+    Route::post('/blog/admin/create', [PostsController::class, 'store']);
 
     Route::get('/blog/admin/editIndex', [PostsController::class, 'editIndex']);
     Route::patch('/blog/admin/editIndex', [PostsController::class, 'visible']);
