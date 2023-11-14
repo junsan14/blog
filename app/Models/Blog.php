@@ -17,7 +17,9 @@ class Blog extends Model
         'category',
         'tag',
         'thumbnail',
-        'is_show'
+        'is_show',
+        'published_at'
+
 
        
     ];

@@ -5,11 +5,12 @@ import {useState,useMemo,ref,useRef } from 'react';
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ResizeModule from "@ssumo/quill-resize-module";
+import { formatDate,formatinputDate } from '@/script';
 
 
 export default function Update({auth}){
     const editPost = usePage().props.post[0];
-    console.log(editPost)
+
     const ref = useRef(null);
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState(editPost.thumbnail);
@@ -27,40 +28,34 @@ export default function Update({auth}){
         thumbnail:editPost.thumbnail,
         is_show:1,
         created_at: editPost.created_at,
+        updated_at: editPost.updated_at,
+        published_at: editPost.published_at,
         wysiwygData:{},
         is_preview:0,
-        _method: 'PATCH'
-    })
+        is_continue:0,
 
+    })
     const submit = (e) => {
         e.preventDefault();
-        router.post('/blog/admin/edit', data);
+        if(data.is_continue == 1){
+            router.post('/blog/admin/create', data,{preserveScroll:true});
+        }else{
+            router.post('/blog/admin/create', data);
+        }
  
     };
     function handleChange(e){
+        setData('is_continue',0);
         const key = e.target.id;
         const value = e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-       //console.log(data)
     }
 
-    function tempStore(e){
-        e.preventDefault();
-        router.patch('/blog/admin/create', 
-            data,
-            {preserveScroll:true,
-             preserveState:true}
-        );
-    }
     
-    function handleClickPreview(e){
 
-        setData('is_preview', 1);
- 
-    }
     
 
     function handleChangeWysiwyg(content, delta) {
@@ -190,6 +185,12 @@ export default function Update({auth}){
                     </div>
                     <div className='sub'>
                         <div  className="form_control_item">
+                            <label htmlFor="published_at">投稿日付</label>
+                            <input type='datetime-local' className="form_control_item_select" value={formatinputDate(data.published_at)}
+                                name='published_at' id='published_at' onChange={(e)=>handleChange(e)}
+                             />
+                        </div>
+                        <div  className="form_control_item">
                             <label htmlFor="category">カテゴリ</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
@@ -240,7 +241,7 @@ export default function Update({auth}){
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
-                            <button type="patch" className="form_control_item_submit" onClick={tempStore}>
+                            <button type="submit" className="form_control_item_submit" id="is_continue" value="1" onClick={handleChange}>
                                 一時保存
                             </button>
                             <a href={route('page',{
@@ -248,7 +249,7 @@ export default function Update({auth}){
                                 data:data
                             })}  target='_blank'
                                 className="form_control_item_submit" 
-                                id='is_preview' onClick={handleClickPreview} >
+                                id='is_preview' onClick={()=> setData('is_preview', 1)} >
                                 プレビュー
                             </a>
                         </div>
@@ -259,7 +260,7 @@ export default function Update({auth}){
                             下書
                         </button>
                         <button type="submit" value="1" className="form_control_item_submit" 
-                            disabled={processing} onChange={handleChange} >
+                            disabled={processing} onClick={handleChange} >
                             更新
                         </button>
                             {progress && (

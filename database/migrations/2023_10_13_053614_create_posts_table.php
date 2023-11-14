@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('tag');
             $table->string('eyecatch');
             $table->timestamps();
+            $table->datetime('published_at');
             $table->boolean('show_frag');
         });
     }

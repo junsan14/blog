@@ -7,20 +7,16 @@ import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ResizeModule from "@ssumo/quill-resize-module";
 Quill.register("modules/resize", ResizeModule);
+import { formatinputDate } from '@/script';
 
 
 
 
 export default function Create({auth}){
 
-   
-  
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
-    
     const {post} = usePage().props;
-    
-
     const { data, setData, progress,processing } = useForm({
         id:"",
         title:"",
@@ -32,18 +28,25 @@ export default function Create({auth}){
         thumbnail:"",
         is_show:0,
         wysiwygData:{},
+        published_at:new Date(),
         is_preview:0,
+        is_continue:0,
     });
 
   
     const submit = (e) => {
         e.preventDefault();
-
-         //router.post('/blog/admin/create', data);
+        if(data.is_continue == 1){
+            router.post('/blog/admin/create', data,{preserveScroll:true});
+        }else{
+            router.post('/blog/admin/create', data);
+        }
+        
     };
     function handleChange(e){
         if(post){
-            setData('id',post.id)
+            setData('id',post.id);
+            setData('is_continue',0);
         }
         const key = e.target.id;
         const value =e.target.value;
@@ -51,22 +54,11 @@ export default function Create({auth}){
             ...data,
             [key]: value,
         }))
-        
+
     }
 
-    function tempStore(e){
-            e.preventDefault()
-            if(post){
-                setData('id',post.id)
-            }
-            router.patch('/blog/admin/create', 
-            data,
-            {preserveScroll:true}
-            );    
-    }
     
-    function handleClickPreview(e){
-        console.log(processing)
+    function handleClickPreview(e){      
         setData('is_preview', 1);
     }
 
@@ -198,6 +190,13 @@ export default function Create({auth}){
                     </div>
                     <div className='sub'>
                         <div  className="form_control_item">
+                            <label htmlFor="published_at">投稿日付</label>
+                            <input type='datetime-local' className="form_control_item_select" 
+                                value={formatinputDate(data.published_at)}
+                                name='published_at' id='published_at' onChange={handleChange}
+                             />
+                        </div>
+                        <div  className="form_control_item">
                             <label htmlFor="category">カテゴリ</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
@@ -254,7 +253,8 @@ export default function Create({auth}){
                             </textarea>
                         </div>
                         <div  className="form_control_item button">
-                            <button type="patch" className="form_control_item_submit" onClick={tempStore}>
+                            <button type="submit" value="1" id="is_continue" 
+                                className="form_control_item_submit" onClick={handleChange}>
                             一時保存
                             </button>
                             <a href={route('page',

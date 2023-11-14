@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/blog/admin/editIndex', [PostsController::class, 'destroy']);
 
     Route::get('/blog/admin/edit', [PostsController::class, 'edit']);
-    Route::patch('/blog/admin/edit', [PostsController::class, 'update']);
+    Route::post('/blog/admin/edit', [PostsController::class, 'update']);
    
 
     

@@ -242,6 +242,15 @@ function formatDate(date){
           +new Date(date).getDate().toString().padStart(2, '0');
   return formatDate;
 }
+function formatinputDate(date){
+  let formatDate = new Date(date).getFullYear()+ "-" 
+          +(new Date(date).getMonth()+1).toString().padStart(2, '0')+ "-" 
+          +new Date(date).getDate().toString().padStart(2, '0')+" "
+          +new Date(date).getHours().toString().padStart(2, '0')+ ":"
+          +new Date(date).getMinutes().toString().padStart(2, '0');
+  return formatDate;
+}
+
 function yyyymmddhhss(date){
   let formatDate = new Date(date).getFullYear()+ "/" 
           +(new Date(date).getMonth()+1).toString().padStart(2, '0')+ "/" 
@@ -314,4 +323,4 @@ function addClassPage(){
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage};
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate};

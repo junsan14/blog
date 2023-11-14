@@ -18,7 +18,7 @@ export default function Blog({auth}) {
     const [tagid,setTagid] = useState('');
     const loadPosts = usePage().props.posts.data;
     const [posts, setPosts] = useState(loadPosts);
-    //console.log(loadPosts);
+    console.log(loadPosts);
     useEffect(() => { 
         setPosts(loadPosts);
         if(keyword){   
@@ -83,7 +83,7 @@ export default function Blog({auth}) {
         if(posts.length>0){
             return(
                 <>
-                {posts.map(({id, title, content,excerpt,thumbnail,created_at,updated_at,is_show} )=> {
+                {posts.map(({id, title, content,excerpt,thumbnail,created_at,updated_at,published_at,is_show} )=> {
                     return(
                         <div className={is_show?'article edit': 'article edit unshown'} id={id} key={id}>
                             <div className='article_id'>
@@ -101,7 +101,7 @@ export default function Blog({auth}) {
                                     </div>
                                     <p className="article_link_remarks_date">
                                         <MdUpdate />{formatDate(updated_at)} 
-                                        <MdAccessTime /> {formatDate(created_at)} 
+                                        <MdAccessTime /> {formatDate(published_at)} 
                                     </p>
 
                                 </div>
