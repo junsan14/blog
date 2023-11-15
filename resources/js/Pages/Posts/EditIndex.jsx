@@ -74,7 +74,7 @@ export default function Blog({auth}) {
             )
         }else{
             return(
-                <AiOutlineEye className='icon' id={id} alt='表示する'　onClick={(e)=>handleClickVisible(e,id,is_show)}/>
+                <AiOutlineEye className='icon' id={id} alt='表示する' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
             )
         }
         

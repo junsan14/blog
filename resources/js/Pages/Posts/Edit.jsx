@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import ResizeModule from "@ssumo/quill-resize-module";
 import { formatDate,formatinputDate } from '@/script';
 
-console.log("test");
+
 export default function Update({auth}){
     const editPost = usePage().props.post[0];
 
@@ -59,7 +59,7 @@ export default function Update({auth}){
     
 
     function handleChangeWysiwyg(content, delta) {
-       // console.log(delta)
+        console.log(content)
         const key = "content";
         const value = content;
         let storedImageNum = Object.keys(data.wysiwygData).length;

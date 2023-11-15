@@ -27,20 +27,16 @@ function Instagram(){
     const Render = ()=>{
       if(posted){
         let posts =posted.business_discovery.media.data; 
-        ModalShow(posts,"instagram");
+   
+        //ModalShow(posts,"instagram");
         return(
           <>
-            <div className="image_modal js-image-modal">
-              <span className='js-left-arrow left-arrow'></span>
-              <button className="js-close-image-modal-btn">✕</button>
-              <img className="js-modal-pic modal-pic" src="" alt="" />
-              <span className='js-right-arrow right-arrow'></span>
-            </div>
+            <ModalShow posts={posts} />
             {posts.map((post,i,ary) => {
               //console.log(posts[0].media_url)
               return(
                 <div className='post js-show-modal' id="grid" data-posts={posts} data-url={post.media_url} data-index={i} key={i}>
-                    <img src={post.media_url} alt="" className="post_image" data-url={post.media_url} data-index={i}/>
+                    <img src={post.media_url} alt="" className="post_image js-modal-img" data-url={post.media_url} data-index={i}/>
                     <div className="post_desc">
                       <AiFillHeart alt="" className="post_desc_heart" />
                       <span className="post_desc_caption">{post.caption}</span>

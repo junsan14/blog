@@ -25,6 +25,7 @@ class BlogResource extends JsonResource
             'thumbnail' => $this->thumbnail,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'published_at' => $this->published_at,
             'is_show' => (bool)$this->is_show,
 
 

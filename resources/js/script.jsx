@@ -1,7 +1,7 @@
 import $ from "jquery";
 import {useState } from "react";
 import transparentImg from '../images/transparent.png';
-
+import Quill from 'quill';
 
 
 function SpMenuShow(){
@@ -62,19 +62,20 @@ function graphShow(){
   }
   
 
-function ModalShow(posted,srcType){
+function ModalShow(props){
   let images;
-
   $(function(){
     let $imageModal = $(".js-image-modal");
     let $showModal = $(".js-show-modal");
-   
+    console.log($(".js-modal-img"))
+
     $showModal.on("click", function(){
       let $url = $(this).children().attr("src");
       let index = $(this).data("index");
       $imageModal.addClass("show");
-      $imageModal.children(".js-modal-pic").attr("src", $url);     
-      images = posted;  
+      $imageModal.children(".js-modal-pic").attr("src", $url);
+      images = $(".js-modal-img");
+      console.log(images.length)
       if(images.length === 1){
         $(".js-left-arrow").addClass("hide");
         $(".js-right-arrow").addClass("hide");
@@ -124,7 +125,7 @@ function ModalShow(posted,srcType){
             isTouch = false;
           }
           console.log($imageModal.children(".js-modal-pic"))
-          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).children().attr("src")); 
+          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`)
         }
       })
@@ -138,7 +139,8 @@ function ModalShow(posted,srcType){
           }else{
             index = index - 1;
           }
-          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).children().attr("src"));
+  
+          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).attr("src"));
           $(".js-slide-number").text(`${index+1}/${images.length}`) 
         }else if($(e.target).hasClass("js-right-arrow")){
           if(index === images.length-1){
@@ -146,7 +148,7 @@ function ModalShow(posted,srcType){
           }else{
             index = index + 1;
           }
-          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).children().attr("src")); 
+          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`)
         }else if(!$(e.target).hasClass("js-modal-pic")){
           $(".js-close-image-modal-btn").parent().removeClass("show");
@@ -270,7 +272,7 @@ function addClassPage(){
 
   $(".article_content").find("img").each((i,ele)=>{
 
-      
+      $(ele).addClass("js-modal-img");
       $(ele).wrap(`<div class="js-show-modal" data-index="${i}"></div>`);
       $(ele).append(`<div class="image_modal js-image-modal"></div>`); 
       
@@ -283,8 +285,7 @@ function addClassPage(){
 
   })
   
-  //モーダルjs呼び出し 
-  ModalShow($(".js-show-modal"), "wordpress");
+
 
   //コピーエリア作成
   $markupElements.each((i,ele)=>{
@@ -320,7 +321,27 @@ function addClassPage(){
   })
 }
 
+function LoadQuillModule(){
+  $(function(){
+    const quill = new Quill("#editor", {
+      theme: "snow",
+      modules: {
+          toolbar: [
+              [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
+              ['bold', 'italic', 'underline','strike'],
+              [{ 'color': [] }, { 'background': [] }],  
+              [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+              ['blockquote', 'code-block'],
+              ["image","video","link"],
+              ['clean']  
+          ]
+      }
+  })
+  return quill;
+  })
+  
+}
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate};
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate,LoadQuillModule};

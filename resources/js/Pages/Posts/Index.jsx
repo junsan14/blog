@@ -5,7 +5,7 @@ import search from '@/images/search.png';
 import {fixedSearch,formatDate } from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
-import {MdUpdate} from 'react-icons/md';
+import {MdAccessTime} from 'react-icons/md';
 import {AiOutlineClear} from 'react-icons/ai';
 
 export default function Blog() {
@@ -15,14 +15,20 @@ export default function Blog() {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('');
     const [tagid,setTagid] = useState('');
-    const loadPosts = usePage().props.posts.data;
+    //const loadPosts = usePage().props.posts.data;
+    let loadPosts = usePage().props.loadPosts.data;
     const [posts, setPosts] = useState(loadPosts);
     const [inProp, setInProp] = useState(false);
 
+console.log(loadPosts);
     useEffect(() => { 
         
         if(keyword){  
-            setPosts(loadPosts.filter(post => post.keywords.indexOf(keyword) !==-1 ));
+
+            setPosts(loadPosts.filter(post => String(post['keywords']).indexOf(keyword) !==-1 ));
+            loadPosts.forEach((ele,i)=>{
+                console.log(ele['keywords'])
+            })
             
         }else if(category){
             setPosts(loadPosts.filter(post => post.category === category));
@@ -79,7 +85,7 @@ export default function Blog() {
         if(posts.length>0){
             return(
                 <>
-                {posts.map(({id, title, content,excerpt,thumbnail,updated_at} )=> {
+                {posts.map(({id, title, content,excerpt,thumbnail,updated_at,published_at} )=> {
                     return(
                         <div className="article fade" id={id} key={id}>
                             <Link href="/blog/page" data={{ id: id }} className='article_link'>
@@ -92,8 +98,8 @@ export default function Blog() {
                                         {excerpt}
                                     </div>
                                     <p className="article_link_remarks_date">
-                                       <MdUpdate className='article_link_remarks_date_icon' />
-                                       {formatDate(updated_at)}<br/>
+                                       <MdAccessTime className='article_link_remarks_date_icon' />
+                                       {formatDate(published_at)}<br/>
                                     </p>
                                 </div>
                             </Link>

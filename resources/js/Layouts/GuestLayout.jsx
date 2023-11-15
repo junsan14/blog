@@ -6,7 +6,7 @@ import {FaXTwitter,FaInstagram} from 'react-icons/fa6';
 function Layout({user,children,status}){
   SpMenuShow();
   let is_login = usePage().props.auth.user?true:false
-  console.log(usePage().props.auth.user)
+ // console.log(usePage().props.auth.user)
   return(
     <>
     <header className="header guest">

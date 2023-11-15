@@ -1,19 +1,58 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {useState,useMemo } from 'react';
+import {useState,useMemo, useEffect } from 'react';
 import {useForm, router, Link, usePage  } from '@inertiajs/react';
 import $ from "jquery";
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import axios from 'axios';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+
+
 import ResizeModule from "@ssumo/quill-resize-module";
 Quill.register("modules/resize", ResizeModule);
-import { formatinputDate } from '@/script';
+import { formatinputDate,LoadQuillModule } from '@/script';
 
 
 
+export default function Create({auth}){    
 
-export default function Create({auth}){
-
+    function uploadAdapter(loader) {
+        let HOST = "/public/userfiles"
+        return {
+          upload: () => {
+            return new Promise(async (resolve, reject) => {
+              try {
+                const file = await loader.file;
+                const response = await axios.request({
+                  method: "POST",
+                  url: `${HOST}`,
+                  data: {
+                    files: file
+                  },
+                  headers: {
+                    "Content-Type": "multipart/form-data"
+                  }
+                });
+                resolve({
+                  default: `${HOST}/${response.data.filename}`
+                });
+              } catch (error) {
+               console.log(error);
+              }
+            });
+          },
+          abort: () => {}
+        };
+    }
+    function uploadPlugin(editor) {
+        editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+          return uploadAdapter(loader);
+        };
+      }
+    
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
     const {post} = usePage().props;
@@ -32,10 +71,31 @@ export default function Create({auth}){
         is_preview:0,
         is_continue:0,
     });
-
+    const [content, setContent] = useState( '');
+     useEffect(()=>{
+        const quill = new Quill("#editor", {
+            theme: "snow",
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
+                    ['bold', 'italic', 'underline','strike'],
+                    [{ 'color': [] }, { 'background': [] }],  
+                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                    ['blockquote', 'code-block'],
+                    ["image","video","link"],
+                    ['clean']  
+                ]
+            }
+        })
+        
+    
+   
+    
+    },[])
   
     const submit = (e) => {
         e.preventDefault();
+
         if(data.is_continue == 1){
             router.post('/blog/admin/create', data,{preserveScroll:true});
         }else{
@@ -43,81 +103,40 @@ export default function Create({auth}){
         }
         
     };
+    function onClickSubmit(e){
+        e.preventDefault();
+        let content = $(".ql-editor").html();
+        setData("content", content);
+        console.log(data);
+    
+    }
     function handleChange(e){
         if(post){
             setData('id',post.id);
             setData('is_continue',0);
         }
+        
         const key = e.target.id;
         const value =e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-
+        console.log(data);
     }
-
     
     function handleClickPreview(e){      
         setData('is_preview', 1);
     }
 
+    
 
-
-    function handleChangeWysiwyg(content, delta, source, editor, oldDelta) {
+    function handleChangeWysiwyg(e) {
         const key = "content";
-        const value = content;
-        if(post){
-            setData('id',post.id)
-        }
-        let storedImageNum = Object.keys(data.wysiwygData).length;
-        let currentImageNum = content.match(/\img src="data:/g) == undefined?0:content.match(/\img src="data:/g).length;
+        let content = e.target.innerHTML;
+        setData('content',content);
+       console.log(data) ;
 
-       delta["ops"].forEach((c,index) => {
-        
-        if('insert' in c){
-            if(typeof(c["insert"]) === "string"){
-            }
-            else if('image' in c['insert']){   
-                const imgData = c["insert"]["image"];
-              
-                const $inputFile = document.querySelector('input[type=file]').files[0]                       
-                const imgFile = convertToFile(imgData, $inputFile);
-                const id = c["insert"]["image"];
-                data.wysiwygData[id]= imgFile;
-                    
-                }
-            }else if('delete' in c){
-                    if(currentImageNum !== storedImageNum){
-                        let images = content.match(/(src=)["|'](.*?)["|']+/g);
-                        let srcAry = [];
-                        if(images){
-                            
-                            images.forEach((ele,i)=>{
-                                let src = ele.replace(/src=|"/g, '');
-                                //console.log(Object.keys(data.wysiwygData))
-                                srcAry.push(src);
-                                //console.log(data.wysiwygData[src])
-                                    
-                            })
-                            
-                            let a = Object.keys(data.wysiwygData).filter((i)=>srcAry.indexOf(i) == -1 );
-                            console.log(a);
-                            a.forEach((ele,i)=>{
-                                delete data.wysiwygData[ele];
-                            })
-                        }     
-                    }              
-            }
-            storedImageNum = Object.keys(data.wysiwygData).length;
-        });
-        setData(data => ({
-            ...data,
-            [key]: value,
-        }))
-        //console.log(data )
-        //console.log(`保存枚数${storedImageNum}` )
-        //console.log(`エディター枚数${currentImageNum}` )
     }
     function convertToFile (imgData, file) {
         // ここでバイナリにしている
@@ -128,7 +147,8 @@ export default function Create({auth}){
         }
         return new File([buffer.buffer], file.name, {type: file.type});
     }
-    
+
+
 
 
       
@@ -145,16 +165,7 @@ export default function Create({auth}){
                 ['clean']   
             ],
           },
-          resize: {
-            locale: {
-              altTip: "按住alt键比例缩放",
-              inputTip: "回车键确认",
-              floatLeft: "左",
-              floatRight: "右",
-              center: "中央",
-              restore: "元に戻す",
-            },
-          },
+
         };
 }, []);
         
@@ -163,6 +174,7 @@ export default function Create({auth}){
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
             <div className="create">
+                <img src="http://192.168.40.25:8000//public/userfiles/files/2016-02-21 20_02_31.jpg" alt="" />
                 <section className="section">
                 <h1 className="section_title">
                     <div className="section_title_jp">新規投稿</div>
@@ -175,16 +187,32 @@ export default function Create({auth}){
                                 onChange={handleChange}  disabled={processing}
                             />
                         </div>     
-                        <div className="form_control_item page_content" >
+                        <div className="form_control_item page_content" onBlur={handleChangeWysiwyg}>
                             <label htmlFor="content" >内容</label>
-                            <ReactQuill theme="snow"
-                            id="content"
-                            modules={modules}
-                            onChange={handleChangeWysiwyg}
-                            value={data.content}
-                            className="form_control_item_textarea article_content create"
-                            >
-                            </ReactQuill>
+                            <CKEditor
+                                editor={ ClassicEditor }
+                                config={{
+                                    // @ts-ignore
+                                    extraPlugins: [uploadPlugin]
+                                  }}
+                                data="<p>Hello from CKEditor&nbsp;5!</p>"
+                                onReady={ editor => {
+                                    // You can store the "editor" and use when it is needed.
+                                   // console.log( 'Editor is ready to use!', editor );
+                                } }
+                                onChange={ ( event, editor ) => {
+                                    const data = editor.getData();
+                                    setData("content", data);
+                                    console.log(data);
+                                    //console.log( { event, editor, data } );
+                                } }
+                                onBlur={ ( event, editor ) => {
+                                   // console.log( 'Blur.', editor );
+                                } }
+                                onFocus={ ( event, editor ) => {
+                                   // console.log( 'Focus.', editor );
+                                } }
+                            />
                             
                         </div>
                     </div>
@@ -254,7 +282,7 @@ export default function Create({auth}){
                         </div>
                         <div  className="form_control_item button">
                             <button type="submit" value="1" id="is_continue" 
-                                className="form_control_item_submit" onClick={handleChange}>
+                                className="form_control_item_submit" onClick={onClickSubmit}>
                             一時保存
                             </button>
                             <a href={route('page',

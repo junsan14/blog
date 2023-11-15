@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use App\Http\Resources\BlogCollection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManagerStatic as InterventionImage;
+
 
 
 class PostsController extends Controller
@@ -23,7 +25,7 @@ class PostsController extends Controller
 
     public function index(){
         $showBlog = Blog::where('is_show',1)->latest()->get();
-       return Inertia::render('Posts/Index',['posts'=>new BlogCollection($showBlog)]);
+       return Inertia::render('Posts/Index',['loadPosts'=>new BlogCollection($showBlog)]);
     }
 
     public function show(Request $request){
@@ -51,16 +53,31 @@ class PostsController extends Controller
     public function store(Request $request){
         $uploadFiles = $request->wysiwygData;
         $content= $request->content;
-        //dd($request->is_continue);
+        dd($request);
         //サムネイル格納
         if($request->file('thumbnail')){
+            
             $thumbnailName = $request->file('thumbnail')->getClientOriginalName();  
+
             $thumbnailPath =str_replace('public', '/storage',$request->file('thumbnail')
-                            ->storeAs('public/images/blog/thumbnail',$thumbnailName));     
+                            ->storeAs('public/images/blog/thumbnail',$thumbnailName));
+
+            $image = InterventionImage::make(public_path($thumbnailPath));
+            $image->resize(600, null,
+            function ($constraint) {
+                // アスペクト比は変更させない
+                $constraint->aspectRatio();
+
+                // 指定横幅より小さい画像は変更しない
+                $constraint->upsize();
+            }
+            );
+            $image->save();
+
         }else{
             $thumbnailPath ='/storage/images/blog/thumbnail/noImage.png';
         }
-
+        
         if($uploadFiles){
             foreach($uploadFiles as $uploadFile){
                 $fileName = $uploadFile->getClientOriginalName();
@@ -68,6 +85,17 @@ class PostsController extends Controller
                         ->storeAs('public/images/blog/post',$fileName));
                 $base64 = array_search($uploadFile, $uploadFiles);
                 $content = str_replace($base64,$path,$content);
+                $image = InterventionImage::make(public_path($path));
+                $image->resize(600, null,
+                function ($constraint) {
+                    // アスペクト比は変更させない
+                    $constraint->aspectRatio();
+    
+                    // 指定横幅より小さい画像は変更しない
+                    $constraint->upsize();
+                }
+                );
+                $image->save();
             }
         }
        
@@ -81,7 +109,7 @@ class PostsController extends Controller
             'keywords'=>$request->keywords,
             'category'=>$request->category,
             'tag'=>$request->tag,
-            'created_at'=> $request->created_at,
+            'published_at'=>$request->published_at,
             'thumbnail'=> $thumbnailPath,
             'is_show'=>$request->is_show
         ]);

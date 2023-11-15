@@ -19,8 +19,6 @@ class Blog extends Model
         'thumbnail',
         'is_show',
         'published_at'
-
-
        
     ];
     protected $table = 'posts';
