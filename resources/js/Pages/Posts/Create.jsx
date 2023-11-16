@@ -6,8 +6,9 @@ import $ from "jquery";
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor,CKFinder } from '@ckeditor/ckeditor5-react';
+import ClassicEditor,{ima} from '@ckeditor/ckeditor5-build-classic';
+
 
 
 
@@ -19,7 +20,7 @@ import { formatinputDate,LoadQuillModule } from '@/script';
 
 export default function Create({auth}){    
 
-    function uploadAdapter(loader) {
+    function uploadAdapter2(loader) {
         let HOST = "/public/userfiles"
         return {
           upload: () => {
@@ -47,10 +48,22 @@ export default function Create({auth}){
           abort: () => {}
         };
     }
+    const API_URl = "http://192.168.40.25:8000"
+    const UPLOAD_ENDPOINT = "public/userfiles/images";
+
+    function uploadAdapter(loader) {
+      
+            
+                ckfinder:{
+                    uploadUrl:`${API_URl}/${UPLOAD_ENDPOINT}`
+                }
+            
+        
+    }
     function uploadPlugin(editor) {
-        editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-          return uploadAdapter(loader);
-        };
+        ckfinder:{
+            uploadUrl:`${API_URl}/${UPLOAD_ENDPOINT}`
+        }
       }
     
     const [thumbnailValue,setThumbnailValue] =useState("");
@@ -174,7 +187,6 @@ export default function Create({auth}){
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
             <div className="create">
-                <img src="http://192.168.40.25:8000//public/userfiles/files/2016-02-21 20_02_31.jpg" alt="" />
                 <section className="section">
                 <h1 className="section_title">
                     <div className="section_title_jp">新規投稿</div>
@@ -191,10 +203,13 @@ export default function Create({auth}){
                             <label htmlFor="content" >内容</label>
                             <CKEditor
                                 editor={ ClassicEditor }
+                              
                                 config={{
-                                    // @ts-ignore
-                                    extraPlugins: [uploadPlugin]
-                                  }}
+                                    ckfinder:{
+                                        "uploaded": true,
+                                        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Files`
+                                    }
+                                }}
                                 data="<p>Hello from CKEditor&nbsp;5!</p>"
                                 onReady={ editor => {
                                     // You can store the "editor" and use when it is needed.

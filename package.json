@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^40.0.0",
+        "@ckeditor/ckeditor5-ckfinder": "^40.1.0",
         "@ckeditor/ckeditor5-react": "^6.1.0",
         "@ssumo/quill-resize-module": "^1.0.1",
         "highlight.js": "^11.9.0",
