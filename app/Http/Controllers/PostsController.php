@@ -53,7 +53,7 @@ class PostsController extends Controller
     public function store(Request $request){
         $uploadFiles = $request->wysiwygData;
         $content= $request->content;
-        dd($request);
+      
         //サムネイル格納
         if($request->file('thumbnail')){
             

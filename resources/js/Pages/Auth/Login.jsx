@@ -89,7 +89,12 @@ export default function Login({ status, canResetPassword }) {
                                 パスワードを忘れた方
                             </Link>
                         )}
-
+                         <Link
+                                href={route('register')}
+                                className='form_control_item_link'
+                            >
+                                新規登録
+                        </Link>
                         <PrimaryButton className="form_control_item_submit" disabled={processing}>
                             Log in
                         </PrimaryButton>

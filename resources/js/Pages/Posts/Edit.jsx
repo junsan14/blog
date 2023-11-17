@@ -2,19 +2,16 @@
 import { usePage, Link,useForm,router } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useState,useMemo,ref,useRef } from 'react';
-import ReactQuill, {Quill} from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import ResizeModule from "@ssumo/quill-resize-module";
+import { CKEditor,CKFinder } from '@ckeditor/ckeditor5-react';
+import ClassicEditor,{ima} from '@ckeditor/ckeditor5-build-classic';
 import { formatDate,formatinputDate } from '@/script';
 
 
 export default function Update({auth}){
     const editPost = usePage().props.post[0];
 
-    const ref = useRef(null);
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState(editPost.thumbnail);
-    Quill.register("modules/resize", ResizeModule);
 
 
     const { data, setData, progress, processing} = useForm({
@@ -170,16 +167,22 @@ export default function Update({auth}){
                 
                         <div className="form_control_item page_content" >
                             <label htmlFor="content" >内容</label>
-                            <ReactQuill theme="snow"
-                            id="content"
-                            modules={modules}
-                            onChange={handleChangeWysiwyg}
-                            defaultValue ={data.content}
-                            className="form_control_item_textarea article_content edit"
-                            ref={ref}
-
-                            >
-                            </ReactQuill>
+                            <CKEditor
+                                editor={ ClassicEditor }
+                                config={{
+                                    ckfinder:{
+                                        browseUrl: `${route('ckfinder_browser')}`,
+                                        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
+                                    }
+                                }}
+                               
+                                onChange={ ( event, editor ) => {
+                                    const content = editor.getData();
+                                    setData("content", content);
+                                    console.log(data);
+                                    //console.log( { event, editor, data } );
+                                } }
+                            />
                             
                         </div>
                     </div>

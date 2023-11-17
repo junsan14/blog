@@ -3,68 +3,15 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useState,useMemo, useEffect } from 'react';
 import {useForm, router, Link, usePage  } from '@inertiajs/react';
 import $ from "jquery";
-import ReactQuill, {Quill} from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
 import { CKEditor,CKFinder } from '@ckeditor/ckeditor5-react';
 import ClassicEditor,{ima} from '@ckeditor/ckeditor5-build-classic';
 
-
-
-
-import ResizeModule from "@ssumo/quill-resize-module";
-Quill.register("modules/resize", ResizeModule);
-import { formatinputDate,LoadQuillModule } from '@/script';
+import { formatinputDate } from '@/script';
 
 
 
 export default function Create({auth}){    
 
-    function uploadAdapter2(loader) {
-        let HOST = "/public/userfiles"
-        return {
-          upload: () => {
-            return new Promise(async (resolve, reject) => {
-              try {
-                const file = await loader.file;
-                const response = await axios.request({
-                  method: "POST",
-                  url: `${HOST}`,
-                  data: {
-                    files: file
-                  },
-                  headers: {
-                    "Content-Type": "multipart/form-data"
-                  }
-                });
-                resolve({
-                  default: `${HOST}/${response.data.filename}`
-                });
-              } catch (error) {
-               console.log(error);
-              }
-            });
-          },
-          abort: () => {}
-        };
-    }
-    const API_URl = "http://192.168.40.25:8000"
-    const UPLOAD_ENDPOINT = "public/userfiles/images";
-
-    function uploadAdapter(loader) {
-      
-            
-                ckfinder:{
-                    uploadUrl:`${API_URl}/${UPLOAD_ENDPOINT}`
-                }
-            
-        
-    }
-    function uploadPlugin(editor) {
-        ckfinder:{
-            uploadUrl:`${API_URl}/${UPLOAD_ENDPOINT}`
-        }
-      }
     
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
@@ -80,39 +27,18 @@ export default function Create({auth}){
         thumbnail:"",
         is_show:0,
         wysiwygData:{},
-        published_at:new Date(),
+        published_at:formatinputDate(new Date()),
         is_preview:0,
         is_continue:0,
     });
     const [content, setContent] = useState( '');
-     useEffect(()=>{
-        const quill = new Quill("#editor", {
-            theme: "snow",
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
-                    ['bold', 'italic', 'underline','strike'],
-                    [{ 'color': [] }, { 'background': [] }],  
-                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                    ['blockquote', 'code-block'],
-                    ["image","video","link"],
-                    ['clean']  
-                ]
-            }
-        })
-        
-    
-   
-    
-    },[])
-  
     const submit = (e) => {
         e.preventDefault();
 
         if(data.is_continue == 1){
-            router.post('/blog/admin/create', data,{preserveScroll:true});
+            router.post(route('page.store'), data,{preserveScroll:true});
         }else{
-            router.post('/blog/admin/create', data);
+            router.post(route('page.store'), data);
         }
         
     };
@@ -144,43 +70,10 @@ export default function Create({auth}){
 
     
 
-    function handleChangeWysiwyg(e) {
-        const key = "content";
-        let content = e.target.innerHTML;
-        setData('content',content);
-       console.log(data) ;
-
-    }
-    function convertToFile (imgData, file) {
-        // ここでバイナリにしている
-        const blob = atob(imgData.replace(/^.*,/, ''));
-        let buffer = new Uint8Array(blob.length);
-        for (let i = 0; i < blob.length; i++) {
-        buffer[i] = blob.charCodeAt(i);
-        }
-        return new File([buffer.buffer], file.name, {type: file.type});
-    }
 
 
 
 
-      
-    const modules = useMemo(() => {
-        return {
-          toolbar: {
-            container: [
-                [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
-                ['bold', 'italic', 'underline','strike'],
-                [{ 'color': [] }, { 'background': [] }],  
-                [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                ['blockquote', 'code-block'],
-                ["image","video","link"],
-                ['clean']   
-            ],
-          },
-
-        };
-}, []);
         
     return(
         <AuthenticatedLayout 
@@ -199,34 +92,24 @@ export default function Create({auth}){
                                 onChange={handleChange}  disabled={processing}
                             />
                         </div>     
-                        <div className="form_control_item page_content" onBlur={handleChangeWysiwyg}>
+                        <div className="form_control_item page_content">
                             <label htmlFor="content" >内容</label>
                             <CKEditor
                                 editor={ ClassicEditor }
-                              
                                 config={{
                                     ckfinder:{
-                                        "uploaded": true,
-                                        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Files`
+                                        browseUrl: `${route('ckfinder_browser')}`,
+                                        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
                                     }
                                 }}
-                                data="<p>Hello from CKEditor&nbsp;5!</p>"
-                                onReady={ editor => {
-                                    // You can store the "editor" and use when it is needed.
-                                   // console.log( 'Editor is ready to use!', editor );
-                                } }
+                               
                                 onChange={ ( event, editor ) => {
-                                    const data = editor.getData();
-                                    setData("content", data);
+                                    const content = editor.getData();
+                                    setData("content", content);
                                     console.log(data);
                                     //console.log( { event, editor, data } );
                                 } }
-                                onBlur={ ( event, editor ) => {
-                                   // console.log( 'Blur.', editor );
-                                } }
-                                onFocus={ ( event, editor ) => {
-                                   // console.log( 'Focus.', editor );
-                                } }
+
                             />
                             
                         </div>
