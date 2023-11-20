@@ -1,11 +1,11 @@
 
 import { usePage, Link,useForm,router } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {useState,useMemo,ref,useRef } from 'react';
-import { CKEditor,CKFinder } from '@ckeditor/ckeditor5-react';
-import ClassicEditor,{ima} from '@ckeditor/ckeditor5-build-classic';
+import {useState,useMemo } from 'react';
+import {editorConfiguration} from '@/ckeditor'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { formatDate,formatinputDate } from '@/script';
-
 
 export default function Update({auth}){
     const editPost = usePage().props.post[0];
@@ -169,20 +169,15 @@ export default function Update({auth}){
                             <label htmlFor="content" >内容</label>
                             <CKEditor
                                 editor={ ClassicEditor }
-                                config={{
-                                    ckfinder:{
-                                        browseUrl: `${route('ckfinder_browser')}`,
-                                        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
-                                    }
-                                }}
-                               
-                                onChange={ ( event, editor ) => {
-                                    const content = editor.getData();
-                                    setData("content", content);
-                                    console.log(data);
-                                    //console.log( { event, editor, data } );
+                                config={ editorConfiguration }
+                                data={data.content}
+                                onChange={ ( event, editor ) => {           
+                                    setData('content', editor.getData());
+                                    //console.log(data);
                                 } }
+
                             />
+                         
                             
                         </div>
                     </div>

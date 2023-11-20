@@ -1,8 +1,9 @@
 import $ from "jquery";
-import {useState } from "react";
+import React,{useState,useEffect, Component } from "react";
 import transparentImg from '../images/transparent.png';
-import Quill from 'quill';
 
+import hljs from 'highlight.js';
+import '../../node_modules/highlight.js/styles/foundation.css'
 
 function SpMenuShow(){
     const [loadState, setLoadState]= useState(false);
@@ -67,7 +68,7 @@ function ModalShow(props){
   $(function(){
     let $imageModal = $(".js-image-modal");
     let $showModal = $(".js-show-modal");
-    console.log($(".js-modal-img"))
+    //console.log($(".js-modal-img"))
 
     $showModal.on("click", function(){
       let $url = $(this).children().attr("src");
@@ -264,7 +265,7 @@ function yyyymmddhhss(date){
 
 function addClassPage(){
   $(function(){
-    let $markupElements = $(".ql-syntax");
+    let $markupElements = $("pre");
     let $subContent = $("h3");
 
   //setImgNum($(".js-show-modal").length)
@@ -291,12 +292,11 @@ function addClassPage(){
   $markupElements.each((i,ele)=>{
       $(ele).replaceWith(function() {
       $(this).replaceWith(`
-        <div class="language-markup" style="position:relative;">
-          <pre class="code">${$(this).html()}</pre>
-          <div class="markup-area-copy">
-          <div class="markup-area-copy_text">copy</div>
-          </div>
-        </div>
+
+          <pre>${$(this).html()}
+              <div class="markup-area-copy_text">copy</div>       
+          </pre>
+
       `)
     });
 
@@ -304,12 +304,13 @@ function addClassPage(){
   $subContent.each((i,ele)=>{
     $($(ele).nextAll().not("h3").not("h2")).addClass("sub_content");
   })
-
+  hljs.highlightAll();
   //コピーボタン
-  $(".markup-area-copy").on("click", function(){
+  $(".markup-area-copy_text").on("click", function(){
     let that = $(this);
     let copiedText = that.prev().text();
-    that.children("div").text("copied");
+    console.log(copiedText)
+    that.text("copied");
     that.addClass("copied");
     //console.log(that.prev().text())
     setTimeout(()=>{
@@ -321,27 +322,10 @@ function addClassPage(){
   })
 }
 
-function LoadQuillModule(){
-  $(function(){
-    const quill = new Quill("#editor", {
-      theme: "snow",
-      modules: {
-          toolbar: [
-              [{ 'header': [1, 2, 3, 4, 5, 6,false] }],
-              ['bold', 'italic', 'underline','strike'],
-              [{ 'color': [] }, { 'background': [] }],  
-              [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-              ['blockquote', 'code-block'],
-              ["image","video","link"],
-              ['clean']  
-          ]
-      }
-  })
-  return quill;
-  })
-  
-}
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate,LoadQuillModule};
+
+
+
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate};

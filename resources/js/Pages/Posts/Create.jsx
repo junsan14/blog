@@ -1,10 +1,12 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {useState,useMemo, useEffect } from 'react';
+import React, {useState } from 'react';
 import {useForm, router, Link, usePage  } from '@inertiajs/react';
 import $ from "jquery";
-import { CKEditor,CKFinder } from '@ckeditor/ckeditor5-react';
-import ClassicEditor,{ima} from '@ckeditor/ckeditor5-build-classic';
+
+import {editorConfiguration} from '@/ckeditor'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
 import { formatinputDate } from '@/script';
 
@@ -67,13 +69,6 @@ export default function Create({auth}){
     function handleClickPreview(e){      
         setData('is_preview', 1);
     }
-
-    
-
-
-
-
-
         
     return(
         <AuthenticatedLayout 
@@ -92,25 +87,20 @@ export default function Create({auth}){
                                 onChange={handleChange}  disabled={processing}
                             />
                         </div>     
+   
                         <div className="form_control_item page_content">
                             <label htmlFor="content" >内容</label>
+                    
                             <CKEditor
                                 editor={ ClassicEditor }
-                                config={{
-                                    ckfinder:{
-                                        browseUrl: `${route('ckfinder_browser')}`,
-                                        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
-                                    }
-                                }}
-                               
+                                config={ editorConfiguration }
+                                data=''
                                 onChange={ ( event, editor ) => {
-                                    const content = editor.getData();
-                                    setData("content", content);
-                                    console.log(data);
-                                    //console.log( { event, editor, data } );
+                                    setData('content', editor.getData());
                                 } }
 
                             />
+                         
                             
                         </div>
                     </div>
