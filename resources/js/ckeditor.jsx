@@ -1,6 +1,3 @@
-// App.jsx / App.tsx
-
-import React, { Component } from 'react';
 
 // NOTE: Use the editor from source (not a build)!
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
