@@ -1,6 +1,9 @@
 
 // NOTE: Use the editor from source (not a build)!
+import { Autosave } from '@ckeditor/ckeditor5-autosave';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
+import { FontColor } from '@ckeditor/ckeditor5-font';
+import { FontSize } from '@ckeditor/ckeditor5-font';
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
 import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
@@ -30,7 +33,7 @@ import {
 export const editorConfiguration = {
     plugins: [
         Essentials,
-   
+        Autoformat,
         Bold,
         Italic,
         BlockQuote,
@@ -40,6 +43,8 @@ export const editorConfiguration = {
         Paragraph,
         CodeBlock,
         CKFinder,
+        FontColor,
+        FontSize,
         ImageUpload,
         Image,
         ImageCaption,
@@ -52,11 +57,16 @@ export const editorConfiguration = {
         TableToolbar,
         TextTransformation,
         Indent,
+        MediaEmbed,
+        Autosave
      ],
     toolbar: [
         'heading',
         'bold',
         'italic',
+        '|',
+        'fontColor',
+        'fontSize',
         '|',
         'outdent',
         'indent',
@@ -84,11 +94,17 @@ export const editorConfiguration = {
             'imageStyle:side'
         ]
     },
+    mediaEmbed: {
+        previewsInData: true
+    },
      ckfinder:{
         uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
     },
+
+    
     
 };
+
 
 
 

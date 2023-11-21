@@ -51,7 +51,7 @@ class PostsController extends Controller
     }
 
     public function store(Request $request){
-        $uploadFiles = $request->wysiwygData;
+        dd($request);
         $content= $request->content;
       
         //サムネイル格納
@@ -67,7 +67,6 @@ class PostsController extends Controller
             function ($constraint) {
                 // アスペクト比は変更させない
                 $constraint->aspectRatio();
-
                 // 指定横幅より小さい画像は変更しない
                 $constraint->upsize();
             }

@@ -276,6 +276,8 @@ function yyyymmddhhss(date){
   return formatDate;
 }
 
+
+
 function addClassPage(){
   $(function(){
     let $markupElements = $("pre");

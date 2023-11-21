@@ -1,20 +1,16 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, {useState } from 'react';
-import {useForm, router, Link, usePage  } from '@inertiajs/react';
-import $ from "jquery";
-
+import {useForm, router, Link, usePage, Head  } from '@inertiajs/react';
 import {editorConfiguration} from '@/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
-
+import { FiSave } from "react-icons/fi";
+import Dropdown from '@/Components/Dropdown';
 import { formatinputDate } from '@/script';
 
-
-
 export default function Create({auth}){    
-
-    
+   
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState("");
     const {post} = usePage().props;
@@ -28,15 +24,18 @@ export default function Create({auth}){
         keywords:"",
         thumbnail:"",
         is_show:0,
-        wysiwygData:{},
         published_at:formatinputDate(new Date()),
         is_preview:0,
         is_continue:0,
     });
-    const [content, setContent] = useState( '');
-    const submit = (e) => {
+    editorConfiguration['autosave'] = {
+        save( editor ) {
+            
+            return saveData(editor.getData() );
+        }
+    };
+    function handleSubmit(e){
         e.preventDefault();
-
         if(data.is_continue == 1){
             router.post(route('page.store'), data,{preserveScroll:true});
         }else{
@@ -44,19 +43,13 @@ export default function Create({auth}){
         }
         
     };
-    function onClickSubmit(e){
-        e.preventDefault();
-        let content = $(".ql-editor").html();
-        setData("content", content);
-        console.log(data);
     
-    }
     function handleChange(e){
         if(post){
             setData('id',post.id);
             setData('is_continue',0);
         }
-        
+        console.log(e)
         const key = e.target.id;
         const value =e.target.value;
         setData(data => ({
@@ -65,59 +58,102 @@ export default function Create({auth}){
         }))
         console.log(data);
     }
-    
-    function handleClickPreview(e){      
+    function handleClickPreview(){      
         setData('is_preview', 1);
     }
-        
+    function saveData( tempData ) {
+        setData('is_continue', 1);
+        return new Promise( resolve => {
+            setTimeout( () => {
+                setData('content', "うんこs");
+               //router.post(route('page.store'), data,{preserveScroll:true});
+               console.log(data);
+                resolve();
+            },  500 );
+        });
+    }
+
+    function displayStatus( editor ) {
+        const pendingActions = editor.plugins.get( 'PendingActions' );
+        const statusIndicator = document.querySelector( '#editor-status' );
+    
+        pendingActions.on( 'change:hasAny', ( evt, propertyName, newValue ) => {
+            if ( newValue ) {
+                statusIndicator.classList.add( 'busy' );
+            } else {
+                statusIndicator.classList.remove( 'busy' );
+            }
+        } );
+    }
+
     return(
-        <AuthenticatedLayout 
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+        <AuthenticatedLayout user={auth.user} >
+            <Head title="新規投稿" />
+            <div  className="post_icon">
+                <div className='post_icon_item'>
+                    <Dropdown align='right'>
+                        <Dropdown.Trigger>
+                            <span className="">
+                                <FiSave />
+                            </span>
+                        </Dropdown.Trigger>
+                        <Dropdown.Content>
+                            <a href={route('page',{is_preview:data.is_preview,data:data})}
+                                target='_blank' id='is_preview' onClick={handleClickPreview}
+                                className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
+                                Preview
+                            </a>
+                            <button type="submit" value="0" form='form' id="is_show" disabled={processing} onClick={handleChange}  className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
+                                Draft
+                            </button>
+                            <button type="submit" value="1" form='form' id="is_show" disabled={processing} onClick={handleChange} className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
+                                Publish
+                            </button>
+                        </Dropdown.Content>
+                    </Dropdown>
+                </div>
+            </div>
             <div className="create">
                 <section className="section">
                 <h1 className="section_title">
-                    <div className="section_title_jp">新規投稿</div>
+                    <div className="section_title_jp">New Post</div>
                 </h1>
-                <form onSubmit={submit} method='post' className='form_control admin-content' encType="multipart/form-data" >
+                <form onSubmit={handleSubmit} method='post' id='form' className='form_control admin-content' encType="multipart/form-data" >
                     <div className='main'>
                         <div  className="form_control_item">
-                            <label htmlFor="title" >タイトル</label>
+                            <label htmlFor="title" >Title</label>
                             <input type="text" id="title" className="form_control_item_input" value={data.title} 
                                 onChange={handleChange}  disabled={processing}
                             />
                         </div>     
-   
                         <div className="form_control_item page_content">
-                            <label htmlFor="content" >内容</label>
-                            <div className='article_content ck-content edit'>
+                            <label htmlFor="content" >Content</label>
+                            <div className='article_content edit'>
                             <CKEditor
                                 editor={ ClassicEditor }
                                 config={ editorConfiguration }
-                                data=''
+                                data=""
                                 onChange={ ( event, editor ) => {
-                                    setData('content', editor.getData());
+                                    
+                                    setData('content', editor.getData())
                                 } }
 
                             />
-                            </div>
-                         
-                            
+                            </div>                     
                         </div>
                     </div>
                     <div className='sub'>
                         <div  className="form_control_item">
-                            <label htmlFor="published_at">投稿日付</label>
+                            <label htmlFor="published_at">Publish Date</label>
                             <input type='datetime-local' className="form_control_item_select" 
                                 value={formatinputDate(data.published_at)}
                                 name='published_at' id='published_at' onChange={handleChange}
                              />
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="category">カテゴリ</label>
+                            <label htmlFor="category">Category</label>
                             <select className="form_control_item_select" value={data.category}
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
-                                
                             >
                                 <option value="1">wiki</option>
                                 <option value="2">Note</option>
@@ -127,10 +163,9 @@ export default function Create({auth}){
                             </select>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="tag" >タグ</label>
+                            <label htmlFor="tag" >Tag</label>
                             <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
                                 value={data.tag} onChange={(e)=>handleChange(e)}
-                            
                             />
                             <datalist id='tag_list'>
                                 <option value='tag1' />
@@ -138,7 +173,7 @@ export default function Create({auth}){
                             </datalist>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="keywords" >キーワード</label>
+                            <label htmlFor="keywords" >Keywords</label>
                             <input name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
                                 value={data.keywords} onChange={(e)=>handleChange(e)}
                                 
@@ -149,55 +184,29 @@ export default function Create({auth}){
                             </datalist>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="thumbnail" >サムネイル</label>
+                            <label htmlFor="thumbnail" >Thumbnail</label>
                             <input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
                             value={thumbnailValue} 
                            
                             onChange={(e)=>{
                                 setThumbnailValue(e.target.value);
                                 setData("thumbnail", e.target.files[0]);
-                                setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));
-                                
+                                setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));    
                             }} />
                             <div className="form_control_item_input_preview">
                                 {thumbnailPreview && <img src={thumbnailPreview} /> }
                             </div>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="excerpt" >抜粋</label>
+                            <label htmlFor="excerpt" >Summary</label>
                             <textarea id="excerpt" name='excerpt' className="form_control_item_input"  
                              rows="5" value={data.excerpt} onChange={handleChange} >
                             </textarea>
                         </div>
-                        <div  className="form_control_item button">
-                            <button type="submit" value="1" id="is_continue" 
-                                className="form_control_item_submit" onClick={onClickSubmit}>
-                            一時保存
-                            </button>
-                            <a href={route('page',
-                                {
-                                 is_preview:data.is_preview,
-                                 data:data
-                                }
-                            )} target='_blank'
-                                className="form_control_item_submit" 
-                                id='is_preview' onClick={handleClickPreview}
-                            >
-                                プレビュー
-                            </a>
-                        </div>
+                        
                     </div>
 
-                        <div  className="form_control_item button">
-                            <button type="submit" value="0" className="form_control_item_submit" 
-                            id="is_show" disabled={processing} onClick={handleChange}>
-                            下書
-                            </button>
-                            <button type="submit" value="1" className="form_control_item_submit" 
-                            id="is_show" onClick={handleChange} disabled={processing}>
-                            公開
-                            </button>
-                        </div>
+                        
                             {progress && (
                                     <progress value={progress.percentage} max="100">
                                         {progress.percentage}%

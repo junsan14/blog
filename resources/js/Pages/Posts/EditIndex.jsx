@@ -1,5 +1,5 @@
 import parse from 'html-react-parser';
-import { usePage, Link,useForm,router  } from '@inertiajs/react'
+import { usePage, Link, Head, router  } from '@inertiajs/react'
 import React, {useEffect, useState,useRef } from "react";
 import $ from 'jquery';
 import {BsSearch} from 'react-icons/bs';
@@ -134,10 +134,8 @@ export default function Blog({auth}) {
      }
 
 	return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
+        <AuthenticatedLayout user={auth.user}>
+            <Head title="Admin TOP" />
                 <section className="section blog editIndex">
                     <h1 className="section_title">
                     <div className="section_title_jp">編集画面</div>

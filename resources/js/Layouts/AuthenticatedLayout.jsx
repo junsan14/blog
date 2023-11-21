@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
-import { Link } from '@inertiajs/react';
+import { Link,usePage } from '@inertiajs/react';
 import { CgProfile} from 'react-icons/cg';
 import { RxHome} from 'react-icons/rx';
 import { BsClipboardPlus} from 'react-icons/bs';
@@ -9,7 +9,8 @@ import {FaRegListAlt} from 'react-icons/fa';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-    
+    let uri =usePage().component;
+ 
     return (
         <>
             <header className="header auth">
@@ -45,6 +46,8 @@ export default function Authenticated({ user, header, children }) {
                             </Dropdown.Content>
                         </Dropdown>
                     </li>
+
+
                 </ul>
             </header>           
                         

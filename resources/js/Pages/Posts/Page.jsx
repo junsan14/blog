@@ -1,6 +1,6 @@
 import {ModalShow,formatDate, addClassPage} from "@/script.jsx";
 import {usePage } from '@inertiajs/react'
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import parse from 'html-react-parser';
 import $ from 'jquery';
@@ -9,12 +9,9 @@ import {MdAccessTime,MdUpdate} from 'react-icons/md';
 export default function Page() {
 
     const pageData = usePage().props.post[0]? usePage().props.post[0]:usePage().props.post ;
-    const [isModalOpen,setIsModalOpen] = useState(false);
-    const [inProp, setInProp] = useState(false);
 
     const Renderpagedata = ()=>{
     //記事のスタイル装飾
-   
     addClassPage();
    
     return(

@@ -189,7 +189,7 @@ img{
 	}
 	&.auth{
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 		height: 80px;
 		width: 100%;
 		position: fixed;
@@ -200,17 +200,24 @@ img{
 			align-items: center;
 			justify-content: center;
 			width: 20%;
+			margin-left: 80px;
 			@include mq(tab){
-				width: 50%;
+				width: 80%;
+				margin-left: 10px;
 			}
 			
 			&_li{
 				width: 100%;
 				margin: 0 auto;
-				
+				text-align: center;
+				a{
+					display: inline-block;
+				}
 				&_icon{
 					font-size: 1.5em;
 					transition: .5s all;
+					width: 100%;
+				
 					&:hover{
 						cursor: pointer;
 						color: rgba(#111,.3);
@@ -569,6 +576,7 @@ img {
 					}
 				}
 				&.edit{
+					
 					&:hover{
 						box-shadow:none;
 						transform: none;
@@ -1258,8 +1266,15 @@ img {
 		margin-top: 0px;
 	}
 	&_content{
+		.ck-editor{
+			&__editable_inline {
+				min-height: 500px;
+			}
+			@include mq(sp){
+				font-size: 16px;
+			}
+		}
 		.article, .ck-editor{
-			font-size: 16px;
 			&_date{
 				display: flex;
 				align-items: center;
@@ -1290,6 +1305,7 @@ img {
 				margin-top: 50px;
 				line-height: 30px;
 				&.create,&.edit{
+					margin-top: 20px;
 					width: 100%;
 				}
 			
@@ -1466,10 +1482,7 @@ img {
 							transition: .3s ease;
 							background: #fff;	
 						}
-					}
-					
-						
-						
+					}	
 				}
 			}
 			}
@@ -1514,6 +1527,34 @@ img {
 
 
 //form
+.post_icon{
+	z-index: 200;
+	width: 5%;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top:27px;
+	left: 28%;
+	@include mq(tab){
+		left:93%;
+	}
+	&_item{
+		margin-right: 30px;
+		font-size: 1.5em;
+		transition: .5s all ease;
+		position: relative;
+		&:hover{
+			cursor: pointer;
+			color: rgba(#111,.3);
+			transition: .5s all;
+		}
+		&_dropdown{
+			position: relative;
+		}
+		
+	}
+}
 .form_control{
 	width:100%;
 	margin: 0 auto;
@@ -1596,11 +1637,25 @@ img {
 				color: #111;
 			}
 		}
-		&.button{
+		&.sub-button-area{
+			
+			& button,a{
+			
+	
+				&:disabled{
+					cursor: none;
+				}
+				@include mq(sp){
+					margin-left: 0;
+				}
+			}
+		}
+		&.main-button-area{
 			width: auto;			
 			display: flex;
 			margin-left: auto;
-
+			position: fixed;
+			z-index: 100;
 			@include mq(sp){
 				width: calc(100%);
 				justify-content: space-between;
