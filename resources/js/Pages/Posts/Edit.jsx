@@ -166,6 +166,7 @@ export default function Update({auth}){
                         </div>
                 
                         <div className="form_control_item page_content" >
+                        <div className='article_content edit '>
                             <label htmlFor="content" >内容</label>
                             <CKEditor
                                 editor={ ClassicEditor }
@@ -177,7 +178,7 @@ export default function Update({auth}){
                                 } }
 
                             />
-                         
+                        </div>
                             
                         </div>
                     </div>

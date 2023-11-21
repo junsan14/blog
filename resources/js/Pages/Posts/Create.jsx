@@ -90,7 +90,7 @@ export default function Create({auth}){
    
                         <div className="form_control_item page_content">
                             <label htmlFor="content" >内容</label>
-                    
+                            <div className='article_content ck-content'>
                             <CKEditor
                                 editor={ ClassicEditor }
                                 config={ editorConfiguration }
@@ -100,6 +100,7 @@ export default function Create({auth}){
                                 } }
 
                             />
+                            </div>
                          
                             
                         </div>

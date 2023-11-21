@@ -30,7 +30,7 @@ import {
 export const editorConfiguration = {
     plugins: [
         Essentials,
-        Autoformat,
+   
         Bold,
         Italic,
         BlockQuote,
