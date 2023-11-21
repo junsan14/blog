@@ -77,27 +77,6 @@ class PostsController extends Controller
         }else{
             $thumbnailPath ='/storage/images/blog/thumbnail/noImage.png';
         }
-        
-        if($uploadFiles){
-            foreach($uploadFiles as $uploadFile){
-                $fileName = $uploadFile->getClientOriginalName();
-                $path = str_replace('public', '/storage',$uploadFile
-                        ->storeAs('public/images/blog/post',$fileName));
-                $base64 = array_search($uploadFile, $uploadFiles);
-                $content = str_replace($base64,$path,$content);
-                $image = InterventionImage::make(public_path($path));
-                $image->resize(600, null,
-                function ($constraint) {
-                    // アスペクト比は変更させない
-                    $constraint->aspectRatio();
-    
-                    // 指定横幅より小さい画像は変更しない
-                    $constraint->upsize();
-                }
-                );
-                $image->save();
-            }
-        }
        
         Blog::updateOrCreate(
             ['id'=> $request->id],

@@ -53,11 +53,11 @@ $config['privateDir'] = array(
 $config['images'] = array(
     'maxWidth'  => 1600,
     'maxHeight' => 1200,
-    'quality'   => 80,
+    'quality'   => 30,
     'sizes' => array(
-        'small'  => array('width' => 480, 'height' => 320, 'quality' => 80),
-        'medium' => array('width' => 600, 'height' => 480, 'quality' => 80),
-        'large'  => array('width' => 800, 'height' => 600, 'quality' => 80)
+        'small'  => array('width' => 480, 'height' => 320, 'quality' => 30),
+        'medium' => array('width' => 600, 'height' => 480, 'quality' => 30),
+        'large'  => array('width' => 800, 'height' => 600, 'quality' => 30)
     )
 );
 
