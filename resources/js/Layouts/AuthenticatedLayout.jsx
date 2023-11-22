@@ -17,7 +17,7 @@ export default function Authenticated({ user, header, children }) {
                 <ul className='header_ul'>
                     <li className='header_ul_li'>
                         <Link href='/'>
-                            <RxHome className='header_ul_li_icon'/>
+                            <RxHome className='header_ul_li_icon' />
                         </Link>
                     </li>
                     <li className='header_ul_li'>

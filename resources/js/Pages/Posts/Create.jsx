@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, {useState } from 'react';
 import {useForm, router, Link, usePage, Head  } from '@inertiajs/react';
-import {editorConfiguration} from '@/ckeditor'
+import {editorConfiguration,editorConfigurationThumbnail} from '@/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { FiSave } from "react-icons/fi";
@@ -30,8 +30,9 @@ export default function Create({auth}){
     });
     editorConfiguration['autosave'] = {
         save( editor ) {
-            
-            return saveData(editor.getData() );
+            //setData('content', editor.getData())
+            console.log(data)
+            //return saveData(editor.getData() );
         }
     };
     function handleSubmit(e){
@@ -49,14 +50,14 @@ export default function Create({auth}){
             setData('id',post.id);
             setData('is_continue',0);
         }
-        console.log(e)
+        //console.log(e)
         const key = e.target.id;
         const value =e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-        console.log(data);
+        //console.log(data);
     }
     function handleClickPreview(){      
         setData('is_preview', 1);
@@ -67,7 +68,7 @@ export default function Create({auth}){
             setTimeout( () => {
                 setData('content', "うんこs");
                //router.post(route('page.store'), data,{preserveScroll:true});
-               console.log(data);
+               
                 resolve();
             },  500 );
         });
@@ -127,18 +128,17 @@ export default function Create({auth}){
                             />
                         </div>     
                         <div className="form_control_item page_content">
-                            <label htmlFor="content" >Content</label>
+                            <label htmlFor="content"  style={{marginBottom:'20px'}} >Content</label>
                             <div className='article_content edit'>
-                            <CKEditor
-                                editor={ ClassicEditor }
-                                config={ editorConfiguration }
-                                data=""
-                                onChange={ ( event, editor ) => {
-                                    
-                                    setData('content', editor.getData())
-                                } }
+                                <CKEditor
+                                    editor={ ClassicEditor }
+                                    config={ editorConfiguration }
+                                    data=""
+                                    onChange={ ( event, editor ) => {
+                                        setData('content', editor.getData())
+                                    } }
 
-                            />
+                                />
                             </div>                     
                         </div>
                     </div>
@@ -184,20 +184,17 @@ export default function Create({auth}){
                             </datalist>
                         </div>
                         <div  className="form_control_item">
-                            <label htmlFor="thumbnail" >Thumbnail</label>
-                            <input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
-                            value={thumbnailValue} 
-                           
-                            onChange={(e)=>{
-                                setThumbnailValue(e.target.value);
-                                setData("thumbnail", e.target.files[0]);
-                                setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));    
-                            }} />
-                            <div className="form_control_item_input_preview">
-                                {thumbnailPreview && <img src={thumbnailPreview} /> }
-                            </div>
+                            <label htmlFor="thumbnail" style={{marginBottom:'20px'}} >Thumbnail</label>
+                            <CKEditor
+                                editor={ ClassicEditor }
+                                config={ editorConfigurationThumbnail }
+                                data=""
+                                onChange={ ( event, editor ) => {  
+                                    setData('thumbnail', editor.getData())
+                                } }
+                            />
                         </div>
-                        <div  className="form_control_item">
+                        <div  className="form_control_item"  style={{marginTop:'20px'}}>
                             <label htmlFor="excerpt" >Summary</label>
                             <textarea id="excerpt" name='excerpt' className="form_control_item_input"  
                              rows="5" value={data.excerpt} onChange={handleChange} >
@@ -259,3 +256,19 @@ const insertToEditor = (url) => {
         }
         };
     };
+
+
+/*
+<input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
+                            value={thumbnailValue} 
+                           
+                            onChange={(e)=>{
+                                setThumbnailValue(e.target.value);
+                                setData("thumbnail", e.target.files[0]);
+                                setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));    
+                            }} />
+                            <div className="form_control_item_input_preview">
+                                {thumbnailPreview && <img src={thumbnailPreview} /> }
+                            </div>
+
+            */

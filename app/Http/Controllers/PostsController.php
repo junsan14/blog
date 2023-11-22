@@ -51,30 +51,13 @@ class PostsController extends Controller
     }
 
     public function store(Request $request){
-        dd($request);
+
         $content= $request->content;
-      
+        $thumbnailPath = $request->thumbnail;
+        //dd(isset($thumbnailPath));
         //サムネイル格納
-        if($request->file('thumbnail')){
-            
-            $thumbnailName = $request->file('thumbnail')->getClientOriginalName();  
-
-            $thumbnailPath =str_replace('public', '/storage',$request->file('thumbnail')
-                            ->storeAs('public/images/blog/thumbnail',$thumbnailName));
-
-            $image = InterventionImage::make(public_path($thumbnailPath));
-            $image->resize(600, null,
-            function ($constraint) {
-                // アスペクト比は変更させない
-                $constraint->aspectRatio();
-                // 指定横幅より小さい画像は変更しない
-                $constraint->upsize();
-            }
-            );
-            $image->save();
-
-        }else{
-            $thumbnailPath ='/storage/images/blog/thumbnail/noImage.png';
+        if(!isset($thumbnailPath)){
+            $thumbnailPath ='<img src="/userfiles/images/noImage.png" alt="">';
         }
        
         Blog::updateOrCreate(
@@ -107,7 +90,8 @@ class PostsController extends Controller
     }
 
     public function editIndex(){
-        return Inertia::render('Posts/EditIndex',['posts'=>new BlogCollection(Blog::latest()->get())]);
+        return Inertia::render('Posts/EditIndex',['loadPosts'=>new BlogCollection(Blog::latest()->get())]);
+
     }
     
     public function edit(Request $request) {
@@ -179,8 +163,15 @@ class PostsController extends Controller
     }
     public function destroy(Request $request)
     {
+        dd($request);
         $id = $request->query('id');
-        Blog::where('id', $id)->delete();   
-        return back();
+        Blog::where('id', $id)->delete(); 
+
+        if($request->query(url) == 'Posts/EditIndex'){
+            return back();
+        }else{
+            return redirect();
+        }
+       
     }
 }

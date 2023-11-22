@@ -1,12 +1,12 @@
 import { usePage, Link, Head} from '@inertiajs/react'
 import React, {useEffect, useState,useRef } from "react";
 import $ from 'jquery';
-import search from '@/images/search.png';
 import {fixedSearch,formatDate } from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
 import {MdAccessTime} from 'react-icons/md';
 import {AiOutlineClear} from 'react-icons/ai';
+import parse from 'html-react-parser';
 
 export default function Blog() {
     fixedSearch();
@@ -90,7 +90,7 @@ console.log(loadPosts);
                         <div className="article fade" id={id} key={id}>
                             <Link href="/blog/page" data={{ id: id }} className='article_link'>
                                 <div className="article_link_img">
-                                    <img className="thumbnail" src={thumbnail} alt="" />
+                                    {parse(thumbnail)}
                                 </div>
                                 <div className="article_link_remarks">
                                     <h3 className="article_link_remarks_title">{title}</h3>

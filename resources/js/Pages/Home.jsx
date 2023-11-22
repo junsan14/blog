@@ -5,6 +5,7 @@ import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 import {formatDate } from "@/script";
 import {Instagram} from "@/Components/Sns";
 import {MdUpdate} from 'react-icons/md';
+import parse from 'html-react-parser';
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;
@@ -19,7 +20,7 @@ export default function Home() {
                     <div className="article" id={id} key={id}>
                         <Link href="/blog/page" data={{ id: id }} className='article_link'>
                             <div className="article_link_img">
-                                <img className="thumbnail" src={thumbnail} alt="" />
+                                {parse(thumbnail)}
                             </div>
                             <div className="article_link_remarks">
                                 <h3 className="article_link_remarks_title">{title}</h3>

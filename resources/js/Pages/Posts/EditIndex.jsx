@@ -6,6 +6,7 @@ import {BsSearch} from 'react-icons/bs';
 import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
 import { ModalShow,fixedSearch,formatDate} from "@/script";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import {AiOutlineClear} from 'react-icons/ai';
 
 import { FaTrash,FaEdit } from 'react-icons/fa';
 import {MdAccessTime,MdUpdate} from 'react-icons/md';
@@ -16,13 +17,15 @@ export default function Blog({auth}) {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('');
     const [tagid,setTagid] = useState('');
-    const loadPosts = usePage().props.posts.data;
+    const loadPosts = usePage().props.loadPosts.data;
+    const uri = usePage().component;
+   //const loadPosts = usePage().props.posts.data;
     const [posts, setPosts] = useState(loadPosts);
-    console.log(loadPosts);
+    //console.log(uri);
     useEffect(() => { 
         setPosts(loadPosts);
         if(keyword){   
-            setPosts(loadPosts.filter(post => post.keywords.indexOf(keyword) !==-1 ));
+            setPosts(loadPosts.filter(post => String(post['keywords']).indexOf(keyword) !==-1 ));
         }else if(category){
             setPosts(loadPosts.filter(post => post.category === category));
            
@@ -45,7 +48,8 @@ export default function Blog({auth}) {
      const handleClickDelete = (e)=>{
         
         let id = e.currentTarget.id;
-        router.delete(`/blog/admin/editIndex?id=${id}`, {
+        
+        router.delete(`/blog/admin/editIndex?id=${id}/uri?${uri}`, {
             onBefore: () => confirm('本当に削除してよろしいですか?'),
             preserveScroll: true 
         })
@@ -92,7 +96,7 @@ export default function Blog({auth}) {
                             
                             <div className='article_link'>
                                 <div className="article_link_img">
-                                    <img className="thumbnail" src={thumbnail} alt="" />
+                                    {parse(thumbnail)}
                                 </div>
                                 <div className="article_link_remarks">
                                     <h3 className="article_link_remarks_title">{title}</h3>
@@ -162,10 +166,12 @@ export default function Blog({auth}) {
                             }}>Diary
                         </li>
                     </ul>
-                    <div className="search_area js-search_area">
-                        <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>リセット</button>
+                    <div className="search_area js-search_area edit">
+                        <button type="button" className="search_area_reset js-search_area_reset edit" value="RESET" onClick={reset}>
+                            <AiOutlineClear />
+                        </button>
                         <BsSearch className="search_area_icon js-search_area_icon"/>
-                        <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
+                        <input list="tag-list"  className="search_area_input js-search_area_input edit" id="tag-choice" 
                             name="tag-choice" placeholder=""  
                             onChange={(e)=>{
                                 setKeyword(e.target.value);

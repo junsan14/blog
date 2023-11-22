@@ -105,6 +105,26 @@ export const editorConfiguration = {
     
 };
 
+export const editorConfigurationThumbnail = {
+    plugins: [
+        ImageUpload,
+        Image,
+        UploadAdapter,
+        CKFinder,
+        Link,
+     ],
+    toolbar: [
+        'imageUpload',
+        'CKFinder',
+     ],
+
+     ckfinder:{
+        uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
+    },
+
+    
+    
+};
 
 
 

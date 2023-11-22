@@ -2,7 +2,7 @@
 import { usePage, Link,useForm,router, Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useState } from 'react';
-import {editorConfiguration} from '@/ckeditor'
+import {editorConfiguration,editorConfigurationThumbnail} from '@/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { formatinputDate } from '@/script';
@@ -52,6 +52,15 @@ export default function Update({auth}){
         setData('is_preview', 1);
     }
 
+    const handleClickDelete = (e)=>{
+        
+        let id = e.currentTarget.id;
+        router.delete(`/blog/admin/editIndex?id=${data.id}`, {
+            onBefore: () => confirm('本当に削除してよろしいですか?'),
+            preserveScroll: true 
+        })
+       
+     }
 
          
     return(
@@ -75,7 +84,10 @@ export default function Update({auth}){
                                 Draft
                             </button>
                             <button type="submit" value="1" form='form' id="is_show" disabled={processing} onClick={handleChange} className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
-                                Publish
+                                Update
+                            </button>
+                            <button disabled={processing} onClick={handleClickDelete}  className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
+                                Delete
                             </button>
                         </Dropdown.Content>
                     </Dropdown>
@@ -95,7 +107,7 @@ export default function Update({auth}){
                             </div>
                             <div className="form_control_item page_content" >
                                 <div className='article_content edit '>
-                                    <label htmlFor="content" >Content</label>
+                                    <label htmlFor="content"  style={{marginBottom:'20px'}}>Content</label>
                                     <CKEditor
                                         editor={ ClassicEditor }
                                         config={ editorConfiguration }
@@ -146,19 +158,18 @@ export default function Update({auth}){
                                 </datalist>
                             </div>
                             <div  className="form_control_item">
-                                <label htmlFor="thumbnail" >Thumbnail</label>
-                                <input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
-                                value={thumbnailValue} onChange={(e)=>{
-                                    setThumbnailValue(e.target.value);
-                                    setData("thumbnail", e.target.files[0]);
-                                    setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));
-                                    //console.log(data);
-                                }} />
-                                <div className="form_control_item_input_preview">
-                                    <img src={thumbnailPreview} />
-                                </div>
+                                <label htmlFor="thumbnail"  style={{marginBottom:'20px'}} >Thumbnail</label>
+                                <CKEditor
+                                    editor={ ClassicEditor }
+                                    config={ editorConfigurationThumbnail }
+                                    data={data.thumbnail}
+                                   
+                                    onChange={ ( event, editor ) => {  
+                                        setData('thumbnail', editor.getData())
+                                    } }
+                                />
                             </div>
-                            <div  className="form_control_item">
+                            <div  className="form_control_item" style={{marginTop:'20px'}}>
                                 <label htmlFor="excerpt" >Summary</label>
                                 <textarea id="excerpt" name='excerpt' className="form_control_item_input"  
                                 rows="5" value={data.excerpt} onChange={handleChange} >

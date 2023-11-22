@@ -217,7 +217,8 @@ img{
 					font-size: 1.5em;
 					transition: .5s all;
 					width: 100%;
-				
+					
+					
 					&:hover{
 						cursor: pointer;
 						color: rgba(#111,.3);
@@ -401,8 +402,8 @@ img {
 			width: 100%;
 		}
 		padding: 0 80px;
-		@include mq(sp){
-			padding: 0 5px;
+		@include mq(tab){
+			padding: 0 10px;
 		}
 	}
 
@@ -506,6 +507,12 @@ img {
 					box-sizing: border-box;
 		
 				}
+				&_id{
+					font-size: .7em;
+					display: flex;
+					align-items: center;
+					margin-left: 5px;
+				}
 				&_link{
 					display: flex;
 					align-items: center;	
@@ -522,6 +529,7 @@ img {
 						text-align:center;
 						display: flex;
 						justify-content: center;
+						align-items: center;
 						img{
 							width:80%;
 							height:80%;
@@ -530,6 +538,7 @@ img {
 							border-radius: 5px 0 0 5px;
 							@include mq(tab){
 								width:75%;
+								height: 50%;
 							}
 						}
 
@@ -635,6 +644,13 @@ img {
 				height:50px;
 				left:20px;
 				width: calc(100% - 150px);
+				&.edit{
+					position:relative;
+					width: 100%;
+					margin-bottom: 50px;
+					left: 0;
+			
+				}
 		}
 
 		&.show{
@@ -649,7 +665,7 @@ img {
 			width:30px;
 			height:auto;
 			position:absolute;
-			z-index:50;
+			z-index:500;
 			transition:.5s ease;
 			top:10px;
 			right:calc(50% - 90px);
@@ -661,6 +677,7 @@ img {
 			&.fixed{
 				transition:.5s ease;
 				opacity:0;
+				
 			}
 		}
 		&_input{
@@ -677,10 +694,18 @@ img {
 			padding-left: 10px;
 			transition:1s ease;
 			z-index: 100;
+			&.edit{
+				@include mq(tab){
+					border: 1px;
+					
+				}
+			}
 			@include mq(tab){
 				width: 100%;
 				border: none;
+				font-size: 16px;
 			}
+			
 			&:focus{
 				outline: none;
 				border: $focus-style;
@@ -688,6 +713,7 @@ img {
 				@include mq(tab){
 					outline: none;
 					border: none;
+					width: 100%;
 				}
 			}
 		}
@@ -698,10 +724,21 @@ img {
 			right: 3px;
 			transition: .5s ease;
 			z-index: 100;
+			&.edit{
+				@include mq(tab){
+					top: 55px;
+					right: 30px;
+					opacity: 0;
+					font-size: 0.5em;
+					font-size: 1.5em;
+				}
+			}
 			@include mq(tab){
 				top: 15px;
-				right: -30px;
+				right: 30px;
 				opacity: 0;
+				font-size: 0.5em;
+				font-size: 1.5em;
 			}
 			&.show{
 				@include mq(tab){
@@ -717,6 +754,7 @@ img {
 			}
 
 		}
+		
 		
 	}
 	.tab{
@@ -1261,10 +1299,12 @@ img {
 
 }
 //Page
+
 .page{
 	.section_content_title{
 		margin-top: 0px;
 	}
+	
 	&_content{
 		.ck-editor{
 			&__editable_inline {
@@ -1294,9 +1334,6 @@ img {
 					margin-bottom: 5px;
 				}
 				
-			}
-			.ck-label{
-				display: none;
 			}
 			&_content{
 				width: 80%;
@@ -1498,7 +1535,7 @@ img {
 		flex-wrap: wrap;
 		justify-content: space-between;
 		label{
-			display: block;
+			
 		}
 		select{
 			width: 100%;
@@ -1705,6 +1742,10 @@ img {
 		overflow-y: auto;
 		width: 100%;
 	}
+}
+
+.ck-label{
+	display: none;
 }
 
 
