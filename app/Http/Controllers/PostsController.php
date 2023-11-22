@@ -101,25 +101,12 @@ class PostsController extends Controller
     }
 
     public function update(Request $request){
-        $uploadFiles = $request->wysiwygData;
         $content= $request->content;
-        if($request->file('thumbnail')){
-            $thumbnailName = $request->file('thumbnail')->getClientOriginalName();  
-            $thumbnailPath =str_replace('public', '/storage',$request->file('thumbnail')
-                            ->storeAs('public/images/blog/thumbnail',$thumbnailName));
-        }else{
-            $thumbnailPath = $request->thumbnail;
-        }
-
-   
-        if($uploadFiles){
-            foreach($uploadFiles as $uploadFile){
-                $fileName = $uploadFile->getClientOriginalName();
-                $path = str_replace('public', '/storage',$uploadFile
-                        ->storeAs('public/images/blog/post',$fileName));
-                $base64 = array_search($uploadFile, $uploadFiles);
-                $content = str_replace($base64,$path,$content);
-            }
+        $thumbnailPath = $request->thumbnail;
+        //dd(isset($thumbnailPath));
+        //サムネイル格納
+        if(!isset($thumbnailPath)){
+            $thumbnailPath ='<img src="/userfiles/images/noImage.png" alt="">';
         }
            
             $post = Blog::where('id', $request->id)->update([
@@ -163,14 +150,14 @@ class PostsController extends Controller
     }
     public function destroy(Request $request)
     {
-        dd($request);
+        //dd($request);
         $id = $request->query('id');
         Blog::where('id', $id)->delete(); 
 
-        if($request->query(url) == 'Posts/EditIndex'){
+        if($request->query('url') == 'Posts/EditIndex'){
             return back();
         }else{
-            return redirect();
+            return Redirect::to('/blog/admin/editIndex');
         }
        
     }

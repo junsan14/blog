@@ -20,12 +20,12 @@ export default defineConfig({
 
     ],
     server: {
-       
+       /*
         hmr: {
             clientPort: 5173,
             host: '192.168.40.25',
         }
-        
+        */
     },
 
     

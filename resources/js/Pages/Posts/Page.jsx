@@ -1,9 +1,8 @@
 import {ModalShow,formatDate, addClassPage} from "@/script.jsx";
-import {usePage } from '@inertiajs/react'
-import {useState} from 'react';
+import {usePage,Head } from '@inertiajs/react'
 import GuestLayout from '@/Layouts/GuestLayout';
 import parse from 'html-react-parser';
-import $ from 'jquery';
+
 import {MdAccessTime,MdUpdate} from 'react-icons/md';
 
 export default function Page() {
@@ -41,6 +40,10 @@ export default function Page() {
       }
 	return (
     <GuestLayout>
+        <Head>
+            <title>{pageData.title}</title>
+            <meta name="description" content={pageData.excerpt} />
+        </Head>
 			  <div className="section_content page_content">
           <Renderpagedata />
 		    </div>

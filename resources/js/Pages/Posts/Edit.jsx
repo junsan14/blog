@@ -13,7 +13,7 @@ export default function Update({auth}){
     const editPost = usePage().props.post[0];
     const [thumbnailValue,setThumbnailValue] =useState("");
     const [thumbnailPreview, setThumbnailPreview] = useState(editPost.thumbnail);
-
+    const uri = usePage().component;
 
     const { data, setData, progress, processing} = useForm({
         id:editPost.id,
@@ -22,7 +22,7 @@ export default function Update({auth}){
         excerpt:editPost.excerpt,
         category:editPost.category,
         tag:editPost.tag,
-        keywords:editPost.keyword,
+        keywords:editPost.keywords,
         thumbnail:editPost.thumbnail,
         is_show:1,
         published_at: editPost.published_at,
@@ -54,15 +54,15 @@ export default function Update({auth}){
 
     const handleClickDelete = (e)=>{
         
-        let id = e.currentTarget.id;
-        router.delete(`/blog/admin/editIndex?id=${data.id}`, {
+      
+        router.delete(route("page.destroy", {id:data.id, url:uri}), {
             onBefore: () => confirm('本当に削除してよろしいですか?'),
             preserveScroll: true 
         })
        
      }
 
-         
+         console.log(data)
     return(
         <AuthenticatedLayout user={auth.user}>
             <Head title="Edit Post" />
@@ -140,22 +140,19 @@ export default function Update({auth}){
                             </div>
                             <div  className="form_control_item">
                                 <label htmlFor="tag" >Tag</label>
-                                <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
-                                    value={data.tag} onChange={(e)=>handleChange(e)}
-                                />
-                                <datalist id='tag_list'>
-            
-                                </datalist>
+                                <textarea name="tag" id='tag' list="tag_list" className="form_control_item_input"
+                                    value={data.tag} onChange={(e)=>handleChange(e)} rows={5}
+                                >{data.tag}
+                                </textarea>
+
                             </div>
                             <div  className="form_control_item">
                                 <label htmlFor="keywords" >Keywords</label>
-                                <input name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
-                                    value={data.keywords} onChange={(e)=>handleChange(e)}
-                                />
-                                <datalist id='keyword_list'>
-                                    <option value='keyword1' />
-                                    <option value='keyword2' />
-                                </datalist>
+                                <textarea name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
+                                    value={data.keywords} onChange={(e)=>handleChange(e)} rows={5}
+                                >
+                                </textarea>
+                                
                             </div>
                             <div  className="form_control_item">
                                 <label htmlFor="thumbnail"  style={{marginBottom:'20px'}} >Thumbnail</label>

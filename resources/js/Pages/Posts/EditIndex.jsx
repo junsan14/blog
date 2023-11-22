@@ -48,8 +48,7 @@ export default function Blog({auth}) {
      const handleClickDelete = (e)=>{
         
         let id = e.currentTarget.id;
-        
-        router.delete(`/blog/admin/editIndex?id=${id}/uri?${uri}`, {
+        router.delete(route("page.destroy", {id:id, url:uri}), {
             onBefore: () => confirm('本当に削除してよろしいですか?'),
             preserveScroll: true 
         })
@@ -90,38 +89,37 @@ export default function Blog({auth}) {
                 {posts.map(({id, title, content,excerpt,thumbnail,created_at,updated_at,published_at,is_show} )=> {
                     return(
                         <div className={is_show?'article edit': 'article edit unshown'} id={id} key={id}>
-                            <div className='article_id'>
+                            <div className='id'>
                                 {id}
                             </div>
-                            
-                            <div className='article_link'>
-                                <div className="article_link_img">
-                                    {parse(thumbnail)}
+                            <div className="remarks">
+                                <h3 className="remarks_title">{title}</h3>
+                                <div className="remarks_text">
+                                    {excerpt}
                                 </div>
-                                <div className="article_link_remarks">
-                                    <h3 className="article_link_remarks_title">{title}</h3>
-                                    <div className="article_link_remarks_text">
-                                        {excerpt}
-                                    </div>
-                                    <p className="article_link_remarks_date">
-                                        <MdUpdate />{formatDate(updated_at)} 
-                                        <MdAccessTime /> {formatDate(published_at)} 
-                                    </p>
+                            </div>
 
+                            <div className='right'>
+                                <div className='icon'>
+                                    <Link href="/blog/admin/edit" data={{ id: id }}>
+                                        <FaEdit className='icon'/>
+                                    </Link>
+                                    <button>
+                                        <ChangeVisibility props={[is_show,id]}/>
+                                    </button>
+                                    <button>
+                                        <FaTrash className='icon' id={id} onClick={(e)=>handleClickDelete(e)}/>
+                                    </button>
                                 </div>
+                                <div className="date">
+                                    <div>
+                                        <MdUpdate />{formatDate(updated_at)}
+                                    </div>
+                                    <div>
+                                        <MdAccessTime /> {formatDate(published_at)} 
+                                    </div>
+                                </div> 
                             </div>
-                            <div className='article_icon'>
-                                <Link href="/blog/admin/edit" data={{ id: id }}>
-                                    <FaEdit className='icon'/>
-                                </Link>
-                                <button>
-                                    <ChangeVisibility props={[is_show,id]}/>
-                                </button>
-                                <button>
-                                    <FaTrash className='icon' id={id} onClick={(e)=>handleClickDelete(e)}/>
-                                </button>
-                            </div>
-                            
                         </div>
                     )
                 })}
@@ -142,7 +140,7 @@ export default function Blog({auth}) {
             <Head title="Admin TOP" />
                 <section className="section blog editIndex">
                     <h1 className="section_title">
-                    <div className="section_title_jp">編集画面</div>
+                    <div className="section_title_jp">Admin</div>
                     </h1>
                     <ul className="category_tab tab">  
                         <li className="category_tab_li" tabIndex="-1" value="1" onClick={(e)=>{

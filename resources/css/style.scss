@@ -507,12 +507,6 @@ img {
 					box-sizing: border-box;
 		
 				}
-				&_id{
-					font-size: .7em;
-					display: flex;
-					align-items: center;
-					margin-left: 5px;
-				}
 				&_link{
 					display: flex;
 					align-items: center;	
@@ -531,6 +525,7 @@ img {
 						justify-content: center;
 						align-items: center;
 						img{
+							display: inline-block;
 							width:80%;
 							height:80%;
 							padding: 5%;
@@ -585,7 +580,13 @@ img {
 					}
 				}
 				&.edit{
-					
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+					min-height: 100px;
+					@include mq(tab){
+						min-height: 80px;
+					}
 					&:hover{
 						box-shadow:none;
 						transform: none;
@@ -597,20 +598,63 @@ img {
 							opacity: .3;			
 						}
 					}
-					.article{
-						&_link{
-							width: 80%;
+					.id{
+						font-size: .7em;
+						display: flex;
+						align-items: center;
+						width: 1%;
+					}
+					.remarks{
+						font-size: 1em;
+						margin-left: 5px;
+						width: 50%;
+						&_title{
+							@include mq(tab){
+								font-size: 0.7em;
+							}
 						}
-						&_icon{
-							width: 20%;
+						&_text{
+							font-size: .8em;
+							margin: 5px 0 0 10px;
+							@include mq(tab){
+								font-size: 0.6em;
+							}
+						}
+					}
+					
+					.right{
+						width: 35%;
+						height: 100%;
+						display: flex;
+						flex-flow: column;
+						justify-content: center;
+						align-items:stretch;
+						.date{
+							display: flex;
+							justify-content:space-evenly;
+							width: 100%;
+							font-size: .5em;
+							margin-top: 10px;
+							@include mq(tab){
+								flex-flow: column;
+								align-items: end;
+							}
+							div{
+								display: flex;
+								align-items: center;
+							}
+
+						}
+						.icon{
+							width: 100%;
 							display: flex;
 							align-items: center;
 							justify-content: space-around;
 							@include mq(sp){
-								flex-flow: column;
+								
 							}
 							& .icon{
-								font-size: 1.5rem;
+								font-size: 1.5em;
 	
 								&:hover{
 									color: rgba(#111 ,.3);
@@ -619,6 +663,9 @@ img {
 							}
 						}
 					}
+					
+
+					
 
 					
 
@@ -1336,6 +1383,7 @@ img {
 				
 			}
 			&_content{
+				
 				width: 80%;
 				margin: 0 auto;
 				font-size: .9em;
@@ -1360,35 +1408,30 @@ img {
 					list-style:inside ;
 					margin-left:20px;
 					
-	
-				}
-				p{
-					.marker{
-						background:linear-gradient(transparent 60%, #ff6 60%);
-						
-					}
 				}
 				img{
 				
 					width: auto;
 					height: auto;
-				
 					object-fit: cover;
 					border-radius: 5px 5px 0 0 ;
-					box-shadow: 0 5px 5px 0 rgba(#111,.3);
-			
-					margin-top: 20px;
-					margin-bottom: 20px;
-	
+					box-shadow: 0 1px 1px 0 rgba(#111,.2);
+					border: 1px solid rgba(#111,.1);
+					&:hover{
+						transition: all .5s;
+						transform: none;
+						filter: none;
+						cursor: pointer;
+					}
 					@include mq(tab){
 						width: 100%;
 	
 					}		
 				}
 				figcaption{
-					margin-top: -20px;
-					background: rgba(#111,.4);
-					color: #fff;
+					margin-top: 0px;
+					background: #eee;
+					box-shadow: 0 1px 1px 0 rgba(#111,.3);
 					text-align: center;
 					border-radius: 0 0 5px 5px;
 				}
@@ -1427,7 +1470,7 @@ img {
 				h1 {
 					font-size: 1.1em;			
 					font-weight: bolder;
-					margin: 5px 0;
+					margin-bottom: 20px;
 					&::after{
 						display: block;
 						content: "";
@@ -1435,6 +1478,7 @@ img {
 						height: 1px;
 						margin-top: 2px;
 						border-bottom: 1px solid #505A5F;
+						
 					}
 	
 					@include mq(sp){
@@ -1445,7 +1489,7 @@ img {
 				h2 {
 					font-size: 1.1em;			
 					font-weight: bolder;
-					margin: 40px 0 0 0;
+					margin: 40px 0 20px 0;
 					
 					&::after{
 						display: block;
@@ -1487,14 +1531,13 @@ img {
 				}		
 				pre{
 					position: relative;
+					max-height: 300px;
+					overflow-x: scroll;
 				}
 				code{
 					line-height: 20px;
 					display: block;
 					width: 100%;
-					max-height: 400px;
-					max-height: 300px;
-					overflow-x: scroll;
 					position: relative;
 					font-size: 1.0em;
 					padding: 20px;

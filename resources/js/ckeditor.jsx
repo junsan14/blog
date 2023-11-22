@@ -18,6 +18,7 @@ import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
 import { Indent } from '@ckeditor/ckeditor5-indent';
+import { Highlight } from '@ckeditor/ckeditor5-highlight';
 
 import {
     Image,
@@ -58,7 +59,8 @@ export const editorConfiguration = {
         TextTransformation,
         Indent,
         MediaEmbed,
-        Autosave
+        Autosave,
+        Highlight
      ],
     toolbar: [
         'heading',
@@ -67,6 +69,7 @@ export const editorConfiguration = {
         '|',
         'fontColor',
         'fontSize',
+        'highlight',
         '|',
         'outdent',
         'indent',
@@ -100,6 +103,15 @@ export const editorConfiguration = {
      ckfinder:{
         uploadUrl: `${route('ckfinder_connector')}?command=QuickUpload&type=Images&responseType=json`
     },
+    codeBlock: {
+        languages: [
+            { language: 'html', label: 'HTML' },
+            { language: 'css', label: 'CSS' },
+            { language: 'javaScript', label: 'JavaScript' },
+            { language: 'php', label: 'PHP' },
+            
+        ]
+    }
 
     
     

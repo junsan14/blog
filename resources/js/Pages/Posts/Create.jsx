@@ -164,20 +164,17 @@ export default function Create({auth}){
                         </div>
                         <div  className="form_control_item">
                             <label htmlFor="tag" >Tag</label>
-                            <input name="tag" id='tag' list="tag_list" className="form_control_item_input"
-                                value={data.tag} onChange={(e)=>handleChange(e)}
-                            />
-                            <datalist id='tag_list'>
-                                <option value='tag1' />
-                                <option value='tag2' />
-                            </datalist>
+                            <textarea name="tag" id='tag' list="tag_list" className="form_control_item_input"
+                                value={data.tag} onChange={(e)=>handleChange(e)} rows={5}
+                            ></textarea>
+
                         </div>
                         <div  className="form_control_item">
                             <label htmlFor="keywords" >Keywords</label>
-                            <input name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
-                                value={data.keywords} onChange={(e)=>handleChange(e)}
+                            <textarea name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
+                                value={data.keywords} onChange={(e)=>handleChange(e)} rows={5}
                                 
-                            />
+                            ></textarea>
                             <datalist id='keyword_list'>
                                 <option value='keyword1' />
                                 <option value='keyword2' />
