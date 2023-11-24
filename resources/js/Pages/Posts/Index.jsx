@@ -18,7 +18,6 @@ export default function Blog() {
     //const loadPosts = usePage().props.posts.data;
     let loadPosts = usePage().props.loadPosts.data;
     const [posts, setPosts] = useState(loadPosts);
-    const [inProp, setInProp] = useState(false);
 
 console.log(loadPosts);
     useEffect(() => { 
@@ -50,37 +49,12 @@ console.log(loadPosts);
      const LoadTag = ()=>{
         return(
             loadPosts.forEach((post)=> {
-
                 return(
                     <option value="1" >タグ1</option>   
                 )
             })
-        )
-            
-                 
-           
-         
+        )     
      }
-     /*
-     const RendarSearch = ()=>{ 
-        return(
-          <div className="search_area js-search_area">
-            <button type="button" className="search_area_reset js-search_area_reset" value="RESET" onClick={reset}>リセット</button>
-              <BsSearch className="search_area_icon js-search_area_icon"  />
-              <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
-                name="tag-choice" placeholder=""  
-                onChange={(e)=>{
-                    setKeyword(e.target.value);
-                  }
-                } 
-              />
-            <datalist id="tag-list">
-                <LoadTag />                
-            </datalist>
-          </div>
-        )
-     }
-     */
      const RendarallPage = ()=>{
         if(posts.length>0){
             return(

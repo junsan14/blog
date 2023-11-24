@@ -47,7 +47,7 @@ class PostsController extends Controller
     }
 
     public function create(Request $request){
-        return Inertia::render('Posts/Create');
+        return Inertia::render('Posts/Create',['is_restore'=>false]);
     }
 
     public function store(Request $request){

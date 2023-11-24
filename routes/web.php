@@ -49,7 +49,7 @@ Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderCon
 Route::middleware('auth')->group(function () {
     Route::get('/blog/admin',  [PostsController::class, 'editIndex'])->name('admin');
 
-    Route::get('/blog/admin/create', [PostsController::class, 'create']);
+    Route::get('/blog/admin/create', [PostsController::class, 'create'])->name('page.create');
     Route::get('/blog/page?id={id}?_preview',[PostsController::class, 'show'])->name('page.preview');
 
    

@@ -26,7 +26,7 @@ export default function Page() {
                     {pageData.updated_at?formatDate(pageData.updated_at):formatDate(new Date())}
 
                     <MdAccessTime className="article_date_publish_icon" />
-                    {pageData.created_at?formatDate(pageData.created_at):formatDate(new Date())}
+                    {pageData.created_at?formatDate(pageData.published_at):formatDate(new Date())}
                   </div>
                   <div className="article_content ck-content">
                       {parse(pageData.content)}

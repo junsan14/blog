@@ -20,6 +20,13 @@ createInertiaApp({
     setup({ el, App, props }) {
       createRoot(el).render(<App {...props} />)
     },
+    progress: {
+      delay: 250,
+      color: '#111',
+      includeCSS: true,
+      // Whether the NProgress spinner will be shown...
+      showSpinner: false,
+    },
 
 
   })

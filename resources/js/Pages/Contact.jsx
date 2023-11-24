@@ -1,15 +1,15 @@
-import React, { useState,useRef } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {useForm, router, usePage, Head} from '@inertiajs/react';
 
 
 export default function Contact() {
-  const pageData = usePage().props;
-  const { data, setData, post, progress } = useForm({
+
+  const { data, setData,processing,progress } = useForm({
     user_name: "",
     user_email: "",   
     subject:"",
     content:"",
+    remember: false,
 }) 
     function handleChange(e){
         const key = e.target.id;
@@ -19,27 +19,27 @@ export default function Contact() {
             [key]: value,
         }))
 
-    }
+    }console.log(usePage().props.is_success)
     function submit(e){
       e.preventDefault();
-      router.post('/contact', data)
+      console.log(processing)
+      router.post('/contact', data,{
+        onSuccess: () => reset('data'),
+      })
     }
-    
   return (
+    <>
    <GuestLayout> 
           <Head>
             <title>CONTACT</title>
             <meta name="description" content="WEBエンジニアとしてのポートフォリオ､またWEB制作やWEB開発に関わる知識を発信しています" />
           </Head>
-          <div className="modal_contact js-send-success">
-            <p className='modal_contact_msg js-send-success-msg'></p>
-          </div>
           <section className="section contact">
             <h1 className="section_title">
               <div className="section_title_jp">CONTACT</div>
             </h1>         
             <div className="section_content contact_content">
-            <form onSubmit={submit} method="post" className="form_control" >
+            <form onSubmit={submit} method="post" className="form_control" id="form">
                 <div className="form_control_item">
                     <label htmlFor="email">名前</label>
                     <input  id="user_name" className="form_control_item_input" name="user_name" required
@@ -75,12 +75,19 @@ export default function Contact() {
                     ></textarea>
                 </div>
                       
-                <input type="submit" value="送信" className="form_control_item_submit" />
+                <button type="submit" value="送信" disabled={processing} className="form_control_item_submit" form='form'>
+                  送信
+                </button>
             </form>
+            {progress && (
+            <progress value={progress.percentage} max="100">
+              {progress.percentage}%
+            </progress>
+          )}
             </div>
           </section>
   </GuestLayout>
-   
+  </>
   );
 }
 

@@ -19,6 +19,7 @@ import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
 import { Indent } from '@ckeditor/ckeditor5-indent';
 import { Highlight } from '@ckeditor/ckeditor5-highlight';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 
 import {
     Image,
@@ -60,7 +61,8 @@ export const editorConfiguration = {
         Indent,
         MediaEmbed,
         Autosave,
-        Highlight
+        Highlight,
+        SourceEditing
      ],
     toolbar: [
         'heading',
@@ -80,9 +82,10 @@ export const editorConfiguration = {
         'blockQuote',
         'insertTable',
         'mediaEmbed',
-        'CodeBlock',
+        'codeBlock',
         'imageUpload',
         'CKFinder',
+        'sourceEditing',
         'undo',
         'redo',
 

@@ -64,7 +64,7 @@ function graphShow(){
 
 function ModalShow(props){
   let images;
-  let $figcaption;
+
   $(function(){
     let $imageModal = $(".js-image-modal");
     let $showModal = $(".js-show-modal");
@@ -76,7 +76,7 @@ function ModalShow(props){
       let index = $(this).data("index");
 
       $imageModal.addClass("show");
-      $imageModal.children(".js-modal-pic").attr("src", $url);
+      $imageModal.find(".js-modal-pic").attr("src", $url);
       images = $(".js-modal-img");    
       if(images.length === 1){
         $(".js-left-arrow").addClass("hide");
@@ -84,7 +84,8 @@ function ModalShow(props){
       }
       $(".js-slide-number").text(`${index+1}/${images.length}`)
       $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
-      console.log($($showModal[index]).next("figcaption").text())
+      
+      //console.log($($showModal[index]).next("figcaption").text())
       //モバイルスワイプ処理
       const minimumDistance = 30
       let startX = 0
@@ -126,18 +127,21 @@ function ModalShow(props){
             }
             isTouch = false;
           }
-
-          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
+        
+          
+          $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`);
           $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
-          
+     
         }
       })
       //モバイルスワイプ処理終了
 
       //スライダー処理
       $(".js-close-image-modal-btn, .js-image-modal").on("click", function(e){ 
-      
+        //$('.js-content').show("slow");
+        
+        console.log("click")
         if($(e.target).hasClass("js-left-arrow")){
           if(index === 0){
             index = images.length-1;
@@ -146,26 +150,29 @@ function ModalShow(props){
             index = index - 1;
           }
   
-          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).attr("src"));
+          $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src"));
+
           $(".js-slide-number").text(`${index+1}/${images.length}`)
           $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
- 
-
+      
         }else if($(e.target).hasClass("js-right-arrow")){
           if(index === images.length-1){
             index = 0;
           }else{
             index = index + 1;
           }
-          $imageModal.children(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
+
+          $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`);
           $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
+          
 
         }else if(!$(e.target).hasClass("js-modal-pic")){
+          
           $(".js-close-image-modal-btn").parent().removeClass("show");
-          $imageModal.children(".js-modal-pic").attr("src", transparentImg);
+          $imageModal.find(".js-modal-pic").attr("src", transparentImg);
           $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
-          $("body").removeClass("noscroll")
+          $("body").removeClass("noscroll");
           
         }
       })
@@ -179,11 +186,14 @@ function ModalShow(props){
       <div className="image_modal js-image-modal">
           <span className='js-left-arrow left-arrow'></span>
           <button className="js-close-image-modal-btn">✕</button>
-          <img className="js-modal-pic modal-pic" src='' alt="" />
+          <div className="js-content content">
+            <img className="js-modal-pic modal-pic" src='' alt="" />
+            <p className='js-slide-figcaption slide-figcaption'>a</p> 
+            <span className='js-slide-number slide-number'></span> 
+          </div>
           <span className='js-right-arrow right-arrow'></span> 
-
-          <span className='js-slide-number slide-number'></span> 
-          <span className='js-slide-figcaption slide-figcaption'>aaa</span> 
+          
+          
       </div>
     </>
   )
@@ -276,7 +286,19 @@ function yyyymmddhhss(date){
   return formatDate;
 }
 
+function showMsg(is_sccuess){
+  $(function(){
+     if(is_sccuess){
+      let $msgModal = $('.js-send-success');
+      let $msg = $('.js-msg');
+      $msgModal.addClass('show');
 
+      setTimeout(()=>{
+        $msgModal.removeClass('show');
+      },3000)
+     }
+  })
+}
 
 function addClassPage(){
   $(function(){
@@ -344,4 +366,4 @@ function addClassPage(){
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate};
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate, showMsg};

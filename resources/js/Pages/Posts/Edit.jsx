@@ -61,8 +61,39 @@ export default function Update({auth}){
         })
        
      }
+     const RenderEditor = (prop) =>{
+        if(prop.is_restore == "true"){
+            console.log("true!")
+            return(
+                <CKEditor
+                    editor={ ClassicEditor }
+                    config={ editorConfiguration }
+                    data={localStorage.getItem('content')}
+                    onChange={ ( event, editor ) => {
+                        setData('content', editor.getData());
+                        localStorage.setItem('content', editor.getData());
+                    } }
+                    
+                />
+            )
+        }else{
+            return(
+                <CKEditor
+                    editor={ ClassicEditor }
+                    config={ editorConfiguration }
+                    data={data.content}
+                    onChange={ ( event, editor ) => {
+                        console.log(document.getElementById('eb843053a8f607a8bf0975849349b7558'))
+                        setData('content', editor.getData());
+                        localStorage.setItem('content', editor.getData());
+                    } }
+                    
+                />
+            )
+        }
+    }
 
-         console.log(data)
+
     return(
         <AuthenticatedLayout user={auth.user}>
             <Head title="Edit Post" />

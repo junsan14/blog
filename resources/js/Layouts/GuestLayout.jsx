@@ -1,14 +1,27 @@
 import { Link, usePage } from '@inertiajs/react';
-import {useState } from "react";
-import {SpMenuShow} from "@/script";
+import {SpMenuShow, showMsg} from "@/script";
 import {FaXTwitter,FaInstagram} from 'react-icons/fa6';
 
 function Layout({user,children,status}){
   SpMenuShow();
   let is_login = usePage().props.auth.user?true:false
+  const is_sccuess= usePage().props.is_success;
+  showMsg(is_sccuess);
+  const ShowMsg = ()=>{
+    if(is_sccuess){
+      return (
+        <div className="modal_contact js-send-success">
+            <p className='modal_contact_msg js-send-success-msg js-msg'>
+              メッセージの送信に成功しました｡メールをご確認ください｡
+            </p>
+        </div>
+      )
+    }
+  }
  // console.log(usePage().props.auth.user)
   return(
     <>
+    <ShowMsg />
     <header className="header guest">
       <div className="toggle-sp js-toggle-sp">
           <span></span>

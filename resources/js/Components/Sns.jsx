@@ -32,17 +32,19 @@ function Instagram(){
         return(
           <>
             <ModalShow posts={posts} />
-            {posts.map((post,i,ary) => {
-              //console.log(posts[0].media_url)
+            {posts.map((post,i) => {
+              
               return(
-                <div className='post js-show-modal' id="grid" data-posts={posts} data-url={post.media_url} data-index={i} key={i}>
-                    <img src={post.media_url} alt="" className="post_image js-modal-img" data-url={post.media_url} data-index={i}/>
-                    <div className="post_desc">
-                      <AiFillHeart alt="" className="post_desc_heart" />
-                      <span className="post_desc_caption">{post.caption}</span>
-                      <span className="post_desc_like-count">{post.like_count}</span>
-                    </div>              
-                </div>    
+                <div className='post' key={i}>
+                  <div className='js-show-modal' id="grid" data-posts={posts} data-url={post.media_url} data-index={i}>
+                      <img src={post.media_url} alt="" className="post_image js-modal-img" data-url={post.media_url} data-index={i}/>
+                      <div className="post_desc">
+                        <AiFillHeart alt="" className="post_desc_heart" />
+                        <span className="post_desc_like-count">{post.like_count}</span>
+                      </div>              
+                  </div> 
+                  <figcaption className="post_desc_caption" >{post.caption}</figcaption>   
+                </div>
               )          
             })}           
           </>

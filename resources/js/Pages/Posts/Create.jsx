@@ -8,16 +8,19 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 import { formatinputDate } from '@/script';
+import axios from 'axios';
 
 export default function Create({auth}){    
    
-    const [thumbnailValue,setThumbnailValue] =useState("");
-    const [thumbnailPreview, setThumbnailPreview] = useState("");
+
     const {post} = usePage().props;
+  //  let {is_restore} = usePage().props;
+    const [is_restore, setIs_restore] = useState("false");
+
     const { data, setData, progress,processing } = useForm({
         id:"",
-        title:"",
-        content: "",   
+        title:is_restore == "true"?localStorage.getItem('title'):"",
+        content: "",
         excerpt:"",
         category:1,
         tag:"",
@@ -27,14 +30,10 @@ export default function Create({auth}){
         published_at:formatinputDate(new Date()),
         is_preview:0,
         is_continue:0,
+        is_restore:"false"
     });
-    editorConfiguration['autosave'] = {
-        save( editor ) {
-            //setData('content', editor.getData())
-            console.log(data)
-            //return saveData(editor.getData() );
-        }
-    };
+   
+    localStorage.setItem('created_at',formatinputDate(new Date()));
     function handleSubmit(e){
         e.preventDefault();
         if(data.is_continue == 1){
@@ -50,42 +49,74 @@ export default function Create({auth}){
             setData('id',post.id);
             setData('is_continue',0);
         }
-        //console.log(e)
+        
         const key = e.target.id;
         const value =e.target.value;
         setData(data => ({
             ...data,
             [key]: value,
         }))
-        //console.log(data);
+        localStorage.setItem(key, value);
+       
     }
     function handleClickPreview(){      
         setData('is_preview', 1);
     }
-    function saveData( tempData ) {
-        setData('is_continue', 1);
-        return new Promise( resolve => {
-            setTimeout( () => {
-                setData('content', "うんこs");
-               //router.post(route('page.store'), data,{preserveScroll:true});
-               
-                resolve();
-            },  500 );
-        });
+    function handleClickRestore(e){
+        e.preventDefault();
+        let res =  confirm(`${localStorage.getItem('created_at')}に作成された ${localStorage.getItem('title')}のデータを復元しますか?`);
+        if(res){
+            setIs_restore("true");
+   
+            setData(data => ({ ...data, title: localStorage.getItem('title')}));
+            setData(data => ({ ...data, category: localStorage.getItem('category')}));
+            setData(data => ({ ...data, tag: localStorage.getItem('tag')}));
+            setData(data => ({ ...data, keywords: localStorage.getItem('keywords')}));
+            setData(data => ({ ...data, excerpt: localStorage.getItem('excerpt')}));
+            //console.log(data)
+            //setData(data => ({ ...data, content: localStorage.getItem('content')}));
+            //router.reload(route("page.create"))
+            
+        }else{
+
+        }
+        //setData(data => ({ ...data, title: localStorage.getItem('title')}));
+        //setData(data => ({...data, title:localStorage.getItem('title')}));
+
     }
 
-    function displayStatus( editor ) {
-        const pendingActions = editor.plugins.get( 'PendingActions' );
-        const statusIndicator = document.querySelector( '#editor-status' );
-    
-        pendingActions.on( 'change:hasAny', ( evt, propertyName, newValue ) => {
-            if ( newValue ) {
-                statusIndicator.classList.add( 'busy' );
-            } else {
-                statusIndicator.classList.remove( 'busy' );
-            }
-        } );
+    const RenderEditor = (prop) =>{
+        if(prop.is_restore == "true"){
+            console.log("true!")
+            return(
+                <CKEditor
+                    editor={ ClassicEditor }
+                    config={ editorConfiguration }
+                    data={localStorage.getItem('content')}
+                    onChange={ ( event, editor ) => {
+                        setData('content', editor.getData());
+                        localStorage.setItem('content', editor.getData());
+                    } }
+                    
+                />
+            )
+        }else{
+            return(
+                <CKEditor
+                    editor={ ClassicEditor }
+                    config={ editorConfiguration }
+                    data={data.content}
+                    onChange={ ( event, editor ) => {
+                        console.log(document.getElementById('eb843053a8f607a8bf0975849349b7558'))
+                        setData('content', editor.getData());
+                        localStorage.setItem('content', editor.getData());
+                    } }
+                    
+                />
+            )
+        }
     }
+
 
     return(
         <AuthenticatedLayout user={auth.user} >
@@ -110,6 +141,9 @@ export default function Create({auth}){
                             <button type="submit" value="1" form='form' id="is_show" disabled={processing} onClick={handleChange} className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
                                 Publish
                             </button>
+                            <button  disabled={processing} onClick={handleClickRestore} className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
+                                Restore
+                            </button>
                         </Dropdown.Content>
                     </Dropdown>
                 </div>
@@ -125,20 +159,11 @@ export default function Create({auth}){
                             <label htmlFor="title" >Title</label>
                             <input type="text" id="title" className="form_control_item_input" value={data.title} 
                                 onChange={handleChange}  disabled={processing}
-                            />
-                        </div>     
+                            />                        </div>     
                         <div className="form_control_item page_content">
                             <label htmlFor="content"  style={{marginBottom:'20px'}} >Content</label>
-                            <div className='article_content edit'>
-                                <CKEditor
-                                    editor={ ClassicEditor }
-                                    config={ editorConfiguration }
-                                    data=""
-                                    onChange={ ( event, editor ) => {
-                                        setData('content', editor.getData())
-                                    } }
-
-                                />
+                            <div className='article_content edit' id="content">
+                                <RenderEditor is_restore={is_restore}/>
                             </div>                     
                         </div>
                     </div>
