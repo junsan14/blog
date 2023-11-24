@@ -8,12 +8,12 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 import { formatinputDate } from '@/script';
-import axios from 'axios';
-
+import {get,set, setMany,getMany,update} from 'idb-keyval';
 export default function Create({auth}){    
    
 
     const {post} = usePage().props;
+    const {latest_id} = usePage().props;
   //  let {is_restore} = usePage().props;
     const [is_restore, setIs_restore] = useState("false");
 
@@ -32,10 +32,12 @@ export default function Create({auth}){
         is_continue:0,
         is_restore:"false"
     });
-   
+   const input =[latest_id];
     localStorage.setItem('created_at',formatinputDate(new Date()));
+
     function handleSubmit(e){
         e.preventDefault();
+        
         if(data.is_continue == 1){
             router.post(route('page.store'), data,{preserveScroll:true});
         }else{
@@ -52,12 +54,22 @@ export default function Create({auth}){
         
         const key = e.target.id;
         const value =e.target.value;
+        input.push([key,value])
         setData(data => ({
             ...data,
             [key]: value,
         }))
-        localStorage.setItem(key, value);
+        setMany([
+            key,value
+        ])
+        
+        console.log(get([key]))
+        
        
+        
+        //console.log(getMany(key).then((val)=>console.log(val)))
+        localStorage.setItem(key, value);
+    
     }
     function handleClickPreview(){      
         setData('is_preview', 1);
@@ -85,6 +97,7 @@ export default function Create({auth}){
 
     }
 
+
     const RenderEditor = (prop) =>{
         if(prop.is_restore == "true"){
             console.log("true!")
@@ -94,8 +107,16 @@ export default function Create({auth}){
                     config={ editorConfiguration }
                     data={localStorage.getItem('content')}
                     onChange={ ( event, editor ) => {
-                        setData('content', editor.getData());
+                        //setData('content', editor.getData());
                         localStorage.setItem('content', editor.getData());
+                    } }
+                    onSubmit= {( event, editor ) => {
+                        //setData('content', editor.getData());
+                       // setData('content', editor.getData());
+                        
+                    } }
+                    onBlur={ ( event, editor ) => {
+                        setData('content', editor.getData());
                     } }
                     
                 />
@@ -107,10 +128,13 @@ export default function Create({auth}){
                     config={ editorConfiguration }
                     data={data.content}
                     onChange={ ( event, editor ) => {
-                        console.log(document.getElementById('eb843053a8f607a8bf0975849349b7558'))
-                        setData('content', editor.getData());
-                        localStorage.setItem('content', editor.getData());
+                        //setData('content', editor.getData());
+                       localStorage.setItem('content', editor.getData());
                     } }
+                    onBlur={ ( event, editor ) => {
+                        setData('content', editor.getData());
+                    } }
+
                     
                 />
             )
@@ -163,7 +187,7 @@ export default function Create({auth}){
                         <div className="form_control_item page_content">
                             <label htmlFor="content"  style={{marginBottom:'20px'}} >Content</label>
                             <div className='article_content edit' id="content">
-                                <RenderEditor is_restore={is_restore}/>
+                                <RenderEditor is_restore={is_restore} onChange={handleChange}/>
                             </div>                     
                         </div>
                     </div>
