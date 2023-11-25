@@ -8,7 +8,7 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 import { formatinputDate } from '@/script';
-import {get,set, setMany,getMany,update} from 'idb-keyval';
+import {get,set, setMany,getMany,update, keys} from 'idb-keyval';
 export default function Create({auth}){    
    
 
@@ -59,14 +59,25 @@ export default function Create({auth}){
             ...data,
             [key]: value,
         }))
+        /*
         setMany([
-            key,value
+            [key,value]
         ])
+         getMany([key]).then((val)=>{
+            console.log(val);
+        })
+        */
+       set(latest_id+ "_" +[key], value
+       )
+
+       get(latest_id + "_" + [key]).then((val)=>{
+        console.log(val);
+       })
         
-        console.log(get([key]))
+       // console.log(getMany([key]))
         
        
-        
+      
         //console.log(getMany(key).then((val)=>console.log(val)))
         localStorage.setItem(key, value);
     
@@ -79,15 +90,16 @@ export default function Create({auth}){
         let res =  confirm(`${localStorage.getItem('created_at')}に作成された ${localStorage.getItem('title')}のデータを復元しますか?`);
         if(res){
             setIs_restore("true");
-   
-            setData(data => ({ ...data, title: localStorage.getItem('title')}));
-            setData(data => ({ ...data, category: localStorage.getItem('category')}));
-            setData(data => ({ ...data, tag: localStorage.getItem('tag')}));
-            setData(data => ({ ...data, keywords: localStorage.getItem('keywords')}));
-            setData(data => ({ ...data, excerpt: localStorage.getItem('excerpt')}));
-            //console.log(data)
-            //setData(data => ({ ...data, content: localStorage.getItem('content')}));
-            //router.reload(route("page.create"))
+            keys().then((keys)=>{
+               keys.forEach((key,i)=>{
+                //console.log(key);
+                get(key).then((val)=>{
+                    let data_key = String(key).slice(String(key).indexOf("_")+1, String(key).length);
+                    console.log(`${data_key}:${val}`)
+                    setData(data => ({...data, [data_key]:val}))
+                })
+               })
+            })
             
         }else{
 
@@ -100,15 +112,16 @@ export default function Create({auth}){
 
     const RenderEditor = (prop) =>{
         if(prop.is_restore == "true"){
-            console.log("true!")
+           // console.log("true!")
             return(
                 <CKEditor
                     editor={ ClassicEditor }
                     config={ editorConfiguration }
-                    data={localStorage.getItem('content')}
+                    data={data.content}
                     onChange={ ( event, editor ) => {
                         //setData('content', editor.getData());
-                        localStorage.setItem('content', editor.getData());
+                        set(latest_id + "_content", editor.getData());
+                        //localStorage.setItem('content', editor.getData());
                     } }
                     onSubmit= {( event, editor ) => {
                         //setData('content', editor.getData());
@@ -129,7 +142,8 @@ export default function Create({auth}){
                     data={data.content}
                     onChange={ ( event, editor ) => {
                         //setData('content', editor.getData());
-                       localStorage.setItem('content', editor.getData());
+                        set(latest_id + "_content", editor.getData());
+                       //localStorage.setItem('content', editor.getData());
                     } }
                     onBlur={ ( event, editor ) => {
                         setData('content', editor.getData());
