@@ -8,13 +8,13 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { formatinputDate } from '@/script';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
+import {get,set,keys,del} from 'idb-keyval';
+
 
 export default function Update({auth}){
     const editPost = usePage().props.post[0];
-    const [thumbnailValue,setThumbnailValue] =useState("");
-    const [thumbnailPreview, setThumbnailPreview] = useState(editPost.thumbnail);
     const uri = usePage().component;
-
+    const [is_restore, setIs_restore] = useState("false");
     const { data, setData, progress, processing} = useForm({
         id:editPost.id,
         title: editPost.title,
@@ -45,7 +45,8 @@ export default function Update({auth}){
         setData(data => ({
             ...data,
             [key]: value,
-        }))
+        }));
+        set("edit" +[key], value);
     }
 
     function handleClickPreview(e){      
@@ -53,14 +54,34 @@ export default function Update({auth}){
     }
 
     const handleClickDelete = (e)=>{
-        
-      
         router.delete(route("page.destroy", {id:data.id, url:uri}), {
             onBefore: () => confirm('本当に削除してよろしいですか?'),
             preserveScroll: true 
-        })
-       
+        })  
      }
+     /*
+     function handleClickRestore(e){
+        e.preventDefault();
+        let res =  confirm(`前回のデータを復元しますか?`);
+        if(res){
+            setIs_restore("true");
+            keys().then((keys)=>{
+               keys.forEach((key,i)=>{
+                //console.log(key);
+                get(key).then((val)=>{
+                    let data_key = String(key).slice(String(key).indexOf("_")+1, String(key).length);
+                    console.log(`${data_key}:${val}`)
+                    setData(data => ({...data, [data_key]:val}))
+                })
+               })
+            })
+            
+        }else{
+
+        }
+
+    }
+    */
      const RenderEditor = (prop) =>{
         if(prop.is_restore == "true"){
             console.log("true!")
@@ -68,10 +89,12 @@ export default function Update({auth}){
                 <CKEditor
                     editor={ ClassicEditor }
                     config={ editorConfiguration }
-                    data={localStorage.getItem('content')}
+                    data={data.content}
                     onChange={ ( event, editor ) => {
+                        set("new_content", editor.getData());
+                    } }
+                    onBlur={ ( event, editor ) => {
                         setData('content', editor.getData());
-                        localStorage.setItem('content', editor.getData());
                     } }
                     
                 />
@@ -83,9 +106,10 @@ export default function Update({auth}){
                     config={ editorConfiguration }
                     data={data.content}
                     onChange={ ( event, editor ) => {
-                        console.log(document.getElementById('eb843053a8f607a8bf0975849349b7558'))
+                        set("new_content", editor.getData());
+                    } }
+                    onBlur={ ( event, editor ) => {
                         setData('content', editor.getData());
-                        localStorage.setItem('content', editor.getData());
                     } }
                     
                 />
@@ -120,6 +144,7 @@ export default function Update({auth}){
                             <button disabled={processing} onClick={handleClickDelete}  className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out '>
                                 Delete
                             </button>
+                          
                         </Dropdown.Content>
                     </Dropdown>
                 </div>

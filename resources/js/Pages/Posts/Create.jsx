@@ -8,12 +8,12 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 import { formatinputDate } from '@/script';
-import {get,set, setMany,getMany,update, keys} from 'idb-keyval';
+import {get,set,keys,del} from 'idb-keyval';
 export default function Create({auth}){    
    
 
     const {post} = usePage().props;
-    const {latest_id} = usePage().props;
+    //const {latest_id} = usePage().props;
   //  let {is_restore} = usePage().props;
     const [is_restore, setIs_restore] = useState("false");
 
@@ -32,17 +32,23 @@ export default function Create({auth}){
         is_continue:0,
         is_restore:"false"
     });
-   const input =[latest_id];
-    localStorage.setItem('created_at',formatinputDate(new Date()));
+    //localStorage.setItem('created_at',formatinputDate(new Date()));
 
     function handleSubmit(e){
         e.preventDefault();
+        keys().then((keys)=>{
+            keys.forEach((key,i)=>{
+             //console.log(key);
+             del(key)
+            })
+         })
         
         if(data.is_continue == 1){
             router.post(route('page.store'), data,{preserveScroll:true});
         }else{
             router.post(route('page.store'), data);
         }
+        
         
     };
     
@@ -54,40 +60,18 @@ export default function Create({auth}){
         
         const key = e.target.id;
         const value =e.target.value;
-        input.push([key,value])
         setData(data => ({
             ...data,
             [key]: value,
         }))
-        /*
-        setMany([
-            [key,value]
-        ])
-         getMany([key]).then((val)=>{
-            console.log(val);
-        })
-        */
-       set(latest_id+ "_" +[key], value
-       )
-
-       get(latest_id + "_" + [key]).then((val)=>{
-        console.log(val);
-       })
-        
-       // console.log(getMany([key]))
-        
-       
-      
-        //console.log(getMany(key).then((val)=>console.log(val)))
-        localStorage.setItem(key, value);
-    
+       set("new_" +[key], value);
     }
     function handleClickPreview(){      
         setData('is_preview', 1);
     }
     function handleClickRestore(e){
         e.preventDefault();
-        let res =  confirm(`${localStorage.getItem('created_at')}に作成された ${localStorage.getItem('title')}のデータを復元しますか?`);
+        let res =  confirm(`前回のデータを復元しますか?`);
         if(res){
             setIs_restore("true");
             keys().then((keys)=>{
@@ -109,7 +93,7 @@ export default function Create({auth}){
 
     }
 
-
+/*
     const RenderEditor = (prop) =>{
         if(prop.is_restore == "true"){
            // console.log("true!")
@@ -119,14 +103,7 @@ export default function Create({auth}){
                     config={ editorConfiguration }
                     data={data.content}
                     onChange={ ( event, editor ) => {
-                        //setData('content', editor.getData());
-                        set(latest_id + "_content", editor.getData());
-                        //localStorage.setItem('content', editor.getData());
-                    } }
-                    onSubmit= {( event, editor ) => {
-                        //setData('content', editor.getData());
-                       // setData('content', editor.getData());
-                        
+                        set("new_content", editor.getData());
                     } }
                     onBlur={ ( event, editor ) => {
                         setData('content', editor.getData());
@@ -141,20 +118,16 @@ export default function Create({auth}){
                     config={ editorConfiguration }
                     data={data.content}
                     onChange={ ( event, editor ) => {
-                        //setData('content', editor.getData());
-                        set(latest_id + "_content", editor.getData());
-                       //localStorage.setItem('content', editor.getData());
+                        set("new_content", editor.getData());
                     } }
                     onBlur={ ( event, editor ) => {
                         setData('content', editor.getData());
-                    } }
-
-                    
+                    } }                    
                 />
             )
         }
     }
-
+*/
 
     return(
         <AuthenticatedLayout user={auth.user} >
@@ -201,7 +174,17 @@ export default function Create({auth}){
                         <div className="form_control_item page_content">
                             <label htmlFor="content"  style={{marginBottom:'20px'}} >Content</label>
                             <div className='article_content edit' id="content">
-                                <RenderEditor is_restore={is_restore} onChange={handleChange}/>
+                            <CKEditor
+                                editor={ ClassicEditor }
+                                config={ editorConfiguration }
+                                data={data.content}
+                                onChange={ ( event, editor ) => {
+                                    set("new_content", editor.getData());
+                                } }
+                                onBlur={ ( event, editor ) => {
+                                    setData('content', editor.getData());
+                                } }                    
+                            />
                             </div>                     
                         </div>
                     </div>

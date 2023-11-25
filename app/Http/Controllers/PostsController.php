@@ -47,9 +47,9 @@ class PostsController extends Controller
     }
 
     public function create(Request $request){
-        $latest_id = Blog::latest('id')->first()->id;
+        //$latest_id = Blog::latest('id')->first()->id;
         //dd($latest_id);
-        return Inertia::render('Posts/Create',['is_restore'=>false, 'latest_id'=>$latest_id]);
+        return Inertia::render('Posts/Create');
     }
 
     public function store(Request $request){
