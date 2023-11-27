@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import { Link,usePage } from '@inertiajs/react';
 import { CgProfile} from 'react-icons/cg';

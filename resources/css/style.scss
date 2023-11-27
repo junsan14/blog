@@ -648,15 +648,16 @@ img {
 							display: flex;
 							align-items: center;
 							justify-content: space-around;
-							@include mq(sp){
-								
-							}
+							
 							& .icon{
 								font-size: 1.5em;
-	
 								&:hover{
 									color: rgba(#111 ,.3);
 									transition: .5s all;
+								}
+								&:disabled{
+									color: rgba(#111,3);
+									cursor: not-allowed;
 								}
 							}
 						}
@@ -1372,6 +1373,10 @@ img {
 		.ck-editor{
 			&__editable_inline {
 				min-height: 500px;
+
+				@include mq(sp){
+					min-height: 200px;
+				}
 			}
 			@include mq(sp){
 				font-size: 16px;
@@ -1680,6 +1685,8 @@ img {
 			background: rgba(#fff,1);
 			border-color: $border-color;
 			border-radius: 3px;
+			padding-top: 5px;
+			padding-bottom: 5px;
 			padding-left: 10px;
 
 			&_preview{
@@ -1715,6 +1722,7 @@ img {
 			min-height: 40px;
 			background: rgba(#fff,1);
 			border-radius: 3px;
+			padding-top: 5px;
 			@include mq(tab){
 				min-height: 30px;
 				font-size:16px;
@@ -1737,7 +1745,6 @@ img {
 			
 			& button,a{
 			
-	
 				&:disabled{
 					cursor: none;
 				}
@@ -1783,27 +1790,12 @@ img {
 				transition: .5s all;
 			}
 			&:disabled{
-				background: #111;
+				background:rgba(#111,.3);
 				cursor:not-allowed ;
 			}
 			
 		}
 		
-	}
-	.ql-container {
-		min-height: 30rem;
-		height: 100%;
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-
-	  }
-	  
-	  .ql-editor {
-		height: 100%;
-		flex: 1;
-		overflow-y: auto;
-		width: 100%;
 	}
 }
 

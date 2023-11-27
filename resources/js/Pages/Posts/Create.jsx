@@ -13,8 +13,6 @@ export default function Create({auth}){
    
 
     const {post} = usePage().props;
-    //const {latest_id} = usePage().props;
-  //  let {is_restore} = usePage().props;
     const [is_restore, setIs_restore] = useState("false");
 
     const { data, setData, progress,processing } = useForm({
@@ -32,8 +30,6 @@ export default function Create({auth}){
         is_continue:0,
         is_restore:"false"
     });
-    //localStorage.setItem('created_at',formatinputDate(new Date()));
-
     function handleSubmit(e){
         e.preventDefault();
         keys().then((keys)=>{
@@ -92,43 +88,6 @@ export default function Create({auth}){
         //setData(data => ({...data, title:localStorage.getItem('title')}));
 
     }
-
-/*
-    const RenderEditor = (prop) =>{
-        if(prop.is_restore == "true"){
-           // console.log("true!")
-            return(
-                <CKEditor
-                    editor={ ClassicEditor }
-                    config={ editorConfiguration }
-                    data={data.content}
-                    onChange={ ( event, editor ) => {
-                        set("new_content", editor.getData());
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        setData('content', editor.getData());
-                    } }
-                    
-                />
-            )
-        }else{
-            return(
-                <CKEditor
-                    editor={ ClassicEditor }
-                    config={ editorConfiguration }
-                    data={data.content}
-                    onChange={ ( event, editor ) => {
-                        set("new_content", editor.getData());
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        setData('content', editor.getData());
-                    } }                    
-                />
-            )
-        }
-    }
-*/
-
     return(
         <AuthenticatedLayout user={auth.user} >
             <Head title="新規投稿" />
@@ -260,58 +219,3 @@ export default function Create({auth}){
        
     )
 }
-
-const insertToEditor = (url) => {
-    const range = ref.current.editor.getSelection();
-    //ref.current.editor.insertEmbed(range.index, "image", url);
-    ref.current.editor.insertEmbed(range.index, "image", url);
-    };
-    const selectLocalImage =  () => {
-        
-        const input = document.createElement("input");
-        input.setAttribute("type", "file");
-        input.click();
-        input.onchange = () => {
-        const file = input.files[0];
-        console.log(input)
-        // file type is only image.
-        if (/^image\//.test(file.type)) {
-           //quillFile.append("file", file);
-           console.log(file)
-           const range = ref.current.editor.getSelection();
-         
-    
-            const reader = new FileReader();
-            let base;
-            reader.onload = (event) => {
-              const base64Text = event.currentTarget.result
-    
-              document.querySelector('#base64text').value = base64Text
-              base = `<img src="${base64Text}" width="100%" />`
-            }
-            reader.readAsDataURL(file)
-            console.log(base)
-          
-            //ref.current.editor.insertEmbed(range.index, "image", url);
-            ref.current.editor.insertText(range.index, "image");
-        } else {
-            alert("画像のみアップロードできます。");
-        }
-        };
-    };
-
-
-/*
-<input type="file" id="thumbnail" name='thumbnail' className="form_control_item_input" 
-                            value={thumbnailValue} 
-                           
-                            onChange={(e)=>{
-                                setThumbnailValue(e.target.value);
-                                setData("thumbnail", e.target.files[0]);
-                                setThumbnailPreview(window.URL.createObjectURL(e.target.files[0]));    
-                            }} />
-                            <div className="form_control_item_input_preview">
-                                {thumbnailPreview && <img src={thumbnailPreview} /> }
-                            </div>
-
-            */

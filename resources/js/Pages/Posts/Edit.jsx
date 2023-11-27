@@ -1,5 +1,5 @@
 
-import { usePage, Link,useForm,router, Head } from '@inertiajs/react'
+import { usePage,useForm,router, Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {useState } from 'react';
 import {editorConfiguration,editorConfigurationThumbnail} from '@/ckeditor'
@@ -8,21 +8,19 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { formatinputDate } from '@/script';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
-import {get,set,keys,del} from 'idb-keyval';
 
-
-export default function Update({auth}){
+export default function Update(){
     const editPost = usePage().props.post[0];
     const uri = usePage().component;
     const [is_restore, setIs_restore] = useState("false");
     const { data, setData, progress, processing} = useForm({
         id:editPost.id,
-        title: editPost.title,
-        content: editPost.content,   
-        excerpt:editPost.excerpt,
+        title: editPost.title?editPost.title:"",
+        content: editPost.content?editPost.content:"",   
+        excerpt:editPost.excerpt?editPost.excerpt:"",
         category:editPost.category,
-        tag:editPost.tag,
-        keywords:editPost.keywords,
+        tag:editPost.tag?editPost.tag:"",
+        keywords:editPost.keywords?editPost.keywords:"",
         thumbnail:editPost.thumbnail,
         is_show:1,
         published_at: editPost.published_at,
@@ -46,7 +44,7 @@ export default function Update({auth}){
             ...data,
             [key]: value,
         }));
-        set("edit" +[key], value);
+        //set("edit" +[key], value);
     }
 
     function handleClickPreview(e){      
@@ -59,67 +57,9 @@ export default function Update({auth}){
             preserveScroll: true 
         })  
      }
-     /*
-     function handleClickRestore(e){
-        e.preventDefault();
-        let res =  confirm(`前回のデータを復元しますか?`);
-        if(res){
-            setIs_restore("true");
-            keys().then((keys)=>{
-               keys.forEach((key,i)=>{
-                //console.log(key);
-                get(key).then((val)=>{
-                    let data_key = String(key).slice(String(key).indexOf("_")+1, String(key).length);
-                    console.log(`${data_key}:${val}`)
-                    setData(data => ({...data, [data_key]:val}))
-                })
-               })
-            })
-            
-        }else{
-
-        }
-
-    }
-    */
-     const RenderEditor = (prop) =>{
-        if(prop.is_restore == "true"){
-            console.log("true!")
-            return(
-                <CKEditor
-                    editor={ ClassicEditor }
-                    config={ editorConfiguration }
-                    data={data.content}
-                    onChange={ ( event, editor ) => {
-                        set("new_content", editor.getData());
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        setData('content', editor.getData());
-                    } }
-                    
-                />
-            )
-        }else{
-            return(
-                <CKEditor
-                    editor={ ClassicEditor }
-                    config={ editorConfiguration }
-                    data={data.content}
-                    onChange={ ( event, editor ) => {
-                        set("new_content", editor.getData());
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        setData('content', editor.getData());
-                    } }
-                    
-                />
-            )
-        }
-    }
-
 
     return(
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout>
             <Head title="Edit Post" />
             <div  className="post_icon">
                 <div className='post_icon_item'>
@@ -168,10 +108,12 @@ export default function Update({auth}){
                                         editor={ ClassicEditor }
                                         config={ editorConfiguration }
                                         data={data.content}
-                                        onChange={ ( event, editor ) => {           
+                                        onChange={ ( event, editor ) => {
                                             setData('content', editor.getData());
-                                            //console.log(data);
                                         } }
+                                        onBlur={ ( event, editor ) => {
+                                            setData('content', editor.getData());
+                                        } }                    
                                     />
                                 </div>
                             </div>

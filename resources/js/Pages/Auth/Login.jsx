@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
-
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -22,7 +20,7 @@ export default function Login({ status, canResetPassword }) {
     }, []);
 
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault();  
         post(route('login'));
     };
 

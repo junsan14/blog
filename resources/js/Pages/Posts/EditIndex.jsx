@@ -1,10 +1,10 @@
 import parse from 'html-react-parser';
-import { usePage, Link, Head, router  } from '@inertiajs/react'
-import React, {useEffect, useState,useRef } from "react";
+import { usePage, Link, Head, router, processing, patch } from '@inertiajs/react'
+import React, {useEffect, useState } from "react";
 import $ from 'jquery';
 import {BsSearch} from 'react-icons/bs';
 import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
-import { ModalShow,fixedSearch,formatDate} from "@/script";
+import { fixedSearch,formatDate} from "@/script";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {AiOutlineClear} from 'react-icons/ai';
 
@@ -19,9 +19,7 @@ export default function Blog({auth}) {
     const [tagid,setTagid] = useState('');
     const loadPosts = usePage().props.loadPosts.data;
     const uri = usePage().component;
-   //const loadPosts = usePage().props.posts.data;
     const [posts, setPosts] = useState(loadPosts);
-    //console.log(uri);
     useEffect(() => { 
         setPosts(loadPosts);
         if(keyword){   
@@ -36,17 +34,16 @@ export default function Blog({auth}) {
      const handleClickVisible = (e,id,is_show)=>{
         const is_show_bool = is_show?1:0;
         if(is_show){
-            router.patch(`/blog/admin/editIndex?id=${id}&is_show=${is_show_bool}`, {
+            patch(`/blog/admin/editIndex?id=${id}&is_show=${is_show_bool}`, {
                 onBefore: () => confirm('非表示にします')
             },{ preserveScroll: true })
         }else{
-            router.patch(`/blog/admin/editIndex?id=${id}&is_show=${is_show_bool}`, {
+            patch(`/blog/admin/editIndex?id=${id}&is_show=${is_show_bool}`, {
                 onBefore: () => confirm('表示します')
             },{ preserveScroll: true })
         }
      }
      const handleClickDelete = (e)=>{
-        
         let id = e.currentTarget.id;
         router.delete(route("page.destroy", {id:id, url:uri}), {
             onBefore: () => confirm('本当に削除してよろしいですか?'),
@@ -73,11 +70,11 @@ export default function Blog({auth}) {
         const id = props.props[1] 
         if(is_show){
             return(
-                <AiOutlineEyeInvisible className='icon' id={id} alt='非表示にする' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
+                <AiOutlineEye disabled={processing} className='icon' id={id} alt='表示する' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
             )
         }else{
             return(
-                <AiOutlineEye className='icon' id={id} alt='表示する' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
+                <AiOutlineEyeInvisible disabled={processing} className='icon' id={id} alt='非表示にする' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
             )
         }
         

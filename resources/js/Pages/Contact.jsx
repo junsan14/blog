@@ -1,10 +1,11 @@
 import GuestLayout from '@/Layouts/GuestLayout';
-import {useForm, router, usePage, Head} from '@inertiajs/react';
+import {useForm, router, Head} from '@inertiajs/react';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 
 export default function Contact() {
 
-  const { data, setData,processing,progress } = useForm({
+  const { data, setData,processing,progress,post } = useForm({
     user_name: "",
     user_email: "",   
     subject:"",
@@ -19,11 +20,10 @@ export default function Contact() {
             [key]: value,
         }))
 
-    }console.log(usePage().props.is_success)
+    }
     function submit(e){
       e.preventDefault();
-      console.log(processing)
-      router.post('/contact', data,{
+      post(route('contact'), data,{
         onSuccess: () => reset('data'),
       })
     }
@@ -39,7 +39,7 @@ export default function Contact() {
               <div className="section_title_jp">CONTACT</div>
             </h1>         
             <div className="section_content contact_content">
-            <form onSubmit={submit} method="post" className="form_control" id="form">
+            <form onSubmit={submit} className="form_control" id="form">
                 <div className="form_control_item">
                     <label htmlFor="email">名前</label>
                     <input  id="user_name" className="form_control_item_input" name="user_name" required
@@ -75,15 +75,11 @@ export default function Contact() {
                     ></textarea>
                 </div>
                       
-                <button type="submit" value="送信" disabled={processing} className="form_control_item_submit" form='form'>
+                <button disabled={processing} className="form_control_item_submit" >
                   送信
                 </button>
             </form>
-            {progress && (
-            <progress value={progress.percentage} max="100">
-              {progress.percentage}%
-            </progress>
-          )}
+
             </div>
           </section>
   </GuestLayout>
