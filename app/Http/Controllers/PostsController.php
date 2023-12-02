@@ -135,7 +135,9 @@ class PostsController extends Controller
     public function visible(Request $request){
 
         $id = $request->query('id');
+        
         $is_show =(bool)$request->query('is_show');
+        //dd($request);
         if($is_show){
             Blog::where('id', $id)->update([
                 'is_show'=>0

@@ -606,6 +606,9 @@ img {
 						font-size: 1em;
 						margin-left: 5px;
 						width: 50%;
+						@include mq(tab){
+							width: 40%;
+						}
 						&_title{
 							@include mq(tab){
 								font-size: 0.7em;
@@ -627,6 +630,7 @@ img {
 						flex-flow: column;
 						justify-content: center;
 						align-items:stretch;
+						
 						.date{
 							display: flex;
 							justify-content:space-evenly;
@@ -937,7 +941,7 @@ img {
 			
 			
 			& .modal-pic{
-				width: 80%;
+				width: auto;
 				height: 80%;
 				max-height: 90%;
 				margin: 0 auto;
@@ -954,9 +958,9 @@ img {
 				color: #fff;
 				width: 100%;
 				text-align: center;
-				font-size: 1.5em;
+				font-size: 1.0em;
 				@include mq(tab){
-					font-size: 1em;
+					font-size: .7em;
 				}
 				
 			}
@@ -964,7 +968,9 @@ img {
 				margin-left:auto;
 				margin-right: 10%;
 				color: #fff;
-
+				@include mq(tab){
+					font-size: .7em;
+				}
 			}
 		}
 		
@@ -1632,16 +1638,17 @@ img {
 	z-index: 200;
 	width: 5%;
 	position: fixed;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
 	top:27px;
-	left: 28%;
+	left: calc(20% + 80px);
 	@include mq(tab){
-		left:93%;
+		width: calc(20% - 10px);
+		left: calc(80% + 10px);
 	}
 	&_item{
-		margin-right: 30px;
+		text-align: center;
+		display: flex;
+		justify-content: center;
 		font-size: 1.5em;
 		transition: .5s all ease;
 		position: relative;

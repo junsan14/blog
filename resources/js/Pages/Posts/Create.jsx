@@ -75,7 +75,7 @@ export default function Create({auth}){
                 //console.log(key);
                 get(key).then((val)=>{
                     let data_key = String(key).slice(String(key).indexOf("_")+1, String(key).length);
-                    console.log(`${data_key}:${val}`)
+                    //console.log(`${data_key}:${val}`)
                     setData(data => ({...data, [data_key]:val}))
                 })
                })

@@ -1,5 +1,5 @@
 import parse from 'html-react-parser';
-import { usePage, Link, Head, router, processing, patch } from '@inertiajs/react'
+import { usePage, Link, Head, router } from '@inertiajs/react'
 import React, {useEffect, useState } from "react";
 import $ from 'jquery';
 import {BsSearch} from 'react-icons/bs';
@@ -20,6 +20,8 @@ export default function Blog({auth}) {
     const loadPosts = usePage().props.loadPosts.data;
     const uri = usePage().component;
     const [posts, setPosts] = useState(loadPosts);
+
+
     useEffect(() => { 
         setPosts(loadPosts);
         if(keyword){   
@@ -31,24 +33,36 @@ export default function Blog({auth}) {
 
       }, [keyword,category,tagid,loadPosts]);
     
-     const handleClickVisible = (e,id,is_show)=>{
-        const is_show_bool = is_show?1:0;
-        if(is_show){
-            patch(`/blog/admin/editIndex?id=${id}&is_show=${is_show_bool}`, {
-                onBefore: () => confirm('非表示にします')
-            },{ preserveScroll: true })
-        }else{
-            patch(`/blog/admin/editIndex?id=${id}&is_show=${is_show_bool}`, {
-                onBefore: () => confirm('表示します')
-            },{ preserveScroll: true })
-        }
+     const handleClickVisible = (e,is_show)=>{
+        let id = e.currentTarget.id;
+        $(e.currentTarget).parent().prop('disabled', true);
+        $(e.currentTarget).css('cursor', "not-allowed");
+        console.log(router)
+        router.patch(
+            route('page.visible', 
+            {id:id, is_show:Number(is_show)},),
+            {onStart: (progress) => {console.log(progress)},},
+            { preserveScroll: true }
+        )
      }
      const handleClickDelete = (e)=>{
         let id = e.currentTarget.id;
-        router.delete(route("page.destroy", {id:id, url:uri}), {
-            onBefore: () => confirm('本当に削除してよろしいですか?'),
-            preserveScroll: true 
-        })
+        $(e.currentTarget).parent().prop('disabled', true);
+        $(e.currentTarget).css('cursor', "not-allowed");
+        router.delete(
+            route("page.destroy", {id:id, url:uri}), 
+            {
+                onBefore: () => {
+                    const res = confirm('本当に削除してよろしいですか?');
+                    if(!res){
+                        $(e.currentTarget).parent().prop('disabled', false);
+                        $(e.currentTarget).css('cursor', "pointer");
+                    }
+                    return res;
+                }, 
+            },
+            {preserveScroll: true}
+        )
        
      }
      const reset = ()=>{
@@ -59,22 +73,16 @@ export default function Blog({auth}) {
          $(".js-search_area_icon").removeClass("fixed");
      }
     
-     const LoadTag = ()=>{
-       return(  
-                 <option value="1" >タグ1</option>    
-           
-         )
-     }
-     const ChangeVisibility= (props)=>{
+     const RendarVisibility= (props)=>{
         const is_show = props.props[0];
         const id = props.props[1] 
         if(is_show){
             return(
-                <AiOutlineEye disabled={processing} className='icon' id={id} alt='表示する' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
+                <AiOutlineEye className='icon' id={id} alt='表示する' onClick={(e)=>handleClickVisible(e,1)}/>
             )
         }else{
             return(
-                <AiOutlineEyeInvisible disabled={processing} className='icon' id={id} alt='非表示にする' onClick={(e)=>handleClickVisible(e,id,is_show)}/>
+                <AiOutlineEyeInvisible className='icon' id={id} alt='非表示にする' onClick={(e)=>handleClickVisible(e,0)}/>
             )
         }
         
@@ -102,7 +110,7 @@ export default function Blog({auth}) {
                                         <FaEdit className='icon'/>
                                     </Link>
                                     <button>
-                                        <ChangeVisibility props={[is_show,id]}/>
+                                        <RendarVisibility props={[is_show,id]}/>
                                     </button>
                                     <button>
                                         <FaTrash className='icon' id={id} onClick={(e)=>handleClickDelete(e)}/>
@@ -174,7 +182,7 @@ export default function Blog({auth}) {
                             } 
                         />
                         <datalist id="tag-list">
-                            <LoadTag />                
+                                      
                         </datalist>
                     </div>
                     <div className="section_content posts edit">
