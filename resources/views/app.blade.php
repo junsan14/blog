@@ -11,6 +11,7 @@
         <script>CKFinder.config( { connectorPath: '/ckfinder/connector' } );</script>
         <!-- Scripts -->
         @include('ckfinder::setup')
+        @vite(['resources/css/style.scss'])
 
         @routes
         @viteReactRefresh
@@ -19,7 +20,5 @@
     </head>
     <body>       
         @inertia
-
-
     </body>
 </html>

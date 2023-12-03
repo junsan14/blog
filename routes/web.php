@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/blog/page?id={id}?_preview',[PostsController::class, 'show'])->name('page.preview');
 
    
-
+  
     Route::patch('/blog/admin/create',[PostsController::class, 'tempStore'])->name('page.temStore');
 
     Route::post('/blog/admin/create', [PostsController::class, 'store'])->name('page.store');

@@ -1,6 +1,7 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import {useForm, router, Head} from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
 
 
 export default function Contact() {
@@ -19,7 +20,7 @@ export default function Contact() {
             ...values,
             [key]: value,
         }))
-
+console.log(data)
     }
     function submit(e){
       e.preventDefault();
@@ -42,28 +43,43 @@ export default function Contact() {
             <form onSubmit={submit} className="form_control" id="form">
                 <div className="form_control_item">
                     <label htmlFor="email">名前</label>
-                    <input  id="user_name" className="form_control_item_input" name="user_name" required
-                            value={data.user_name} onChange={handleChange}
-                    />
+                    <TextInput
+                            id="user_name"
+                            type="text"
+                            name="email"
+                            className="form_control_item_input"
+                            autoComplete="username"
+                            isFocused={true}
+                            value={data.user_name}
+                            onChange={handleChange}
+                        />
                 </div>
                 <div className="form_control_item">
                     <label htmlFor="email">アドレス</label>
-                    <input  type="email" id="user_email" 
-                    className="form_control_item_input" 
-                    name="user_email"
-                            required
+                    <TextInput
+                            id="user_email"
+                            type="email"
+                            name="email"
+                            className="form_control_item_input"
+                            autoComplete="username"
+                            isFocused={true}
                             value={data.user_email}
                             onChange={handleChange}
-                    />
+                        />
                 </div>
 
                 <div className="form_control_item">
                     <label htmlFor="subject">件名</label>
-                    <input type="text" id="subject" className="form_control_item_input" name="subject"
-                        required
-                        value={data.subject}
-                        onChange={handleChange}
-                    />
+                    <TextInput
+                            id="subject"
+                            type="text"
+                            name="email"
+                            className="form_control_item_input"
+                            autoComplete="subject"
+                            isFocused={true}
+                            value={data.subject}
+                            onChange={handleChange}
+                        />
                 </div>
                
                 <div className="form_control_item">

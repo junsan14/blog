@@ -161,8 +161,8 @@ export default function Create({auth}){
                                 name='category' id='category' onChange={(e)=>handleChange(e)}
                             >
                                 <option value="1">wiki</option>
-                                <option value="2">Note</option>
-                                <option value="3">Tool</option>
+                                <option value="2">Tool</option>
+                                <option value="3">Notion</option>
                                 <option value="4">Diary</option>
                                 
                             </select>

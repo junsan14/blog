@@ -19,7 +19,7 @@ class MailController extends Controller
     {
         
         $content = $request->content;
-        //Mail::to($request->user_email)->send(new ContactMail($request));
+        Mail::to($request->user_email)->send(new ContactMail($request));
         $showBlog = Blog::where('is_show',1)->latest()->take(4)->get();
         return Inertia::render('Home',[
             'is_success'=>true,

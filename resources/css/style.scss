@@ -941,8 +941,8 @@ img {
 			
 			
 			& .modal-pic{
-				width: auto;
-				height: 80%;
+				width: 80%;
+				height: auto;
 				max-height: 90%;
 				margin: 0 auto;
 				object-fit: cover;
@@ -1553,33 +1553,61 @@ img {
 					text-decoration: underline;
 					word-wrap:break-word;
 				}
-				p{				
 						
-				}		
 				pre{
+				
 					position: relative;
 					max-height: 300px;
-					overflow-x: scroll;
+					max-width: 100%;
+					overflow: scroll;
+					line-height: 1.2em;
+					display: flex;
+					
+					
+				
 				}
 				code{
-					line-height: 20px;
-					display: block;
+					font-size: .8em;
 					width: 100%;
+					
+					overflow-x: scroll;
 					position: relative;
-					font-size: 1.0em;
-					padding: 20px;
 					border-radius: 5px;
+					@include mq(sp){
+						margin-top: 10px;
+						margin-bottom: 10px;
+					}
+					
+				}
+				.markup-area-language{
+	
+					&_text{
+						position: absolute;						
+						
+						bottom:0px;
+						right:0;	
+						padding:5px 10px;
+						font-family: 'Murecho', sans-serif;
+						border-radius: 2px;
+						font-size: .8em;
+						
+						
+					}	
 				}
 				.markup-area-copy{
 	
 					&_text{
 						position: absolute;						
-						background: rgba(#eee,.4);	
+
 						top:0px;
-						right: 15px;	
+						right:0;	
 						padding:5px 10px;
 						font-family: 'Murecho', sans-serif;
-						border-radius: 5px;
+						border-radius: 2px;
+						@include mq(sp){
+							padding: 2px 5px;
+							font-size: .6em;
+						}
 						&.copied{
 							opacity: .5;
 							background: #fff;	

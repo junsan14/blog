@@ -34,7 +34,7 @@ function Layout({user,children,status}){
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("about")}>ABOUT</Link></li>
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("blog")}>BLOG</Link></li>     
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("contact")}>CONTACT</Link></li>
-           {is_login&&  <li className="nav_ul_li js-nav-ul-li"><Link href="/blog/admin/editIndex">管理画面</Link></li>}
+           {is_login&&  <li className="nav_ul_li js-nav-ul-li"><Link href={route("blog.edit")}>管理画面</Link></li>}
         </ul>
         <div className="nav_sns">
           <a href="https://twitter.com/junsan_junsan14" target="_blank" rel="noopener noreferrer">

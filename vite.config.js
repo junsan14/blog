@@ -11,7 +11,9 @@ const require = createRequire( import.meta.url );
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.jsx',
+            input: ['resources/js/app.jsx',
+                    'resources/css/style.scss',
+                    ],
             refresh: true,
         }),
 
@@ -20,14 +22,14 @@ export default defineConfig({
 
     ],
     server: {
-        /*
+        
         host:true,
         hmr: {
             clientPort: 5173,
            // host: '100.96.1.3',
             host:'192.168.40.25',
         }
-        */
+        
     },
 
     

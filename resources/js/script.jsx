@@ -3,6 +3,7 @@ import React,{useState,useEffect, Component } from "react";
 import transparentImg from '../images/transparent.png';
 import hljs from 'highlight.js';
 import '../../node_modules/highlight.js/styles/foundation.css'
+import { HiOutlineClipboardCopy } from "react-icons/hi";
 
 function SpMenuShow(){
     const [loadState, setLoadState]= useState(false);
@@ -327,12 +328,16 @@ function addClassPage(){
 
 
   //コピーエリア作成
+  console.log($markupElements.find("code").attr("class"))
   $markupElements.each((i,ele)=>{
+    let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
+    console.log(language)
       $(ele).replaceWith(function() {
       $(this).replaceWith(`
 
           <pre>${$(this).html()}
-              <div class="markup-area-copy_text">copy</div>       
+              <div class="markup-area-language_text">${language}</div> 
+              <div class="markup-area-copy_text">Copy</div>       
           </pre>
 
       `)
@@ -348,7 +353,7 @@ function addClassPage(){
     let that = $(this);
     let copiedText = that.prev().text();
     console.log(copiedText)
-    that.text("copied");
+    that.text("Copied");
     that.addClass("copied");
     //console.log(that.prev().text())
     setTimeout(()=>{

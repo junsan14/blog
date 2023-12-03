@@ -156,12 +156,12 @@ export default function Blog({auth}) {
                         <li className="category_tab_li" tabIndex="-1" value="2" onClick={(e)=>{
                             setCategory(e.target.value);
                             reset();
-                            }}>Note
+                            }}>Tool
                         </li>
                         <li className="category_tab_li" tabIndex="-1" value="3" onClick={(e)=>{
                             setCategory(e.target.value);
                             reset();
-                            }}>Tool
+                            }}>Notion
                         </li> 
                         <li className="category_tab_li" tabIndex="-1" value="4" onClick={(e)=>{
                             setCategory(e.target.value);

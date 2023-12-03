@@ -147,9 +147,11 @@ class PostsController extends Controller
                 'is_show'=>1
             ]);
         }
-       
+
+        //return redirect('/blog/admin/editIndex', 302, [], true);
+        //return Inertia::render('Posts/EditIndex');
+        //return Redirect::to('/blog/admin/editIndex');
         return back();
-        
         
     }
     public function destroy(Request $request)
@@ -157,12 +159,10 @@ class PostsController extends Controller
         //dd($request);
         $id = $request->query('id');
         Blog::where('id', $id)->delete(); 
-
-        if($request->query('url') == 'Posts/EditIndex'){
-            return back();
-        }else{
-            return Redirect::to('/blog/admin/editIndex');
-        }
+        //return to_route('blog.edit');
+        return back();
+            //return Redirect::to('/blog/admin/editIndex');
+        
        
     }
 }
