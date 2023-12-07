@@ -1,36 +1,38 @@
-import { usePage, Link, Head} from '@inertiajs/react'
+import { usePage, Link, Head, useForm, router,useRemember} from '@inertiajs/react'
 import React, {useEffect, useState,useRef } from "react";
 import $ from 'jquery';
-import {fixedSearch,formatDate } from "@/script";
+import {fixedSearch,formatDate,bg } from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
 import {MdAccessTime} from 'react-icons/md';
 import {AiOutlineClear} from 'react-icons/ai';
 import parse from 'html-react-parser';
 
+
+
 export default function Blog() {
     fixedSearch();
-
+    bg();
     const [tags, setTags] = useState([]);
-    const [keyword, setKeyword] = useState('');
-    const [category, setCategory] = useState('');
+    const [keyword, setKeyword] = useRemember('');
+    const [category, setCategory] = useRemember('');
+
     const [tagid,setTagid] = useState('');
     //const loadPosts = usePage().props.posts.data;
     let loadPosts = usePage().props.loadPosts.data;
     const [posts, setPosts] = useState(loadPosts);
-
-console.log(loadPosts);
     useEffect(() => { 
-        
-        if(keyword){  
-
-            setPosts(loadPosts.filter(post => String(post['keywords']).indexOf(keyword) !==-1 ));
-            loadPosts.forEach((ele,i)=>{
-                console.log(ele['keywords'])
-            })
+        if(category && keyword){  
+            loadPosts = loadPosts.filter(post => post.category === category);
+            let reg = new RegExp(keyword,"gi");
+            setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
             
         }else if(category){
             setPosts(loadPosts.filter(post => post.category === category));
+           
+        }else if(keyword){
+            let reg = new RegExp(keyword,"gi");
+            setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
            
         }else if(!keyword || !category){
             setPosts(loadPosts);
@@ -42,6 +44,7 @@ console.log(loadPosts);
         $(".search_area_input").val("");
          setTagid("");
          setKeyword("");
+         setCategory("");
          setPosts(loadPosts);
          $(".js-search_area_icon").removeClass("fixed");
      }
@@ -98,30 +101,30 @@ console.log(loadPosts);
                     <title>BLOG</title>
                     <meta name="description" content="WEBエンジニアとしてのポートフォリオ､またWEB制作やWEB開発に関わる知識を発信しています" />
                 </Head>
+                <div className='background'>
+                    <div className="images">
+                        <img className="flow-image 0" src="/userfiles/images/africa.png" />
+                    </div>
+                </div>
                 <section className="section blog">
                     <h1 className="section_title">
                     <div className="section_title_jp">BLOG</div>
                     </h1>
                     <ul className="category_tab tab">  
-                        <li className="category_tab_li" tabIndex="-1" value="1" onClick={(e)=>{
-                        setCategory(e.target.value);
-                        reset();
-                        }}>Wiki
+                        <li className={category === 1?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="1" 
+                        onClick={(e)=>{setCategory(e.target.value);}}>
+                            Engineering
                         </li>
-                        <li className="category_tab_li" tabIndex="-1" value="2" onClick={(e)=>{
-                        setCategory(e.target.value);
-                        reset();
-                        }}>Tool
-                        </li>
-                        <li className="category_tab_li" tabIndex="-1" value="3" onClick={(e)=>{
-                        setCategory(e.target.value);
-                        reset();
-                        }}>Notion
+                        <li className={category === 3?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="3" 
+                        onClick={(e)=>{setCategory(e.target.value);}}>
+                            Notion
                         </li> 
-                        <li className="category_tab_li" tabIndex="-1" value="4" onClick={(e)=>{
-                        setCategory(e.target.value);
-                        reset();
-                        }}>Diary
+                        <li className={category === 4?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="4" 
+                        onClick={(e)=>{setCategory(e.target.value);}}>
+                            Diary
                         </li>
                     </ul>
                     <div className="search_area js-search_area">
@@ -131,8 +134,8 @@ console.log(loadPosts);
                         <BsSearch className="search_area_icon js-search_area_icon"/>
                         <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
                             name="tag-choice" placeholder=""  
-                            onChange={(e)=>{
-                                
+                            value={Number(keyword)? "":keyword}
+                            onChange={(e)=>{                          
                                 setKeyword(e.target.value);
                             }
                             } 

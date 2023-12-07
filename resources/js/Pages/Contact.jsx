@@ -2,10 +2,11 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import {useForm, router, Head} from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import {bg } from "@/script";
 
 
 export default function Contact() {
-
+ bg();
   const { data, setData,processing,progress,post } = useForm({
     user_name: "",
     user_email: "",   
@@ -35,6 +36,11 @@ console.log(data)
             <title>CONTACT</title>
             <meta name="description" content="WEBエンジニアとしてのポートフォリオ､またWEB制作やWEB開発に関わる知識を発信しています" />
           </Head>
+          <div className='background'>
+              <div className="images">
+                <img className="flow-image 0" src="/userfiles/images/africa.png" />
+              </div>
+            </div>
           <section className="section contact">
             <h1 className="section_title">
               <div className="section_title_jp">CONTACT</div>

@@ -1,5 +1,5 @@
 import parse from 'html-react-parser';
-import { usePage, Link, Head, router } from '@inertiajs/react'
+import { usePage, Link, Head, router, useRemember } from '@inertiajs/react'
 import React, {useEffect, useState } from "react";
 import $ from 'jquery';
 import {BsSearch} from 'react-icons/bs';
@@ -14,30 +14,40 @@ import {MdAccessTime,MdUpdate} from 'react-icons/md';
 export default function Blog({auth}) {
     fixedSearch();
     const [tags, setTags] = useState([]);
-    const [keyword, setKeyword] = useState('');
-    const [category, setCategory] = useState('');
+    const [keyword, setKeyword] = useRemember('');
+    const [category, setCategory] = useRemember('');
     const [tagid,setTagid] = useState('');
-    const loadPosts = usePage().props.loadPosts.data;
+    let loadPosts = usePage().props.loadPosts.data;
+    
     const uri = usePage().component;
     const [posts, setPosts] = useState(loadPosts);
 
 
     useEffect(() => { 
         setPosts(loadPosts);
-        if(keyword){   
-            setPosts(loadPosts.filter(post => String(post['keywords']).indexOf(keyword) !==-1 ));
+        if(category && keyword){  
+            loadPosts = loadPosts.filter(post => post.category === category);
+            let reg = new RegExp(keyword,"gi");
+            setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
+            
         }else if(category){
             setPosts(loadPosts.filter(post => post.category === category));
            
+        }else if(keyword){
+            let reg = new RegExp(keyword,"gi");
+            setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
+           
+        }else if(!keyword || !category){
+            setPosts(loadPosts);
         }
 
-      }, [keyword,category,tagid,loadPosts]);
+      }, [keyword,category,tagid]);
     
      const handleClickVisible = (e,is_show)=>{
         let id = e.currentTarget.id;
         $(e.currentTarget).parent().prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
-        console.log(router)
+        //console.log(router)
         router.patch(
             route('page.visible', 
             {id:id, is_show:Number(is_show)},),
@@ -50,7 +60,8 @@ export default function Blog({auth}) {
         $(e.currentTarget).parent().prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
         router.delete(
-            route("page.destroy", {id:id, url:uri}), 
+            route("page.destroy", 
+            {id:id, url:uri}), 
             {
                 onBefore: () => {
                     const res = confirm('本当に削除してよろしいですか?');
@@ -59,9 +70,10 @@ export default function Blog({auth}) {
                         $(e.currentTarget).css('cursor', "pointer");
                     }
                     return res;
-                }, 
+                },
+                preserveScroll: true 
             },
-            {preserveScroll: true}
+        
         )
        
      }
@@ -148,25 +160,20 @@ export default function Blog({auth}) {
                     <div className="section_title_jp">Admin</div>
                     </h1>
                     <ul className="category_tab tab">  
-                        <li className="category_tab_li" tabIndex="-1" value="1" onClick={(e)=>{
-                            setCategory(e.target.value);
-                            reset();
-                            }}>Wiki
+                        <li className={category === 1?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="1" 
+                        onClick={(e)=>{setCategory(e.target.value);}}>
+                            Engineering
                         </li>
-                        <li className="category_tab_li" tabIndex="-1" value="2" onClick={(e)=>{
-                            setCategory(e.target.value);
-                            reset();
-                            }}>Tool
-                        </li>
-                        <li className="category_tab_li" tabIndex="-1" value="3" onClick={(e)=>{
-                            setCategory(e.target.value);
-                            reset();
-                            }}>Notion
+                        <li className={category === 3?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="3" 
+                        onClick={(e)=>{setCategory(e.target.value);}}>
+                            Notion
                         </li> 
-                        <li className="category_tab_li" tabIndex="-1" value="4" onClick={(e)=>{
-                            setCategory(e.target.value);
-                            reset();
-                            }}>Diary
+                        <li className={category === 4?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="4" 
+                        onClick={(e)=>{setCategory(e.target.value);}}>
+                            Diary
                         </li>
                     </ul>
                     <div className="search_area js-search_area edit">

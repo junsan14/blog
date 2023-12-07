@@ -3,7 +3,6 @@ import React,{useState,useEffect, Component } from "react";
 import transparentImg from '../images/transparent.png';
 import hljs from 'highlight.js';
 import '../../node_modules/highlight.js/styles/foundation.css'
-import { HiOutlineClipboardCopy } from "react-icons/hi";
 
 function SpMenuShow(){
     const [loadState, setLoadState]= useState(false);
@@ -45,23 +44,66 @@ function SpMenuShow(){
 
 function graphShow(){
     $(function(){
-      $('.js-tab-front').on('click', ()=>{
-        //console.log($(this))
-        $(this).css("background", "white")
-        $('.js-content').removeClass("show")
-        $('.js-content-front').addClass("show");
-      })
-      $('.js-tab-back').on('click', ()=>{
-        $('.js-content').removeClass("show")
-        $('.js-content-back').addClass("show");
-      })
-      $('.js-tab-other').on('click', ()=>{
-        $('.js-content').removeClass("show")
-        $('.js-content-other').addClass("show");
-      })
+      $('.js-skill-tab-li').on('click', function(){
+       
+        $(this).addClass("show on");
+        $(this).siblings().removeClass("on");
+        let $content = $(".js-content-"+$(this).attr('name'));
+        $content.addClass('show');
+        $content.siblings().removeClass('show');
+      })     
     })
   }
-  
+
+function bg(){
+    const bgimages = [
+        "/userfiles/images/mysql.png",
+        "/userfiles/images/jquery.png",
+        "/userfiles/images/gas.png",
+        "/userfiles/images/css.png",
+        "/userfiles/images/html.png",
+        "/userfiles/images/africa.png",
+       ];
+       /*
+       $(function(){
+        let $images = $('.js-flow-image');
+        setInterval(function(){
+          let num = Math.floor(Math.random() * (bgimages.length));
+          let imageNum = Math.floor(Math.random() *4);
+          
+          $($images[imageNum]).attr('src', bgimages[num])
+        },5000)
+       })
+      */
+       //$(".images").append(`<img class="flow-image" style="left:20%;" src="${bgimages[1]}" />`);
+       //$(".images").append(`<img class="flow-image" style="left:40%;" src="${bgimages[2]}" />`);
+       $(function(){
+       // $('.flow-image').remove();
+        let id = 0;
+      
+     
+          setInterval(function(){
+            let num = Math.floor(Math.random() * (bgimages.length));
+            let position = Math.floor(Math.random() * 100);  
+            $(".images").append(`<img class="flow-image ${id+1}" id="${id+1}" style="left:${position}%;" src="${bgimages[num]}" />`);
+            let removeImg = $("."+id);
+            //console.log(removeImg);
+            id++;
+            setTimeout(function(){
+              removeImg.remove();
+              
+            },9000)
+         
+           },4000)
+        })
+       
+
+
+      
+      
+       
+       
+}
 
 function ModalShow(props){
   let images;
@@ -142,7 +184,7 @@ function ModalShow(props){
       $(".js-close-image-modal-btn, .js-image-modal").on("click", function(e){ 
         //$('.js-content').show("slow");
         
-        console.log("click")
+        //console.log("click")
         if($(e.target).hasClass("js-left-arrow")){
           if(index === 0){
             index = images.length-1;
@@ -206,14 +248,18 @@ function fixedSearch(){
     let $searchArea = $(".js-search_area");
     let $resetBtn = $(".js-search_area_reset");
     let $searchIcon = $(".js-search_area_icon");
+    
+
+   
     $searchBox.on("focus", function(){    
-       $searchIcon.addClass("fixed");
+       $searchIcon.addClass("hide");
        $resetBtn.addClass("show");      
     })
 
     $searchBox.on("blur", function(){
+      $searchIcon.removeClass("hide");
       if(!$(this).val()){
-        $searchIcon.removeClass("fixed");
+        //$searchIcon.removeClass("hide");
         $resetBtn.removeClass("show");
       }
     })
@@ -254,7 +300,7 @@ function fixedSearch(){
           if($searchArea.hasClass("fixed")){
             $searchArea.addClass("show");
             $searchBox.prop('disabled', false);
-            $searchIcon.addClass("fixed");
+            $searchIcon.addClass("hide");
           }
      })
     })  
@@ -305,6 +351,8 @@ function addClassPage(){
   $(function(){
     let $markupElements = $("pre");
     let $subContent = $("h3");
+    let $elements = $('h2').nextAll();
+    let $h2 = $("h2");
 
   //setImgNum($(".js-show-modal").length)
   //imgタグにモーダル用のクラス付与
@@ -325,39 +373,49 @@ function addClassPage(){
 
   })
   
-
+  $elements.each((i,ele)=>{
+    $(ele).not('h2').addClass('sub-content')
+  })
 
   //コピーエリア作成
-  console.log($markupElements.find("code").attr("class"))
+  //console.log($markupElements.find("code").attr("class"))
   $markupElements.each((i,ele)=>{
     let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
-    console.log(language)
+    //console.log(language)
       $(ele).replaceWith(function() {
       $(this).replaceWith(`
 
-          <pre>${$(this).html()}
+          <pre class="sub-content">
               <div class="markup-area-language_text">${language}</div> 
-              <div class="markup-area-copy_text">Copy</div>       
+              ${$(this).html()}
+              <div class="markup-area-copy_text">copy</div>       
           </pre>
 
       `)
     });
 
   });
-  $subContent.each((i,ele)=>{
-    $($(ele).nextAll().not("h3").not("h2")).addClass("sub_content");
+  
+
+
+
+  $h2.on('click', function(){
+    
+    $($(this).nextAll().not("h3").not("h2")).addClass("show");
+    console.log($(this))
   })
+ 
   hljs.highlightAll();
   //コピーボタン
   $(".markup-area-copy_text").on("click", function(){
     let that = $(this);
     let copiedText = that.prev().text();
-    console.log(copiedText)
-    that.text("Copied");
+    //console.log(copiedText)
+    that.text("copied");
     that.addClass("copied");
     //console.log(that.prev().text())
     setTimeout(()=>{
-    that.children("div").text("copy"); 
+    that.text("copy"); 
     that.removeClass("copied");
     },3000)
     return navigator.clipboard.writeText(copiedText);
@@ -371,4 +429,4 @@ function addClassPage(){
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate, showMsg};
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate, showMsg,bg};

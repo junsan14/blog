@@ -24,8 +24,38 @@ $breakpoint: (
 		transform: translateX(-100%);
 	  }
 }
+@keyframes moveImage {
+	0%  { bottom:0;}
+	10%  { bottom:10vh;opacity: .2;}
+	20%  { bottom:20vh;}
+	30%  { bottom:30vh;}
+	40%  { bottom:40vh;}
+	50%  { bottom:50vh;}
+	60%  { bottom:60vh;}
+	70%  { bottom:70vh;}
+	80%  { bottom:80vh;}
+	90%  { bottom:90vh;}
+	100%  { 
+		bottom:100vh;
+		opacity: 0;
+	}
+}
+@keyframes bgMove {
+	from { transform: translateY(0vh)}
 
-$background-color:#f9f9f9;
+	to { 
+		
+		transform: translateY(-100vh);
+		opacity: 0;
+	}
+}
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+$background-color:linear-gradient(to bottom,rgba(249, 249, 249,1),rgba(255, 255, 255,1));
+
 $content-width :85%;
 $no-focus-style:1px solid rgba(#111,.1);
 $focus-style:1px solid rgba(#111,.8);
@@ -58,6 +88,7 @@ ul{
 img{
 	max-width: 100%;
 }
+
 
 .header{
 	&.guest{
@@ -231,10 +262,7 @@ img{
 
 }
 
-@keyframes fade {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
+
 
 
 
@@ -354,30 +382,44 @@ img{
 		}
 }
  
-/* ローディングアニメーション */
-@keyframes sk-scaleout {
-  0% {
-    transform: scale(0);
-    
-  } 100% {
-    transform: scale(.5);
-    opacity: 0;
-  }
-}
+
  
-/* コンテンツ部分の装飾 */
-.gallery {
-  display: grid;
-  gap: .5rem;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
 
 
+.background{
+	position: fixed;
+	width: calc(100% - 15%);
+	right: 15%;
+	height: 100vh;
+	z-index: 0;
+	@include mq(tab){
+		width: 100%;
+	}
+	.flow-image{
+		min-width: 5vw;
+		min-height: 5vw;
+		max-width: 5vw;
+		max-height: 5vw;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 1px solid rgba(#111,.5);
+		left: 10%;
+		animation: bgMove 15s linear;
+		position: absolute;
+		bottom: 0;
+		opacity: 0.1;
+		z-index: -1;
+		filter: grayscale(60%);
+	
+		@include mq(tab){
+			min-width: 10vw;
+			min-height: 10vw;
+			max-width: 10vw;
+			max-height: 10vw;
+		}
+	
+	}
+}
 
 //共通
 .main{ 
@@ -410,6 +452,8 @@ img {
 
 	& .section{
 		padding: 100px 0;
+		z-index: 10;
+	
 		&_title{
 			position: relative;
 			text-align: center;
@@ -435,6 +479,7 @@ img {
 				font-weight: bold;
 				@include mq(sp){
 					font-size: 1em;
+					margin-bottom: 40px;
 				}
 			}
 		}
@@ -443,6 +488,7 @@ img {
 	.skill_graph{
 		width: 100%;
 		font-size: 1.8em;
+		
 		@include mq(tab){
 			width: 100%;
 		}
@@ -485,6 +531,7 @@ img {
 			justify-content: space-between;
 			align-items: center;
 			transition:2s ease;
+			position: relative;
 			.fade{
 				animation: fade .3s ease-in-out .3s 1 normal forwards;
 				opacity: 0;
@@ -496,6 +543,7 @@ img {
 				border-radius: 5px;
 				margin-bottom: 30px;
 				transition: all .5s;
+				background: $background-color;
 				@include mq(tab){
 					width: 100%;
 				}
@@ -528,7 +576,7 @@ img {
 							display: inline-block;
 							width:80%;
 							height:80%;
-							padding: 5%;
+							
 							object-fit: cover;
 							border-radius: 5px 0 0 5px;
 							@include mq(tab){
@@ -719,15 +767,14 @@ img {
 			transition:.5s ease;
 			top:10px;
 			right:calc(50% - 90px);
-			
+			opacity: 0.15;
 			@include mq(tab){
 				top:10px;
 				left:10px;
 			}
-			&.fixed{
+			&.hide{
 				transition:.5s ease;
-				opacity:0;
-				
+				opacity:0;	
 			}
 		}
 		&_input{
@@ -815,6 +862,7 @@ img {
 		margin: 0 auto 40px auto ;
 		flex-wrap: wrap;
 		margin-right: 5px;
+		position: relative;
 		@include mq(sp){
 			width: 100%;
 			margin: 0 auto 10px auto ;
@@ -829,9 +877,14 @@ img {
 			font-size: .8em;
 			text-align: center;
 			
-			width: calc(100% / 4 - 1px);
+			width: calc(100% / 3 - 1px);
 			margin-bottom: 30px;
 			background:rgba(#eee,.5);
+			&.on{
+				background:#fff;
+				transition: .5s all;
+				transform: translateY(-1px);
+			}
 			@include mq(tab){
 
 				padding: 5px 0;
@@ -841,7 +894,7 @@ img {
 			}
 
 			&.skill_tab_li{
-				width: calc(100% / 3 - 4px);
+				width: calc(100% / 3 - 1px);
 				@include mq(tab){
 					width: calc(100% / 3 - 1px);
 				}
@@ -852,11 +905,6 @@ img {
 				background:#fff;
 				transition: .5s all;
 				
-			}
-			&:focus{
-				background:#fff;
-				transition: .5s all;
-				transform: translateY(-1px);
 			}
 			
 		}
@@ -1115,8 +1163,11 @@ img {
 
 		.about{
 			&_chart{
+				
+			
 				display: flex;
 				align-items:center;
+			
 				@include mq(tab){
 					display: block;
 				}
@@ -1226,6 +1277,7 @@ img {
 //About
 .about{
 	&_content{
+		position: relative;
 		 .profile{
 			display: flex;
 			justify-content: center;
@@ -1307,7 +1359,8 @@ img {
 		}
 		.skill{			
 			&_content{
-				position: relative;				
+				position: relative;		
+						
 				&:before{
 					padding-top: 100vh;
 					content: "";
@@ -1363,6 +1416,7 @@ img {
 //blog
 .blog{
 	min-height:calc(100vh);
+	
 	@include mq(sp){
 		min-height:calc(100vh); 
 	}
@@ -1376,10 +1430,15 @@ img {
 	}
 	
 	&_content{
+		.ck.ck-editor__main>.ck-editor__editable {
+			background: #f9f9f9;
+			border-radius: 0;
+		}
 		.ck-editor{
+		
 			&__editable_inline {
 				min-height: 500px;
-
+				
 				@include mq(sp){
 					min-height: 200px;
 				}
@@ -1389,6 +1448,7 @@ img {
 			}
 		}
 		.article, .ck-editor{
+			
 			&_date{
 				display: flex;
 				align-items: center;
@@ -1424,6 +1484,7 @@ img {
 				@include mq(tab){
 					font-size: 0.8em;
 					line-height: 23px;
+					margin-top: 20px;
 					width: 100%;
 				}
 
@@ -1517,25 +1578,40 @@ img {
 					font-size: 1.1em;			
 					font-weight: bolder;
 					margin: 40px 0 20px 0;
+					background: rgba(#fff,1);
+					display: inline-block;
+					padding:.1em 1em;
 					
-					&::after{
-						display: block;
-						content: "";
-						width: 100%;
-						height: 2px;
-						margin-top: 1px;
-						border-bottom: 1px dotted #505A5F;
-					}
 				}
+				
 				h3{
-					margin: 20px 0 0 10px;
-					padding: 0.25em 0.5em;
-				  
-				  background: transparent;
-				  border-left: solid 4px rgba(#111,.1);
+					position: relative;
+					padding-left: 25px;
+					@include mq(tab){
+						min-width: 40vw;
+					}
+					&:before {
+						position: absolute;
+						content: '';
+						bottom: -3px;
+						left: 0;
+						width: 0;
+						height: 0;
+						border: none;
+						border-left: solid 15px transparent;
+						border-bottom: solid 15px rgba(#fff,1);
+					  }
+					  &:after {
+						position: absolute;
+						content: '';
+						bottom: -3px;
+						left: 10px;
+						width: 100%;
+						border-bottom: solid 3px rgba(#fff,1);
+					  }
 				}
-				.sub_content{
-					margin: 5px 0 0 20px;
+				.sub-content{
+					margin-left:15px;
 				}
 				h5{
 					opacity: 0;
@@ -1558,65 +1634,65 @@ img {
 				
 					position: relative;
 					max-height: 300px;
-					max-width: 100%;
-					overflow: scroll;
+					max-width: 100%;		
 					line-height: 1.2em;
 					display: flex;
-					
-					
-				
 				}
 				code{
 					font-size: .8em;
 					width: 100%;
-					
-					overflow-x: scroll;
-					position: relative;
-					border-radius: 5px;
+					border-radius: 2px;
+					background:  rgba(#fff,1);
 					@include mq(sp){
 						margin-top: 10px;
 						margin-bottom: 10px;
 					}
 					
 				}
-				.markup-area-language{
-	
-					&_text{
-						position: absolute;						
-						
-						bottom:0px;
-						right:0;	
-						padding:5px 10px;
-						font-family: 'Murecho', sans-serif;
-						border-radius: 2px;
-						font-size: .8em;
-						
-						
-					}	
-				}
 				.markup-area-copy{
 	
 					&_text{
 						position: absolute;						
-
-						top:0px;
-						right:0;	
+						top:0%;
+						right:3%;	
 						padding:5px 10px;
 						font-family: 'Murecho', sans-serif;
 						border-radius: 2px;
+						font-size: .8em;
+						transition: .5s ease;
 						@include mq(sp){
-							padding: 2px 5px;
+							top:2%;
+							padding: 3px 5px;
 							font-size: .6em;
 						}
 						&.copied{
 							opacity: .5;
-							background: #fff;	
+							
 						}
 						&:hover{
 							cursor: pointer;
-							transition: .3s ease;
-							background: #fff;	
+							transition: .5s ease;
+							transform: translateY(-2px);
+							
 						}
+					}	
+				}
+				.markup-area-language{
+	
+					&_text{
+						position: absolute;						
+						bottom:0px;
+						right:3%;	
+						padding:5px 10px;
+						font-family: 'Murecho', sans-serif;
+						border-radius: 2px;
+						font-size: .8em;
+						font-style: italic;
+						@include mq(sp){
+							bottom: 2%;
+							font-size: .6em;
+						}
+						
 					}	
 				}
 			}
@@ -1662,6 +1738,9 @@ img {
 
 
 //form
+.contact_content{
+	position: relative;
+}
 .post_icon{
 	z-index: 200;
 	width: 5%;

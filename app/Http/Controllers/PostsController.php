@@ -19,12 +19,12 @@ class PostsController extends Controller
 {
 
     public function home(){
-        $showBlog = Blog::where('is_show',1)->latest()->take(4)->get();
+        $showBlog = Blog::where('is_show',1)->latest('published_at')->take(4)->get();
        return Inertia::render('Home',['posts'=>new BlogCollection($showBlog)]);
     }
 
     public function index(){
-        $showBlog = Blog::where('is_show',1)->latest()->get();
+        $showBlog = Blog::where('is_show',1)->latest('published_at')->get();
        return Inertia::render('Posts/Index',['loadPosts'=>new BlogCollection($showBlog)]);
     }
 
@@ -148,9 +148,6 @@ class PostsController extends Controller
             ]);
         }
 
-        //return redirect('/blog/admin/editIndex', 302, [], true);
-        //return Inertia::render('Posts/EditIndex');
-        //return Redirect::to('/blog/admin/editIndex');
         return back();
         
     }
@@ -159,9 +156,7 @@ class PostsController extends Controller
         //dd($request);
         $id = $request->query('id');
         Blog::where('id', $id)->delete(); 
-        //return to_route('blog.edit');
         return back();
-            //return Redirect::to('/blog/admin/editIndex');
         
        
     }

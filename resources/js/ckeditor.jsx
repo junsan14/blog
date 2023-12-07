@@ -91,6 +91,13 @@ export const editorConfiguration = {
 
 
      ],
+     heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading2', view: 'h2', title: 'H2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'H3', class: 'ck-heading_heading3' },
+        ]
+    },
      image: {
         toolbar: [
             'imageTextAlternative',
@@ -98,7 +105,10 @@ export const editorConfiguration = {
             'imageStyle:inline',
             'imageStyle:block',
             'imageStyle:side'
-        ]
+        ],
+    },
+    link:{
+        addTargetToExternalLinks: true,
     },
     mediaEmbed: {
         previewsInData: true
@@ -108,6 +118,7 @@ export const editorConfiguration = {
     },
     codeBlock: {
         languages: [
+            { language: 'plaintext', label: 'Plain text', class: '' },
             { language: 'html', label: 'HTML' },
             { language: 'css', label: 'CSS' },
             { language: 'javaScript', label: 'JavaScript' },

@@ -2,15 +2,17 @@ import { usePage,Link,Head } from '@inertiajs/react';
 import React, {useState } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
-import {formatDate } from "@/script";
+
+import {formatDate,bg } from "@/script";
 import {Instagram} from "@/Components/Sns";
 import {MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';
+import $ from 'jquery';
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;
   const [posts, setPosts] = useState(loadPosts);
-
+  
   const RendarallPage = ()=>{
     if(posts.length>0){
         return(
@@ -40,18 +42,22 @@ export default function Home() {
         )
     }   
  }
+bg();
     return (
       <GuestLayout>
           <Head>
             <title>HOME</title>
             <meta name="description" content="WEBエンジニアとしてのポートフォリオ､またWEB制作やWEB開発に関わる知識を発信しています" />
           </Head>
+            <div className='background'>
+              <div className="images">
+                <img className="flow-image 0" src="/userfiles/images/africa.png" />
+              </div>
+            </div>
             <div className="home">
                 <div className="kv">
                   <div className="kv_text">
                     <h2>JUNSAN 14</h2>
-                    <p> A WEB DIRECTER & ENGINEER</p>
-                    <p>AS A FORMAR HOTELIER</p>
                   </div>       
                 </div>
                 <section className="section">

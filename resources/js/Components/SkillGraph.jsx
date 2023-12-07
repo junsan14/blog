@@ -401,6 +401,12 @@ const otherSkill = [
             人生について思考中
           </>
         );
+      case "2024":
+        return(
+          <>
+            青年海外協力隊渡航準備
+          </>
+        );
       default:
     }
     
@@ -554,6 +560,10 @@ const bidographyData = [
   {
     "year": "2023",
     "Motivation": 20,
+  },
+  {
+    "year": "2024",
+    "Motivation": 100,
   },
 ]
 

@@ -22,6 +22,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@auroratide/typewritten-text": "^0.1.4",
         "@ckeditor/ckeditor5-adapter-ckfinder": "^40.1.0",
         "@ckeditor/ckeditor5-autoformat": "^40.1.0",
         "@ckeditor/ckeditor5-autosave": "^40.1.0",
