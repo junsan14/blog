@@ -13,35 +13,35 @@ import {MdAccessTime,MdUpdate} from 'react-icons/md';
 
 export default function Blog({auth}) {
     fixedSearch();
-    const [tags, setTags] = useState([]);
-    const [keyword, setKeyword] = useRemember('');
-    const [category, setCategory] = useRemember('');
-    const [tagid,setTagid] = useState('');
+
+    const [searchState, setSearchState] = useRemember({
+        keyword:"",
+        category:"",
+    })
+
     let loadPosts = usePage().props.loadPosts.data;
     
     const uri = usePage().component;
     const [posts, setPosts] = useState(loadPosts);
-
-
     useEffect(() => { 
         setPosts(loadPosts);
-        if(category && keyword){  
-            loadPosts = loadPosts.filter(post => post.category === category);
-            let reg = new RegExp(keyword,"gi");
+        if(searchState.category && searchState.keyword){  
+            loadPosts = loadPosts.filter(post => post.category === searchState.category);
+            let reg = new RegExp(searchState.keyword,"gi");
             setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
             
-        }else if(category){
-            setPosts(loadPosts.filter(post => post.category === category));
-           
-        }else if(keyword){
-            let reg = new RegExp(keyword,"gi");
+        }else if(searchState.category){
+            setPosts(loadPosts.filter(post => post.category === searchState.category));
+
+        }else if(searchState.keyword){
+            let reg = new RegExp(searchState.keyword,"gi");
             setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
            
-        }else if(!keyword || !category){
+        }else if(!searchState.keyword || !searchState.category){
             setPosts(loadPosts);
         }
-
-      }, [keyword,category,tagid]);
+        
+      }, [searchState.keyword,searchState.category,loadPosts]);
     
      const handleClickVisible = (e,is_show)=>{
         let id = e.currentTarget.id;
@@ -49,10 +49,11 @@ export default function Blog({auth}) {
         $(e.currentTarget).css('cursor', "not-allowed");
         //console.log(router)
         router.patch(
-            route('page.visible', 
-            {id:id, is_show:Number(is_show)},),
-            {onStart: (progress) => {console.log(progress)},},
-            { preserveScroll: true }
+            route('page.visible', {id:id, is_show:Number(is_show)},),
+                 {  
+                },
+                 { preserveScroll: true,},
+           
         )
      }
      const handleClickDelete = (e)=>{
@@ -60,8 +61,7 @@ export default function Blog({auth}) {
         $(e.currentTarget).parent().prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
         router.delete(
-            route("page.destroy", 
-            {id:id, url:uri}), 
+            route("page.destroy", {id:id, url:uri}), 
             {
                 onBefore: () => {
                     const res = confirm('本当に削除してよろしいですか?');
@@ -79,15 +79,22 @@ export default function Blog({auth}) {
      }
      const reset = ()=>{
         $(".search_area_input").val("");
-         setTagid("");
-         setKeyword("");
+        setSearchState(searchState => ({...searchState, "keyword":""}))
+        setSearchState(searchState => ({...searchState, "category":""}))
          setPosts(loadPosts);
          $(".js-search_area_icon").removeClass("fixed");
      }
-    
+     const categoryName = [
+        "",
+        "Engineering",
+        "",
+        "Notion",
+        "Diary"
+      ]
      const RendarVisibility= (props)=>{
         const is_show = props.props[0];
-        const id = props.props[1] 
+        const id = props.props[1];
+
         if(is_show){
             return(
                 <AiOutlineEye className='icon' id={id} alt='表示する' onClick={(e)=>handleClickVisible(e,1)}/>
@@ -144,7 +151,11 @@ export default function Blog({auth}) {
             )
         }else{
             return(
-                <>{keyword}のキーワードでは､記事がありません</>
+                <>
+                    {searchState.category?categoryName[Number(searchState.category)]+"の中に､":""}
+                    {searchState.keyword}のキーワードで
+                    ヒットする記事がありません｡
+                </>
                 
             )
         }
@@ -160,20 +171,20 @@ export default function Blog({auth}) {
                     <div className="section_title_jp">Admin</div>
                     </h1>
                     <ul className="category_tab tab">  
-                        <li className={category === 1?"category_tab_li on":"category_tab_li"} 
-                        tabIndex="-1" value="1" 
-                        onClick={(e)=>{setCategory(e.target.value);}}>
-                            Engineering
+                        <li className={searchState.category === 1?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="1"  
+                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
+                            {categoryName[1]}
                         </li>
-                        <li className={category === 3?"category_tab_li on":"category_tab_li"} 
+                        <li className={searchState.category === 3?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="3" 
-                        onClick={(e)=>{setCategory(e.target.value);}}>
-                            Notion
+                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
+                            {categoryName[3]}
                         </li> 
-                        <li className={category === 4?"category_tab_li on":"category_tab_li"} 
+                        <li className={searchState.category === 4?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="4" 
-                        onClick={(e)=>{setCategory(e.target.value);}}>
-                            Diary
+                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
+                            {categoryName[4]}
                         </li>
                     </ul>
                     <div className="search_area js-search_area edit">
@@ -183,8 +194,9 @@ export default function Blog({auth}) {
                         <BsSearch className="search_area_icon js-search_area_icon"/>
                         <input list="tag-list"  className="search_area_input js-search_area_input edit" id="tag-choice" 
                             name="tag-choice" placeholder=""  
+                            value={searchState.keyword}
                             onChange={(e)=>{
-                                setKeyword(e.target.value);
+                                setSearchState(searchState => ({...searchState, "keyword":e.target.value}))
                             }
                             } 
                         />

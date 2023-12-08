@@ -60,49 +60,37 @@ function bg(){
         "/userfiles/images/mysql.png",
         "/userfiles/images/jquery.png",
         "/userfiles/images/gas.png",
-        "/userfiles/images/css.png",
-        "/userfiles/images/html.png",
         "/userfiles/images/africa.png",
+        "/userfiles/images/npm.png",
+        "/userfiles/images/wp.png",
+        "/userfiles/images/laravel.png",
+        "/userfiles/images/php.png",
+        "/userfiles/images/kusatsu.png",
+        "/userfiles/images/dq.png",
+        "/userfiles/images/apple.png",
        ];
-       /*
        $(function(){
-        let $images = $('.js-flow-image');
-        setInterval(function(){
-          let num = Math.floor(Math.random() * (bgimages.length));
-          let imageNum = Math.floor(Math.random() *4);
-          
-          $($images[imageNum]).attr('src', bgimages[num])
-        },5000)
-       })
-      */
-       //$(".images").append(`<img class="flow-image" style="left:20%;" src="${bgimages[1]}" />`);
-       //$(".images").append(`<img class="flow-image" style="left:40%;" src="${bgimages[2]}" />`);
-       $(function(){
-       // $('.flow-image').remove();
+        $('.flow-image').remove();
         let id = 0;
-      
-     
+        requestAnimationFrame(function(){
           setInterval(function(){
             let num = Math.floor(Math.random() * (bgimages.length));
-            let position = Math.floor(Math.random() * 100);  
+            let position = Math.floor(Math.random() * 9)*11;  
+
             $(".images").append(`<img class="flow-image ${id+1}" id="${id+1}" style="left:${position}%;" src="${bgimages[num]}" />`);
             let removeImg = $("."+id);
-            //console.log(removeImg);
             id++;
             setTimeout(function(){
               removeImg.remove();
-              
             },9000)
          
-           },4000)
+           },6000)
         })
+        
+      })
        
 
-
-      
-      
-       
-       
+   
 }
 
 function ModalShow(props){
@@ -379,22 +367,25 @@ function addClassPage(){
 
   //コピーエリア作成
   //console.log($markupElements.find("code").attr("class"))
-  $markupElements.each((i,ele)=>{
-    let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
-    //console.log(language)
-      $(ele).replaceWith(function() {
-      $(this).replaceWith(`
-
-          <pre class="sub-content">
-              <div class="markup-area-language_text">${language}</div> 
-              ${$(this).html()}
-              <div class="markup-area-copy_text">copy</div>       
-          </pre>
-
-      `)
+  if($markupElements.length !== 0){
+    $markupElements.each((i,ele)=>{
+      let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
+      //console.log(language)
+        $(ele).replaceWith(function() {
+        $(this).replaceWith(`
+  
+            <pre class="sub-content">
+                <div class="markup-area-language_text">${language}</div> 
+                ${$(this).html()}
+                <div class="markup-area-copy_text">copy</div>       
+            </pre>
+  
+        `)
+      });
+  
     });
-
-  });
+  }
+  
   
 
 

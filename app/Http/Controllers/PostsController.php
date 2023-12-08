@@ -148,7 +148,8 @@ class PostsController extends Controller
             ]);
         }
 
-        return back();
+        return Redirect::back();
+        
         
     }
     public function destroy(Request $request)

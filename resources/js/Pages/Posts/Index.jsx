@@ -13,51 +13,56 @@ import parse from 'html-react-parser';
 export default function Blog() {
     fixedSearch();
     bg();
-    const [tags, setTags] = useState([]);
-    const [keyword, setKeyword] = useRemember('');
-    const [category, setCategory] = useRemember('');
 
-    const [tagid,setTagid] = useState('');
+
+    const [searchState, setSearchState] = useRemember({
+        keyword:"",
+        category:"",
+    })
+   
+    
     //const loadPosts = usePage().props.posts.data;
     let loadPosts = usePage().props.loadPosts.data;
     const [posts, setPosts] = useState(loadPosts);
+
     useEffect(() => { 
-        if(category && keyword){  
-            loadPosts = loadPosts.filter(post => post.category === category);
-            let reg = new RegExp(keyword,"gi");
+
+        if(searchState.category && searchState.keyword){  
+            loadPosts = loadPosts.filter(post => post.category === searchState.category);
+            let reg = new RegExp(searchState.keyword,"gi");
             setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
             
-        }else if(category){
-            setPosts(loadPosts.filter(post => post.category === category));
-           
-        }else if(keyword){
-            let reg = new RegExp(keyword,"gi");
+        }else if(searchState.category){
+            setPosts(loadPosts.filter(post => post.category === searchState.category));
+
+        }else if(searchState.keyword){
+            let reg = new RegExp(searchState.keyword,"gi");
             setPosts(loadPosts.filter(post =>  String(post['keywords']).match(reg) ));
            
-        }else if(!keyword || !category){
+        }else if(!searchState.keyword || !searchState.category){
             setPosts(loadPosts);
         }
-        //postsTag.style.opacity = 1;
-      }, [keyword,category,tagid]);
+        
+      }, [searchState.keyword,searchState.category]);
     
     const reset = ()=>{
         $(".search_area_input").val("");
-         setTagid("");
-         setKeyword("");
-         setCategory("");
+         setSearchState(searchState => ({...searchState, "keyword":""}))
+         setSearchState(searchState => ({...searchState, "category":""}))
          setPosts(loadPosts);
          $(".js-search_area_icon").removeClass("fixed");
+        
      }
     
-     const LoadTag = ()=>{
-        return(
-            loadPosts.forEach((post)=> {
-                return(
-                    <option value="1" >タグ1</option>   
-                )
-            })
-        )     
-     }
+
+     
+  const categoryName = [
+    "",
+    "Engineering",
+    "",
+    "Notion",
+    "Diary"
+  ]
      const RendarallPage = ()=>{
         if(posts.length>0){
             return(
@@ -87,7 +92,11 @@ export default function Blog() {
             )
         }else{
             return(
-                <div className='fade'>{keyword}のキーワードでは､記事がありません</div>
+                <div className='fade'>
+                    {searchState.category?categoryName[Number(searchState.category)]+"の中に､":""}
+                    {searchState.keyword}のキーワードで
+                    ヒットする記事がありません｡
+                </div>
                 
             )
         }
@@ -111,20 +120,20 @@ export default function Blog() {
                     <div className="section_title_jp">BLOG</div>
                     </h1>
                     <ul className="category_tab tab">  
-                        <li className={category === 1?"category_tab_li on":"category_tab_li"} 
-                        tabIndex="-1" value="1" 
-                        onClick={(e)=>{setCategory(e.target.value);}}>
-                            Engineering
+                        <li className={searchState.category === 1?"category_tab_li on":"category_tab_li"} 
+                        tabIndex="-1" value="1"  
+                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
+                            {categoryName[1]}
                         </li>
-                        <li className={category === 3?"category_tab_li on":"category_tab_li"} 
+                        <li className={searchState.category === 3?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="3" 
-                        onClick={(e)=>{setCategory(e.target.value);}}>
-                            Notion
+                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
+                            {categoryName[3]}
                         </li> 
-                        <li className={category === 4?"category_tab_li on":"category_tab_li"} 
+                        <li className={searchState.category === 4?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="4" 
-                        onClick={(e)=>{setCategory(e.target.value);}}>
-                            Diary
+                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
+                            {categoryName[4]}
                         </li>
                     </ul>
                     <div className="search_area js-search_area">
@@ -134,15 +143,15 @@ export default function Blog() {
                         <BsSearch className="search_area_icon js-search_area_icon"/>
                         <input list="tag-list"  className="search_area_input js-search_area_input" id="tag-choice" 
                             name="tag-choice" placeholder=""  
-                            value={Number(keyword)? "":keyword}
-                            onChange={(e)=>{                          
-                                setKeyword(e.target.value);
+                            value={searchState.keyword}
+                            onChange={(e)=>{                   
+                            
+                                setSearchState(searchState => ({...searchState, "keyword":e.target.value}))
+
                             }
                             } 
                         />
-                        <datalist id="tag-list">
-                            <LoadTag />                
-                        </datalist>
+                        
                     </div>
                     <div className="section_content posts">
                         <RendarallPage />
