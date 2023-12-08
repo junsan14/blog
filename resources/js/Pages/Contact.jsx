@@ -1,6 +1,5 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import {useForm, router, Head} from '@inertiajs/react';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import {bg } from "@/script";
 

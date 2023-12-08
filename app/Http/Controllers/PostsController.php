@@ -30,9 +30,10 @@ class PostsController extends Controller
 
     public function show(Request $request){
         $id = $request->query('id');
+        //dd($request);
         if($request->query('is_preview') == 1){
             $post = $request->query('data');
-       
+           
             return Inertia::render('Posts/Page',['post'=>$post]);
         }else{
             $post = Blog::where([['id','=' ,$id], ['is_show', '=',1]])->get();

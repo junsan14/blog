@@ -3,8 +3,6 @@ import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
 import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5';
 import { createRequire } from 'node:module';
-import basicSsl from '@vitejs/plugin-basic-ssl'
-
 const require = createRequire( import.meta.url );
 
 
@@ -30,6 +28,7 @@ export default defineConfig({
             host:'192.168.40.25',
         }
         */
+
     },
 
     

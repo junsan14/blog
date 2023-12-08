@@ -14,14 +14,11 @@ export default function Blog() {
     fixedSearch();
     bg();
 
-
     const [searchState, setSearchState] = useRemember({
         keyword:"",
         category:"",
     })
    
-    
-    //const loadPosts = usePage().props.posts.data;
     let loadPosts = usePage().props.loadPosts.data;
     const [posts, setPosts] = useState(loadPosts);
 
@@ -145,9 +142,7 @@ export default function Blog() {
                             name="tag-choice" placeholder=""  
                             value={searchState.keyword}
                             onChange={(e)=>{                   
-                            
                                 setSearchState(searchState => ({...searchState, "keyword":e.target.value}))
-
                             }
                             } 
                         />

@@ -65,6 +65,7 @@ export default function Create({auth}){
     function handleClickPreview(){      
         setData('is_preview', 1);
     }
+
     function handleClickRestore(e){
         e.preventDefault();
         let res =  confirm(`前回のデータを復元しますか?`);

@@ -7,7 +7,6 @@ import {formatDate,bg } from "@/script";
 import {Instagram} from "@/Components/Sns";
 import {MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';
-import $ from 'jquery';
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;

@@ -398,7 +398,6 @@ img{
 	.flow-image{
 	
 		min-width: 5vw;
-
 		max-width: 5vw;
 		object-fit: cover;
 		//border-radius: 50%;
@@ -413,9 +412,8 @@ img{
 	
 		@include mq(tab){
 
-			min-width: 5vw;
-	
-			max-width: 5vw;
+			min-width: 15vw;
+			max-width: 15vw;
 		}
 	
 	}
@@ -1642,7 +1640,6 @@ img{
 					font-size: .8em;
 					width: 100%;
 					border-radius: 2px;
-					background:  rgba(#fff,1);
 					@include mq(sp){
 						margin-top: 10px;
 						margin-bottom: 10px;

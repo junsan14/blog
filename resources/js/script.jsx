@@ -4,6 +4,8 @@ import transparentImg from '../images/transparent.png';
 import hljs from 'highlight.js';
 import '../../node_modules/highlight.js/styles/foundation.css'
 
+
+
 function SpMenuShow(){
     const [loadState, setLoadState]= useState(false);
     //console.log(loadState)
@@ -56,6 +58,7 @@ function graphShow(){
   }
 
 function bg(){
+
     const bgimages = [
         "/userfiles/images/mysql.png",
         "/userfiles/images/jquery.png",
@@ -66,8 +69,8 @@ function bg(){
         "/userfiles/images/laravel.png",
         "/userfiles/images/php.png",
         "/userfiles/images/kusatsu.png",
-        "/userfiles/images/dq.png",
         "/userfiles/images/apple.png",
+        "/userfiles/images/slime.png",
        ];
        $(function(){
         $('.flow-image').remove();

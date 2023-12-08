@@ -1,4 +1,3 @@
-
 import {graphShow,bg} from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {FrontSKillGraph,BackSKillGraph,OtherSkillGraph} from '@/Components/SkillGraph';
