@@ -1,12 +1,12 @@
-import {graphShow,bg} from "@/script";
+import {graphShow} from "@/script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {FrontSKillGraph,BackSKillGraph,OtherSkillGraph} from '@/Components/SkillGraph';
 import profile from '../../images/profile.png';
 import {Head } from '@inertiajs/react';
 export default function About() {
   graphShow();
-  bg()
 
+ 
   return (
       <GuestLayout>
             <Head>
@@ -66,7 +66,7 @@ export default function About() {
                 </h2>
                 <div className="skill">
                   <ul className="skill_tab tab">
-                    <li className="skill_tab_li js-skill-tab-li" tabIndex="-1" name="front">FrontEnd</li>
+                    <li className="skill_tab_li js-skill-tab-li on" tabIndex="-1" name="front">FrontEnd</li>
                     <li className="skill_tab_li js-skill-tab-li" tabIndex="-1" name="back">BackEnd</li>
                     <li className="skill_tab_li js-skill-tab-li" tabIndex="-1" name="other">Adobe/Tools</li>
                   </ul>

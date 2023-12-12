@@ -3,14 +3,17 @@ import React, {useState } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 
-import {formatDate,bg } from "@/script";
+import {formatDate } from "@/script";
 import {Instagram} from "@/Components/Sns";
 import {MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;
+  
   const [posts, setPosts] = useState(loadPosts);
+
+ 
   
   const RendarallPage = ()=>{
     if(posts.length>0){
@@ -41,7 +44,7 @@ export default function Home() {
         )
     }   
  }
-bg();
+
     return (
       <GuestLayout>
           <Head>
@@ -50,7 +53,7 @@ bg();
           </Head>
             <div className='background'>
               <div className="images">
-                <img className="flow-image 0" src="/userfiles/images/africa.png" />
+                <img className="flow-image 0" id="0" src="/userfiles/images/africa.png" />
               </div>
             </div>
             <div className="home">

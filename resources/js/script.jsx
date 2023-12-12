@@ -58,7 +58,7 @@ function graphShow(){
   }
 
 function bg(){
-
+   
     const bgimages = [
         "/userfiles/images/mysql.png",
         "/userfiles/images/jquery.png",
@@ -72,26 +72,34 @@ function bg(){
         "/userfiles/images/apple.png",
         "/userfiles/images/slime.png",
        ];
+       //let id = $('.flow-image').last().attr('id')?$('.flow-image').last().attr('id'):0;
        $(function(){
-        $('.flow-image').remove();
-        let id = 0;
+        //id = $('.flow-image').length ===0? 0:id;
+        let id =0;
         requestAnimationFrame(function(){
           setInterval(function(){
             let num = Math.floor(Math.random() * (bgimages.length));
-            let position = Math.floor(Math.random() * 9)*11;  
-
-            $(".images").append(`<img class="flow-image ${id+1}" id="${id+1}" style="left:${position}%;" src="${bgimages[num]}" />`);
-            let removeImg = $("."+id);
+            let position = Math.floor(Math.random() * 99);  
             id++;
-            setTimeout(function(){
-              removeImg.remove();
-            },9000)
-         
-           },6000)
+            //console.log(id)
+            //console.log($('.flow-image').last().attr('id'))
+            if($("."+id ).length === 0){
+              $(".images").append(`<img class="flow-image ${id}" id="${id}" style="left:${position}%;" src="${bgimages[num]}" />`);
+              let removeImg = $("."+id);
+              setTimeout(function(){
+                removeImg.remove();
+              },15000)
+            }
+           },5000)
         })
+        window.addEventListener('blur', function(){
+          $('.flow-image').remove();
+          //console.log($('.flow-image'))
+        }, false);
         
       })
-       
+      
+
 
    
 }

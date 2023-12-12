@@ -20,7 +20,9 @@ class PostsController extends Controller
 
     public function home(){
         $showBlog = Blog::where('is_show',1)->latest('published_at')->take(4)->get();
-       return Inertia::render('Home',['posts'=>new BlogCollection($showBlog)]);
+       return Inertia::render('Home',[
+        'posts'=>new BlogCollection($showBlog),
+    ]);
     }
 
     public function index(){

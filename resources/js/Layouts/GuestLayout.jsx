@@ -1,9 +1,15 @@
 import { Link, usePage } from '@inertiajs/react';
 import {SpMenuShow, showMsg} from "@/script";
 import {FaXTwitter,FaInstagram} from 'react-icons/fa6';
+import {bg } from "@/script";
+import $ from 'jquery';
 
 function Layout({user,children,status}){
   SpMenuShow();
+
+  if($('.flow-image').length === 0){
+    bg();
+  }
   let is_login = usePage().props.auth.user?true:false
   const is_sccuess= usePage().props.is_success;
   showMsg(is_sccuess);

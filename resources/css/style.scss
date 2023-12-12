@@ -96,12 +96,13 @@ img{
 		position: fixed;
 		right: 0;
 		height: 100%;
-		top: 0;
+		top:15vh;
 		@include mq(tab){
 			width: 100%;
 			right: 0px;
 			z-index: 10;
 			height: 60px;
+			top: 0;
 			background: rgba(#fff, .8);
 			& .toggle-sp{
 				position: relative;
@@ -159,7 +160,7 @@ img{
 		.nav{
 			justify-content:center;
 			align-items:center;
-			margin-top: 100px;
+			
 			@include mq(tab){
 				opacity: 0;
 				pointer-events: none;
@@ -397,8 +398,8 @@ img{
 	}
 	.flow-image{
 	
-		min-width: 5vw;
-		max-width: 5vw;
+		min-width: 4vw;
+		max-width: 4vw;
 		object-fit: cover;
 		//border-radius: 50%;
 		//border: 1px solid rgba(#111,.5);
@@ -408,12 +409,16 @@ img{
 		bottom: 0;
 		opacity: 0.2;
 		z-index: -1;
-		filter: grayscale(60%);
-	
+		filter: grayscale(100%);
 		@include mq(tab){
 
-			min-width: 15vw;
-			max-width: 15vw;
+			min-width: 7vw;
+			max-width: 7;
+		}
+		@include mq(sp){
+
+			min-width: 10vw;
+			max-width: 10vw;
 		}
 	
 	}
@@ -1427,7 +1432,15 @@ img{
 		margin-top: 0px;
 	}
 	
-	&_content{
+	&_content  {
+		.image-style-side{
+			float: right;
+    		max-width: 50%;
+			@include mq(sp){
+				max-width: 100%;
+			}
+		}
+		
 		.ck.ck-editor__main>.ck-editor__editable {
 			background: #f9f9f9;
 			border-radius: 0;
@@ -1576,7 +1589,7 @@ img{
 					font-size: 1.1em;			
 					font-weight: bolder;
 					margin: 40px 0 20px 0;
-					background: rgba(#fff,1);
+					border: 2px solid rgba(#eee,1);
 					display: inline-block;
 					padding:.1em 1em;
 					
@@ -1585,31 +1598,37 @@ img{
 				h3{
 					position: relative;
 					padding-left: 25px;
+					margin-bottom: 10px;
 					@include mq(tab){
 						min-width: 40vw;
 					}
 					&:before {
 						position: absolute;
 						content: '';
-						bottom: -3px;
+						bottom: -1px;
 						left: 0;
 						width: 0;
 						height: 0;
 						border: none;
-						border-left: solid 15px transparent;
-						border-bottom: solid 15px rgba(#fff,1);
+						border-left: solid 10px transparent;
+						border-bottom: solid 10px rgba(#eee,1);
+						
 					  }
 					  &:after {
 						position: absolute;
 						content: '';
-						bottom: -3px;
-						left: 10px;
-						width: 100%;
-						border-bottom: solid 3px rgba(#fff,1);
+						bottom: -1px;
+						left: 5px;
+						width: calc(100% - 10px);
+						border-bottom: solid 2px rgba(#eee,1);
 					  }
 				}
 				.sub-content{
 					margin-left:15px;
+					&.image{
+						margin: 0.9em auto;
+						text-align: center;
+					}
 				}
 				h5{
 					opacity: 0;

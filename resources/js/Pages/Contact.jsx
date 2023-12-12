@@ -1,11 +1,10 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import {useForm, router, Head} from '@inertiajs/react';
 import TextInput from '@/Components/TextInput';
-import {bg } from "@/script";
 
 
 export default function Contact() {
- bg();
+
   const { data, setData,processing,progress,post } = useForm({
     user_name: "",
     user_email: "",   
@@ -20,7 +19,7 @@ export default function Contact() {
             ...values,
             [key]: value,
         }))
-console.log(data)
+
     }
     function submit(e){
       e.preventDefault();

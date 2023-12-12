@@ -12,7 +12,7 @@ import parse from 'html-react-parser';
 
 export default function Blog() {
     fixedSearch();
-    bg();
+
 
     const [searchState, setSearchState] = useRemember({
         keyword:"",
