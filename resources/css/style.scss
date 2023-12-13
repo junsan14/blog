@@ -1434,8 +1434,8 @@ img{
 	
 	&_content  {
 		.image-style-side{
-			float: right;
-    		max-width: 50%;
+			//float: right;
+    		//max-width: 50%;
 			@include mq(sp){
 				max-width: 100%;
 			}

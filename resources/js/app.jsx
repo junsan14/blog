@@ -1,6 +1,8 @@
 import './bootstrap';
 import '../css/app.css';
-import "../css/reset.css"
+import "../css/reset.css";
+import "../css/ckEditor.css";
+
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp,Link } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
