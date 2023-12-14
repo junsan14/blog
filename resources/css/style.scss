@@ -1585,7 +1585,9 @@ img{
 					margin: 40px 0 20px 0;
 					border: 2px solid rgba(#eee,1);
 					display: inline-block;
-					padding:.1em 1em;
+					word-break: break-word;
+
+					
 					
 				}
 				
@@ -1593,6 +1595,7 @@ img{
 					position: relative;
 					padding-left: 25px;
 					margin-bottom: 10px;
+					word-break: break-word;
 					@include mq(tab){
 						min-width: 40vw;
 					}
