@@ -4,8 +4,6 @@ import transparentImg from '../images/transparent.png';
 import hljs from 'highlight.js';
 import '../../node_modules/highlight.js/styles/foundation.css'
 
-
-
 function SpMenuShow(){
     const [loadState, setLoadState]= useState(false);
     //console.log(loadState)
@@ -380,7 +378,11 @@ function addClassPage(){
   //console.log($markupElements.find("code").attr("class"))
   if($markupElements.length !== 0){
     $markupElements.each((i,ele)=>{
+    
       let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
+      if(language === "GoogleAppsScript" ){
+        $(ele).find("code").attr("class", "language-javascript")
+      }
       //console.log(language)
         $(ele).replaceWith(function() {
         $(this).replaceWith(`
@@ -393,21 +395,32 @@ function addClassPage(){
   
         `)
       });
-  
     });
   }
   
   
-
+  hljs.highlightAll()
 
 
   $h2.on('click', function(){
     
     $($(this).nextAll().not("h3").not("h2")).addClass("show");
-    console.log($(this))
+    //console.log($(this))
   })
  
-  hljs.highlightAll();
+  //const a = hljs.highlightAll();
+  hljs.addPlugin({
+    'after:highlight'(result) {
+      //let codeArry = result["_top"]["contains"];
+
+  
+
+    }
+    
+  })
+  console.log()
+
+
   //コピーボタン
   $(".markup-area-copy_text").on("click", function(){
     let that = $(this);

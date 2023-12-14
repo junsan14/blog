@@ -16,6 +16,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
         <script>CKFinder.config( { connectorPath: '/ckfinder/connector' } );</script>
+        
         <!-- Scripts -->
         @include('ckfinder::setup')
         @vite(['resources/css/style.scss'])

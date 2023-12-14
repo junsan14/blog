@@ -1,7 +1,8 @@
 import './bootstrap';
 import '../css/app.css';
 import "../css/reset.css";
-import "../css/ckEditor.css";
+import "../css/ckEditor.scss";
+
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp,Link } from '@inertiajs/react';

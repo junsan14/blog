@@ -28,7 +28,8 @@ import {
     ImageToolbar,
     ImageUpload,
     PictureEditing,
-    
+    ImageResizeEditing, 
+    ImageResizeHandles,
     ImageResize,
 } from '@ckeditor/ckeditor5-image';
 
@@ -54,6 +55,8 @@ export const editorConfiguration = {
         ImageToolbar,
         PictureEditing,
         ImageResize,
+        ImageResizeEditing,
+        ImageResizeHandles,
         UploadAdapter,
         Table,
         TableToolbar,
@@ -104,9 +107,39 @@ export const editorConfiguration = {
             'toggleImageCaption',
             'imageStyle:inline',
             'imageStyle:block',
-            'imageStyle:side'
+            'imageStyle:side',
+            'resizeImage',
+
         ],
+        resizeOptions: [
+        {
+            name: 'resizeImage:original',
+            value: null,
+            label: 'Original'
+        },
+        {
+            name: 'resizeImage:25',
+            value: '25',
+            label: '25%'
+        },
+        {
+            name: 'resizeImage:50',
+            value: '50',
+            label: '50%'
+        },
+        {
+            name: 'resizeImage:75',
+            value: '75',
+            label: '75%'
+        },
+        {
+            name: 'resizeImage:100',
+            value: '100',
+            label: '100%'
+        }
+    ],
     },
+    
     link:{
         addTargetToExternalLinks: true,
     },
@@ -119,10 +152,14 @@ export const editorConfiguration = {
     codeBlock: {
         languages: [
             { language: 'plaintext', label: 'Plain text', class: '' },
-            { language: 'html', label: 'HTML' },
-            { language: 'css', label: 'CSS' },
-            { language: 'javaScript', label: 'JavaScript' },
-            { language: 'php', label: 'PHP' },
+            { language: 'HTML', label: 'HTML' },
+            { language: 'SCSS', label: 'SCSS' },
+            { language: 'CSS', label: 'CSS' },
+            { language: 'JAVASCRIPT', label: 'JavaScript' },
+            { language: 'GoogleAppsScript', label: 'GAS' },
+            { language: 'PHP', label: 'PHP' },
+            { language: 'SQL', label: 'SQL' },
+            { language: 'BASH', label: 'BASH' },
             
         ]
     }
