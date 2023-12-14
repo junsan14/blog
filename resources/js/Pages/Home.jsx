@@ -9,7 +9,6 @@ import {MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';
 
 export default function Home() {
-  console.log(usePage())
   const loadPosts = usePage().props.posts.data;
   const [posts, setPosts] = useState(loadPosts);
 
