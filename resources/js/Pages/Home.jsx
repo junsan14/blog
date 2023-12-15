@@ -1,5 +1,5 @@
 import { usePage,Link,Head } from '@inertiajs/react';
-import React, {useState } from "react";
+import React, {useState,useEffect,useCallback } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 
@@ -12,8 +12,6 @@ export default function Home() {
   const loadPosts = usePage().props.posts.data;
   const [posts, setPosts] = useState(loadPosts);
 
- 
-  
   const RendarallPage = ()=>{
     if(posts.length>0){
         return(

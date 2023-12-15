@@ -74,27 +74,46 @@ function bg(){
        $(function(){
         //id = $('.flow-image').length ===0? 0:id;
         let id =0;
-        requestAnimationFrame(function(){
-          setInterval(function(){
-            let num = Math.floor(Math.random() * (bgimages.length));
-            let position = Math.floor(Math.random() * 99);  
-            id++;
-            //console.log(id)
-            //console.log($('.flow-image').last().attr('id'))
-            if($("."+id ).length === 0){
-              $(".images").append(`<img class="flow-image ${id}" id="${id}" style="left:${position}%;" src="${bgimages[num]}" />`);
-              let removeImg = $("."+id);
-              setTimeout(function(){
-                removeImg.remove();
-              },15000)
-            }
-           },5000)
+        let createBg = setInterval(function(){
+          //console.log('タブアクティブ')
+          let num = Math.floor(Math.random() * (bgimages.length));
+          let position = Math.floor(Math.random() * 99);  
+          id++;
+          //console.log(id)
+          //console.log($('.flow-image').last().attr('id'))
+          if($("."+id ).length === 0){
+            $(".images").append(`<img class="flow-image ${id}" id="${id}" style="left:${position}%;" src="${bgimages[num]}" />`);
+            let removeImg = $("."+id);
+            setTimeout(function(){
+              removeImg.remove();
+            },15000)
+          }
+         },5000)
+
+        window.addEventListener('visibilitychange', function(){
+          if (document.visibilityState === "visible") {
+            createBg = setInterval(function(){
+              //console.log('タブアクティブ')
+              let num = Math.floor(Math.random() * (bgimages.length));
+              let position = Math.floor(Math.random() * 99);  
+              id++;
+              //console.log(id)
+              //console.log($('.flow-image').last().attr('id'))
+              if($("."+id ).length === 0){
+                $(".images").append(`<img class="flow-image ${id}" id="${id}" style="left:${position}%;" src="${bgimages[num]}" />`);
+                let removeImg = $("."+id);
+                setTimeout(function(){
+                  removeImg.remove();
+                },15000)
+              }
+             },5000)
+          } else{
+            $('.flow-image').remove();
+          clearInterval(createBg);
+          }
+          
+         
         })
-        window.addEventListener('blur', function(){
-          $('.flow-image').remove();
-          //console.log($('.flow-image'))
-        }, false);
-        
       })
       
 
