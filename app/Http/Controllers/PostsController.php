@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 
 use App\Http\Resources\BlogCollection;
-use App\Http\Resources\TestCollection;
+use App\Http\Resources\BlogResource;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
@@ -21,10 +22,9 @@ class PostsController extends Controller
 
     public function home(){
         $showBlog = Blog::where('is_show',1)->latest('published_at')->take(4)->get();
-        //dd(new TestCollection($showBlog));
         
        return Inertia::render('Home',[
-        'posts'=>new TestCollection($showBlog),
+        'posts'=>new BlogCollection($showBlog),
     ]);
     }
 
