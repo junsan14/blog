@@ -581,7 +581,7 @@ img{
 							height:80%;
 							
 							object-fit: cover;
-							border-radius: 5px 0 0 5px;
+							
 							@include mq(tab){
 								width:75%;
 								height: 50%;
@@ -992,7 +992,7 @@ img{
 			
 			
 			& .modal-pic{
-				width: 80%;
+				
 				height: auto;
 				max-height: 90%;
 				margin: 0 auto;

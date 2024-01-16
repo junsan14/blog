@@ -465,9 +465,7 @@
         max-width: 100%;
         display: block;
         box-sizing: border-box;
-        @include mq(sp){
-            min-width: 80%;
-        }
+       
         img {
           width: 100%;
         }

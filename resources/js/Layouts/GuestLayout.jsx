@@ -46,7 +46,7 @@ function Layout({user,children,status}){
           <a href="https://twitter.com/junsan_junsan14" target="_blank" rel="noopener noreferrer">
             <FaXTwitter className='nav_sns_icon'/>
           </a>
-          <a href="https://www.instagram.com/junsan_junsan14/" rel="noopener noreferrer" target='_blank'>
+          <a href="https://twitter.com/junsan147" rel="noopener noreferrer" target='_blank'>
             <FaInstagram className='nav_sns_icon'/>
           </a>
         </div>
