@@ -9,7 +9,7 @@ function Instagram(){
   const page = usePage();
   const [posted, setPosted] = useState("");
   useEffect(()=>{
-    const user_name = "junsan_junsan14" //ビジネスorクリエイターアカウントの必要あり
+    const user_name = "shimonadashoten" //ビジネスorクリエイターアカウントの必要あり
     const access_token = page.props.Instagram_access_token_KEY;
     const user_id = page.props.Instagram_user_id_KEY;
     const get_count = 8 //取得したい投稿数
