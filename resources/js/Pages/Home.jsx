@@ -7,6 +7,11 @@ import {formatDate } from "@/script";
 import {Instagram} from "@/Components/Sns";
 import {MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';
+import {FaInstagram} from 'react-icons/fa6';
+import { MdEmojiPeople } from "react-icons/md";
+import { FaBlog } from "react-icons/fa";
+
+
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;
@@ -69,8 +74,10 @@ export default function Home() {
                     <EnginerSkillGraph />
                   </div>
                   </div>
-                  <div className="section_btn btn">
-                    <Link href="/about">MORE</Link>
+                  <div className="section_btn">
+                    <Link href="/about">
+                      <MdEmojiPeople />
+                    </Link>
                   </div>
                   
                 </section>
@@ -81,21 +88,25 @@ export default function Home() {
                   <div className="section_content posts">
                     <RendarallPage />
                   </div>
-                  <div className="section_btn btn">
-                  <Link href="/blog">MORE</Link>
+                  <div className="section_btn">
+                    <Link href="/blog">
+                      <FaBlog />
+                    </Link>
                   </div>
                 </section>
                 <section className="section">
                   <h2 className="section_title">
-                    <div className="section_title_jp">SNS</div>
+                    <div className="section_title_jp">Instagram</div>
                   </h2>
                   <div className="section_content sns js-sns">
                     <div className="instagram js-instagram">
                       <div className="instagram_wrapper js-instagram-wrapper">
                        <Instagram />
                       </div>
-                      <div className="section_btn btn">
-                        <a href='https://www.instagram.com/junsan_junsan14/'>Instagram</a>
+                      <div className="section_btn">
+                        <a href='https://www.instagram.com/junsan_junsan14/'>
+                          <FaInstagram />
+                        </a>
                       </div>
                     </div>
                   </div>

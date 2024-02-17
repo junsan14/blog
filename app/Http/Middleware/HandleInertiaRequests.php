@@ -39,9 +39,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'Instagram_access_token_KEY' => env('REACT_APP_Instagram_access_token_KEY'),
-            'Instagram_user_id_KEY' => env('REACT_APP_Instagram_user_id_KEY'),
-            'Instagram_app_id' => env('REACT_APP_Instagram_app_id'),
+
         ];
     }
 }

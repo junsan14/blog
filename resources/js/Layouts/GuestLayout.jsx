@@ -43,10 +43,10 @@ function Layout({user,children,status}){
            {is_login&&  <li className="nav_ul_li js-nav-ul-li"><Link href={route("blog.edit")}>管理画面</Link></li>}
         </ul>
         <div className="nav_sns">
-          <a href="https://twitter.com/junsan_junsan14" target="_blank" rel="noopener noreferrer">
+          <a href="https://twitter.com/junsan147" target="_blank" rel="noopener noreferrer">
             <FaXTwitter className='nav_sns_icon'/>
           </a>
-          <a href="https://twitter.com/junsan147" rel="noopener noreferrer" target='_blank'>
+          <a href="https://www.instagram.com/junsan_junsan14" rel="noopener noreferrer" target='_blank'>
             <FaInstagram className='nav_sns_icon'/>
           </a>
         </div>
