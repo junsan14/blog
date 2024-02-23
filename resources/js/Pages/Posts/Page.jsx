@@ -8,11 +8,12 @@ import {MdAccessTime,MdUpdate} from 'react-icons/md';
 export default function Page() {
 
     const pageData = usePage().props.post[0]? usePage().props.post[0]:usePage().props.post ;
-
+    const pattern = /(src=)["|'](.*?)["|']+/g;
+    const pattern2 = /(src=)/g;
     const Renderpagedata = ()=>{
     //記事のスタイル装飾
     addClassPage();
-   
+   console.log(parse(pageData.thumbnail).props.children.props.src)
     return(
         <>
           <div className="page">
@@ -43,6 +44,15 @@ export default function Page() {
         <Head>
             <title>{pageData.title}</title>
             <meta name="description" content={pageData.excerpt} />
+            <meta head-key="og:description" name="description" content={pageData.excerpt}/>
+
+            <meta inertia property="og:description" content={pageData.excerpt}/>
+            <meta property="og:title" content={pageData.title} />
+            <meta property="og:image" content={parse(pageData.thumbnail).props.children.props.src} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://junsan.info/" />
         </Head>
 			  <div className="section_content page_content">
           <Renderpagedata />

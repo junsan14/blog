@@ -11,7 +11,7 @@ import {FaInstagram} from 'react-icons/fa6';
 import { MdEmojiPeople } from "react-icons/md";
 import { FaBlog } from "react-icons/fa";
 
-
+import ogp from "../../images/ogp.png"
 
 export default function Home() {
   const loadPosts = usePage().props.posts.data;
@@ -51,7 +51,15 @@ export default function Home() {
       <GuestLayout>
           <Head>
             <title>HOME</title>
-            <meta name="description" content="WEBエンジニアとしてのポートフォリオ､またWEB制作やWEB開発に関わる知識を発信しています" />
+            <meta head-key="description" name="description" content="現:海外協力隊ルワンダ24年1次隊員,元WEBエンジニア/ホテルマン　それぞれに関わる情報を発信しています" />
+            <meta head-key="og:description" name="og:description" content="現:海外協力隊ルワンダ24年1次隊員,元WEBエンジニア/ホテルマン　それぞれに関わる情報を発信しています" />
+            <meta head-key="og:description" name="og:description" content="junsan14｜WEBエンジニア" />
+
+            <meta property="og:image" content={ogp} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://junsan.info/" />
           </Head>
             <div className='background'>
               <div className="images">
@@ -62,6 +70,8 @@ export default function Home() {
                 <div className="kv">
                   <div className="kv_text">
                     <h2>JUNSAN 14</h2>
+                    <p>WEB ENGINEER/ HOTEL MAN</p>
+                    <p>JICA海外協力隊</p>
                   </div>       
                 </div>
                 <section className="section">

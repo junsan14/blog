@@ -30,7 +30,7 @@ function Instagram(){
     const Render = ()=>{
       if(posted){
         let posts =posted.business_discovery.media.data; 
-        console.log(posts)
+        //console.log(posts)
         //ModalShow(posts,"instagram");
         return(
           <>
