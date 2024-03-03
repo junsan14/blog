@@ -1219,8 +1219,8 @@ img{
 					grid-template-rows	:22vw ;
 				}
 				@include mq(sp){
-					grid-template-columns:33% 33% 33%;
-					grid-template-rows	:33% ;
+					grid-template-columns:30vw 30vw 30vw;
+					grid-template-rows	:30vw ;
 				}
 
 			}
@@ -1231,6 +1231,17 @@ img{
 					transform: translateY(-5px);
 					filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.2));
 					cursor: pointer;
+				}
+				.post_image{
+					height:20vw ;
+					width: 100%;
+					object-fit: cover;
+					@include mq(tab){
+						height:22vw ;
+					}
+					@include mq(sp){
+						height:30vw ;
+					}
 				}
 			}
 

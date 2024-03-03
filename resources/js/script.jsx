@@ -220,8 +220,10 @@ function ModalShow(props){
           }else{
             index = index + 1;
           }
+         
+            $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
 
-          $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
+          console.log($(images[index]).attr("src"))
           $(".js-slide-number").text(`${index+1}/${images.length}`);
           $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
           
