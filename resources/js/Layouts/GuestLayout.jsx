@@ -56,7 +56,7 @@ function Layout({user,children,status}){
       {children}
     </main>
     <footer className="footer">
-        &copy; JUNSAN14 2023
+        &copy; JUNSAN14
     </footer>
     </>
     )

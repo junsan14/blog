@@ -5,8 +5,12 @@ import parse from 'html-react-parser';
 
 import {MdAccessTime,MdUpdate} from 'react-icons/md';
 
-export default function Page() {
 
+
+
+
+export default function Page() {
+    const homeUrl = usePage().props.ziggy.url;
     const pageData = usePage().props.post[0]? usePage().props.post[0]:usePage().props.post ;
     const pattern = /(src=)["|'](.*?)["|']+/g;
     const pattern2 = /(src=)/g;
@@ -39,16 +43,17 @@ export default function Page() {
         </>
     )    
       }
+
+      console.log(homeUrl + parse(pageData.thumbnail).props.children.props.src)
 	return (
     <GuestLayout>
         <Head>
             <title>{pageData.title}</title>
             <meta name="description" content={pageData.excerpt} />
             <meta head-key="og:description" name="description" content={pageData.excerpt}/>
-
             <meta inertia property="og:description" content={pageData.excerpt}/>
-            <meta property="og:title" content={pageData.title} />
-            <meta property="og:image" content={parse(pageData.thumbnail).props.children.props.src} />
+            <meta inertia property="og:title" content={pageData.title} />
+            <meta property="og:image" content={homeUrl + parse(pageData.thumbnail).props.children.props.src} />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
             <meta property="og:type" content="website" />

@@ -51,15 +51,18 @@ export default function Home() {
       <GuestLayout>
           <Head>
             <title>HOME</title>
-            <meta head-key="description" name="description" content="現:海外協力隊ルワンダ24年1次隊員,元WEBエンジニア/ホテルマン　それぞれに関わる情報を発信しています" />
-            <meta head-key="og:description" name="og:description" content="現:海外協力隊ルワンダ24年1次隊員,元WEBエンジニア/ホテルマン　それぞれに関わる情報を発信しています" />
-            <meta head-key="og:description" name="og:description" content="junsan14｜WEBエンジニア" />
+            <meta name="description" content="現:海外協力隊ルワンダ24年1次隊員,グローカルプログラム伊予市, それぞれに関わる情報を発信しています" />
+
+            <meta head-key="og:description" name="og:description" content="現:海外協力隊ルワンダ24年1次隊員,グローカルプログラム伊予市　それぞれに関わる情報を発信しています" />
 
             <meta property="og:image" content={ogp} />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
-            <meta property="og:type" content="website" />
+
+
             <meta property="og:url" content="https://junsan.info/" />
+            <meta property="og:title" content="junsan14|HOME" />
+            <meta property="og:type" content="website" />
           </Head>
             <div className='background'>
               <div className="images">
