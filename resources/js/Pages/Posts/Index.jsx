@@ -1,7 +1,7 @@
 import { usePage, Link, Head, useForm, router,useRemember} from '@inertiajs/react'
 import React, {useEffect, useState,useRef } from "react";
 import $ from 'jquery';
-import {fixedSearch,formatDate,bg } from "@/script";
+import {fixedSearch,formatDate,bg } from "@/Script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
 import {MdAccessTime} from 'react-icons/md';

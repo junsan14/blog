@@ -5,7 +5,7 @@ import {useState } from 'react';
 import {editorConfiguration,editorConfigurationThumbnail} from '@/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
-import { formatinputDate } from '@/script';
+import { formatinputDate } from '@/Script';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 

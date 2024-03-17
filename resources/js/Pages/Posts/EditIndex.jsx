@@ -4,7 +4,7 @@ import React, {useEffect, useState } from "react";
 import $ from 'jquery';
 import {BsSearch} from 'react-icons/bs';
 import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
-import { fixedSearch,formatDate} from "@/script";
+import { fixedSearch,formatDate} from "@/Script";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {AiOutlineClear} from 'react-icons/ai';
 

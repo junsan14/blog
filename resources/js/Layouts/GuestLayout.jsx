@@ -1,7 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
-import {SpMenuShow, showMsg} from "@/script";
+import {SpMenuShow, showMsg} from "@/Script";
 import {FaXTwitter,FaInstagram} from 'react-icons/fa6';
-import {bg } from "@/script";
+import {bg } from "@/Script";
 import $ from 'jquery';
 
 function Layout({user,children,status}){

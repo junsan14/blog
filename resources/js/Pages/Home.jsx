@@ -3,7 +3,7 @@ import React, {useState,useEffect,useCallback } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 
-import {formatDate } from "@/script";
+import {formatDate } from "@/Script";
 import {Instagram} from "@/Components/Sns";
 import {MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';

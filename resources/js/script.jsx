@@ -5,40 +5,42 @@ import hljs from 'highlight.js';
 import '../../node_modules/highlight.js/styles/foundation.css'
 
 function SpMenuShow(){
-    const [loadState, setLoadState]= useState(false);
-    //console.log(loadState)
-    $(function(){
-      if(!loadState){
-     
-        let $nav = $('.js-nav');
-        let $toggleBtn = $('.js-toggle-sp');
-        let $naviList = $('.js-nav-ul-li');
+  const [loadState, setLoadState]= useState(false);
+
+  useEffect(()=>{
+    const $nav = $('.js-nav');
+    const $toggleBtn = $('.js-toggle-sp');
+    const $naviList = $('.js-nav-ul-li');
+    if(!loadState){
+      $toggleBtn.on('click', ()=>{       
+        console.log('click')
+        if($nav.hasClass('show')){
+          $nav.removeClass('show');
+          $toggleBtn.removeClass('show');
+          $("body").removeClass('noscroll');
+          //console.log($header.hasClass('show'))
+        }else{
+          $nav.addClass('show');
+          $toggleBtn.addClass('show');
+          $("body").addClass('noscroll');
+          //console.log($header.hasClass('show'))
+        }
+  
+      })
+      $naviList.on('click',()=>{
+        $nav.removeClass('show');
+        $toggleBtn.removeClass('show');
+        $("body").removeClass('noscroll');
+      })
+      setLoadState(true);
+  }
+  },[loadState])
+
       
-          $toggleBtn.on('click', ()=>{       
-            if($nav.hasClass('show')){
-              $nav.removeClass('show');
-              $toggleBtn.removeClass('show');
-              $("body").removeClass('noscroll');
-              //console.log($header.hasClass('show'))
-            }else{
-              $nav.addClass('show');
-              $toggleBtn.addClass('show');
-              $("body").addClass('noscroll');
-              //console.log($header.hasClass('show'))
-            }
-      
-          })
-          $naviList.on('click',()=>{
-            $nav.removeClass('show');
-            $toggleBtn.removeClass('show');
-            $("body").removeClass('noscroll');
-          })
-          setLoadState(true);
-      }
   
   
   
-    })
+    
 }
 
 

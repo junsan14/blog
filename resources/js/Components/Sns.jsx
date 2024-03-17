@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { usePage } from '@inertiajs/react';
 
-import { ModalShow } from '@/script';
+import { ModalShow } from '@/Script';
 import {AiFillHeart} from 'react-icons/ai';
 import parse from 'html-react-parser';
 

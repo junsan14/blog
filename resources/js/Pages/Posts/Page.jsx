@@ -1,4 +1,4 @@
-import {ModalShow,formatDate, addClassPage} from "@/script.jsx";
+import {ModalShow,formatDate, addClassPage} from "@/Script.jsx";
 import {usePage,Head } from '@inertiajs/react'
 import GuestLayout from '@/Layouts/GuestLayout';
 import parse from 'html-react-parser';

@@ -1,4 +1,4 @@
-import {graphShow} from "@/script";
+import {graphShow} from "@/Script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {FrontSKillGraph,BackSKillGraph,OtherSkillGraph} from '@/Components/SkillGraph';
 import profile from '../../images/profile.png';

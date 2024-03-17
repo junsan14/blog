@@ -7,7 +7,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
-import { formatinputDate } from '@/script';
+import { formatinputDate } from '@/Script';
 import {get,set,keys,del} from 'idb-keyval';
 export default function Create({auth}){    
    
