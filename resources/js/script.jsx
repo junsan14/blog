@@ -132,6 +132,7 @@ function ModalShow(props){
 
 
     $showModal.on("click", function(){
+      
       $("body").addClass("noscroll");
       let $url = $(this).children().attr("src");
       let index = $(this).data("index");

@@ -35,8 +35,9 @@ function Instagram(){
         return(
           <>
             <ModalShow posts={posts} />
+            
             {posts.map((post,i) => {
-              
+              console.log(post)
               const Source = ()=>{
                 if(String(post.media_url).indexOf('mp4') !== -1){
                  return (
@@ -54,7 +55,7 @@ function Instagram(){
               return(
                 <div className='post' key={i}>
                   <div className='js-show-modal' id="grid" data-posts={posts} data-url={post.media_url} data-index={i}>
-                    <object data={post.media_url} className="post_image js-modal-img" ></object>
+                    <img src={post.media_url} className="post_image js-modal-img" />
                   </div> 
                   <figcaption className="post_desc_caption" >{parse(post.caption)}</figcaption>   
                 </div>
