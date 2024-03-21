@@ -402,11 +402,13 @@ function addClassPage(){
   //console.log($markupElements.find("code").attr("class"))
   if($markupElements.length !== 0){
     $markupElements.each((i,ele)=>{
-    
+      console.log($(ele))
       let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
       if(language === "GoogleAppsScript" ){
         $(ele).find("code").attr("class", "language-javascript")
       }
+      
+      
       //console.log(language)
         $(ele).replaceWith(function() {
         $(this).replaceWith(`
@@ -442,7 +444,7 @@ function addClassPage(){
     }
     
   })
-  console.log()
+
 
 
   //コピーボタン

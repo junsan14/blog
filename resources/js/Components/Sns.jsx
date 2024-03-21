@@ -37,7 +37,7 @@ function Instagram(){
             <ModalShow posts={posts} />
             
             {posts.map((post,i) => {
-              console.log(post)
+              //console.log(post)
               const Source = ()=>{
                 if(String(post.media_url).indexOf('mp4') !== -1){
                  return (

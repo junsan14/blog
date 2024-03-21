@@ -25,6 +25,7 @@ export default function Create({auth}){
         keywords:"",
         thumbnail:"",
         is_show:0,
+        is_top:0,
         published_at:formatinputDate(new Date()),
         is_preview:0,
         is_continue:0,
@@ -150,6 +151,18 @@ export default function Create({auth}){
                     </div>
                     <div className='sub'>
                         <div  className="form_control_item">
+                            <label htmlFor="is_top">Wanna Show on TOP</label>
+                            <input type='checkbox'
+                                name="is_top"
+                                checked={data.is_top}
+                                onChange={(e) =>{
+                                    setData('is_top', e.target.checked); 
+                                    console.log(data.is_top)
+                                } }
+                                className='form_control_item_checkbox'
+                            />
+                        </div>
+                        <div  className="form_control_item">
                             <label htmlFor="published_at">Publish Date</label>
                             <input type='datetime-local' className="form_control_item_select" 
                                 value={formatinputDate(data.published_at)}
@@ -159,7 +172,11 @@ export default function Create({auth}){
                         <div  className="form_control_item">
                             <label htmlFor="category">Category</label>
                             <select className="form_control_item_select" value={data.category}
-                                name='category' id='category' onChange={(e)=>handleChange(e)}
+                                name='category' id='category' onChange={
+                                    (e)=>{
+                                        handleChange(e);
+                                    }
+                                }
                             >
                                 <option value="1">Engineering</option>
                                 <option value="3">Notion</option>

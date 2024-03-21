@@ -21,7 +21,7 @@ class PostsController extends Controller
 {
 
     public function home(){
-        $showBlog = Blog::where('is_show',1)->latest('published_at')->take(4)->get();
+        $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('published_at')->take(4)->get();
         
        return Inertia::render('Home',[
         'posts'=>new BlogCollection($showBlog),
@@ -35,14 +35,12 @@ class PostsController extends Controller
 
     public function show(Request $request){
         $id = $request->query('id');
-        //dd($request);
         if($request->query('is_preview') == 1){
             $post = $request->query('data');
            
             return Inertia::render('Posts/Page',['post'=>$post]);
         }else{
             $post = Blog::where([['id','=' ,$id], ['is_show', '=',1]])->get();
-            
             if(!$post->isEmpty()){
                 return Inertia::render('Posts/Page',['post'=>$post]);
             }else{
@@ -59,7 +57,7 @@ class PostsController extends Controller
     }
 
     public function store(Request $request){
-
+        //dd($request->is_top);
         $content= $request->content;
         $thumbnailPath = $request->thumbnail;
         //dd(isset($thumbnailPath));
@@ -80,7 +78,8 @@ class PostsController extends Controller
             'tag'=>$request->tag,
             'published_at'=>$request->published_at,
             'thumbnail'=> $thumbnailPath,
-            'is_show'=>$request->is_show
+            'is_show'=>$request->is_show,
+            'is_top'=>$request->is_top,
         ]);
 
         if($request->is_continue == 1){

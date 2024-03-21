@@ -159,7 +159,7 @@ export const editorConfiguration = {
             { language: 'GoogleAppsScript', label: 'GAS' },
             { language: 'PHP', label: 'PHP' },
             { language: 'SQL', label: 'SQL' },
-            { language: 'BASH', label: 'BASH' },
+            { language: 'ZSH', label: 'zsh' },
             
         ]
     }

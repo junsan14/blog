@@ -18,6 +18,7 @@ class Blog extends Model
         'tag',
         'thumbnail',
         'is_show',
+        'is_top',
         'published_at'
        
     ];
