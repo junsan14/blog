@@ -32,6 +32,7 @@ export default function About() {
                     <div className="profile_icon_desc">
                       <p >junsan14</p>
                       <p>ホテル業界4年､WEB業界2年</p>
+                      <p>JICA海外協力隊2024年第1次隊ルワンダ</p>
                       
                     </div>
                     <div className="profile_icon_desc">

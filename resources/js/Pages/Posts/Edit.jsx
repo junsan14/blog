@@ -145,6 +145,7 @@ export default function Update(){
                                     <option value="1">Engineering</option>
                                     <option value="3">Notion</option>
                                     <option value="4">Diary</option>
+                                    <option value="5">JOCV</option>
                                     
                                 </select>
                             </div>
