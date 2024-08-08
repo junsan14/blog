@@ -66,7 +66,7 @@ export default function Contact() {
                             name="email"
                             className="form_control_item_input"
                             autoComplete="username"
-                            isFocused={true}
+                            isFocused={false}
                             value={data.user_email}
                             onChange={handleChange}
                         />
@@ -80,7 +80,7 @@ export default function Contact() {
                             name="email"
                             className="form_control_item_input"
                             autoComplete="subject"
-                            isFocused={true}
+                            isFocused={false}
                             value={data.subject}
                             onChange={handleChange}
                         />

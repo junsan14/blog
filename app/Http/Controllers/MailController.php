@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMail;
+use App\Mail\ConfirmMail;
 use Inertia\Inertia;
 use App\Http\Resources\BlogCollection;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class MailController extends Controller
         
         $content = $request->content;
         Mail::to($request->user_email)->send(new ContactMail($request));
-        Mail::to('junsanjunsan15@gmail.com')->send(new ContactMail($request));
+        Mail::to('junsanjunsan15@gmail.com')->send(new ConfirmMail($request));
 
         $showBlog = Blog::where('is_show',1)->latest()->take(4)->get();
         return Inertia::render('Home',[
