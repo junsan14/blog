@@ -386,23 +386,33 @@ function addClassPage(){
       
       
   })
-
-
-  $("table").each((i,ele)=>{
+//目次追加
+  if($h2.length >0){
+    $($h2[0]).before("<ul class='index'><p class='index_title'>目次</p></ul>");
+    $h2.each((i,ele)=>{
+      $(ele).attr('id', i);
+      //console.log(i)
+      const index = `
+      <li class="index_li"><a href="#${i}">${ele.innerHTML}</a></li>
+      `;
+      $(".index").append(index);
+    })
   
+  }
+  
+  
+  $("table").each((i,ele)=>{
       $(ele).wrap(`<div class="table_container"></div>`);
-
   })
   
   $elements.each((i,ele)=>{
     $(ele).not('h2').addClass('sub-content')
   })
 
-  //コピーエリア作成
-  //console.log($markupElements.find("code").attr("class"))
+
   if($markupElements.length !== 0){
     $markupElements.each((i,ele)=>{
-      console.log($(ele))
+      //console.log($(ele))
       let language = $(ele).find("code").attr("class").slice(9, $(ele).find("code").attr("class").length);
       if(language === "GoogleAppsScript" ){
         $(ele).find("code").attr("class", "language-javascript")

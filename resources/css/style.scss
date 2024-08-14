@@ -88,6 +88,10 @@ ul{
 img{
 	max-width: 100%;
 }
+html{
+	scroll-behavior: smooth;
+
+}
 
 
 .header{
@@ -900,7 +904,7 @@ img{
 			font-size: .8em;
 			text-align: center;
 			
-			width: calc(100% / 4 - 1px);
+			width: calc(100% / 3 - 1px);
 			margin-bottom: 30px;
 			background:rgba(#eee,.5);
 			&.on{
@@ -1522,7 +1526,24 @@ img{
 					margin-top: 20px;
 					width: 100%;
 				}
-
+				.index{
+					margin-top: 40px;
+					background: white;
+					padding: 20px 40px;
+					margin-left: 0;
+					font-size: 1.2em;
+		
+					@include mq(sp){
+						margin-top: 30px;
+						
+					}
+					
+					&_li{
+						margin: 20px 0px;
+						list-style:  circled-decimal;
+					}
+				}
+				
 				ol{
 				
 					margin-left:20px;

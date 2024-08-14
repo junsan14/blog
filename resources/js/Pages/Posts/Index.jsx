@@ -55,10 +55,10 @@ export default function Blog() {
      
   const categoryName = [
     "",
-    "Engineering",
+    "IT",
     "",
-    "Notion",
-    "Diary",
+    "",
+    "LIFE",
     "JOCV"
   ]
      const RendarallPage = ()=>{
@@ -123,17 +123,12 @@ export default function Blog() {
                         onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
                             {categoryName[1]}
                         </li>
-                        <li className={searchState.category === 3?"category_tab_li on":"category_tab_li"} 
-                        tabIndex="-1" value="3" 
-                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
-                            {categoryName[3]}
-                        </li> 
                         <li className={searchState.category === 4?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="4" 
                         onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
                             {categoryName[4]}
                         </li>
-                        <li className={searchState.category === 4?"category_tab_li on":"category_tab_li"} 
+                        <li className={searchState.category === 5?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="5" 
                         onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
                             {categoryName[5]}

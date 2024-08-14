@@ -86,10 +86,10 @@ export default function Blog({auth}) {
      }
      const categoryName = [
         "",
-        "Engineering",
+        "IT",
         "",
-        "Notion",
-        "Diary",
+        "",
+        "LIFE",
         "JOCV"
       ]
      const RendarVisibility= (props)=>{
@@ -163,7 +163,7 @@ export default function Blog({auth}) {
               
         
      }
-
+     
 	return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Admin TOP" />
@@ -177,21 +177,18 @@ export default function Blog({auth}) {
                         onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
                             {categoryName[1]}
                         </li>
-                        <li className={searchState.category === 3?"category_tab_li on":"category_tab_li"} 
-                        tabIndex="-1" value="3" 
-                        onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
-                            {categoryName[3]}
-                        </li> 
                         <li className={searchState.category === 4?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="4" 
                         onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
                             {categoryName[4]}
                         </li>
-                        <li className={searchState.category === 4?"category_tab_li on":"category_tab_li"} 
+                        <li className={searchState.category === 5?"category_tab_li on":"category_tab_li"} 
                         tabIndex="-1" value="5" 
                         onClick={(e)=>{setSearchState(searchState => ({...searchState, "category":e.target.value}))}}>
                             {categoryName[5]}
                         </li>
+                    
+                        
                     </ul>
                     <div className="search_area js-search_area edit">
                         <button type="button" className="search_area_reset js-search_area_reset edit" value="RESET" onClick={reset}>

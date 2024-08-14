@@ -142,9 +142,8 @@ export default function Update(){
                                 <label htmlFor="category">Category</label>
                                 <select className="form_control_item_select" value={data.category}
                                     name='category' id='category' onChange={(e)=>handleChange(e)}>
-                                    <option value="1">Engineering</option>
-                                    <option value="3">Notion</option>
-                                    <option value="4">Diary</option>
+                                    <option value="1">IT</option>
+                                    <option value="4">LIFE</option>
                                     <option value="5">JOCV</option>
                                     
                                 </select>
