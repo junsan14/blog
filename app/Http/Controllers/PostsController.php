@@ -34,15 +34,24 @@ class PostsController extends Controller
     }
 
     public function show(Request $request){
+        
         $id = $request->query('id');
+
         if($request->query('is_preview') == 1){
             $post = $request->query('data');
-           
             return Inertia::render('Posts/Page',['post'=>$post]);
         }else{
-            $post = Blog::where([['id','=' ,$id], ['is_show', '=',1]])->get();
-            if(!$post->isEmpty()){
-                return Inertia::render('Posts/Page',['post'=>$post]);
+            $post = Blog::find([['id','=' ,$id], ['is_show', '=',1]])->first();
+            if($post){
+                $category = $post->category;
+                $nextId = Blog::where([['id', '>', $id],['is_show', '=',1],['category','=' ,$category]])->min('id');
+                $prevId = Blog::where([['id', '<', $id],['is_show', '=',1],['category','=' ,$category]])->max('id');
+         
+                $prevPost = Blog::where([['id','=' ,$prevId]])->first();
+                $nextPost = Blog::where([['id','=' ,$nextId]])->first();
+                //dd(($prevPost));
+                return Inertia::render('Posts/Page',['post'=>$post, 'prevPost'=>$prevPost, 'nextPost'=> $nextPost]);
+
             }else{
                 return to_route('blog');
             }   

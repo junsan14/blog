@@ -475,9 +475,24 @@ function addClassPage(){
 }
 
 
+function smoothScroll(){
+  $(function(){
+    let width = window.outerWidth 
+    const headerHeight = $('.toggle-sp').outerHeight();
+
+    $('a[href^="#"]').on('click',function() {
+        let href= $(this).attr("href");
+        let target = $(href);
+        let position = target.offset().top - headerHeight;
+        $('body,html').stop().animate({scrollTop:position}, 300);   
+        return false;
+    });
+  })
+  
+}
 
 
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate, showMsg,bg};
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate, showMsg,bg,smoothScroll};
