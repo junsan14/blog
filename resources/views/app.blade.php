@@ -16,9 +16,7 @@
         <meta property="og:type" content="website" />
         <meta property="og:url" content="{{ url()->current() }}" />
         <link rel="icon" type="svg+xml" sizes="32x32" href="{{ asset('icon.png') }}"" />
-        @php
-        dd($page['props']);
-        @endphp
+       
         @if(isset($page['props']['post']))
             @php
                 $post = $page['props']['post'];
