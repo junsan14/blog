@@ -377,14 +377,10 @@ function addClassPage(){
 
   //setImgNum($(".js-show-modal").length)
   //imgタグにモーダル用のクラス付与
-
   $(".article_content").find("img").each((i,ele)=>{
-
       $(ele).addClass("js-modal-img");
       $(ele).wrap(`<div class="js-show-modal" data-index="${i}"></div>`);
-      $(ele).append(`<div class="image_modal js-image-modal"></div>`); 
-      
-      
+      $(ele).append(`<div class="image_modal js-image-modal"></div>`);    
   })
 //目次追加
   if($h2.length >0){
@@ -404,6 +400,13 @@ function addClassPage(){
   $("table").each((i,ele)=>{
       $(ele).wrap(`<div class="table_container"></div>`);
   })
+
+  //SP時写真を100%横幅に
+  $(".image_resized").each((i,ele)=>{
+    if($(window).width()<767){
+     $(ele).attr('style', 'width:calc(100% - 30px);');
+    }
+})
   
   $elements.each((i,ele)=>{
     $(ele).not('h2').addClass('sub-content')
@@ -444,16 +447,7 @@ function addClassPage(){
     //console.log($(this))
   })
  
-  //const a = hljs.highlightAll();
-  hljs.addPlugin({
-    'after:highlight'(result) {
-      //let codeArry = result["_top"]["contains"];
 
-  
-
-    }
-    
-  })
 
 
 

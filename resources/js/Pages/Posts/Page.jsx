@@ -12,15 +12,12 @@ import {MdAccessTime,MdUpdate} from 'react-icons/md';
 export default function Page() { 
     const homeUrl = usePage().props.ziggy.url;
     const pageData = usePage().props.post[0]? usePage().props.post[0]:usePage().props.post ;
-    console.log(usePage().props.prevPost)
     const prevPost = usePage().props.prevPost? usePage().props.prevPost:usePage().props.post ;
 
     const nextPost = usePage().props.nextPost? usePage().props.nextPost:usePage().props.post ;
- console.log(usePage())
     const pattern = /(src=)["|'](.*?)["|']+/g;
     const pattern2 = /(src=)/g;
     const ogExerpt = pageData.excerpt?pageData.excerpt:"";
-    console.log(prevPost)
     const ogpURL = parse(pageData.thumbnail).props.children?homeUrl + parse(pageData.thumbnail).props.children.props.src:parse(pageData.thumbnail).props.src;
     const Renderpagedata = ()=>{
       addClassPage();
