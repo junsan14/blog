@@ -22,7 +22,19 @@ export default function Page() {
     const Renderpagedata = ()=>{
       addClassPage();
       smoothScroll();
-
+console.log(pageData);
+const UpdateDate = ()=>{
+  if(pageData.updated_at !== pageData.created_at){
+    return(
+      <>
+        <MdUpdate className="article_date_publish_icon"/>
+        {formatDate(pageData.updated_at)}
+      </>
+      
+      
+    )
+  }
+}
       return(
           <>
             <div className="page" >
@@ -31,10 +43,8 @@ export default function Page() {
                   <h1 className="section_content_title">{pageData.title}</h1>
                   <div className="" id={pageData.id} key={pageData.id}>
                     <div className="article_date">
-                      
-                      <MdUpdate className="article_date_publish_icon"/>
-                      {pageData.updated_at?formatDate(pageData.updated_at):formatDate(new Date())}
-
+              
+                      <UpdateDate />
                       <MdAccessTime className="article_date_publish_icon" />
                       {pageData.created_at?formatDate(pageData.published_at):formatDate(new Date())}
                     </div>
