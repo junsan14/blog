@@ -22,16 +22,14 @@ export default function Page() {
     const Renderpagedata = ()=>{
       addClassPage();
       smoothScroll();
-console.log(pageData);
+
 const UpdateDate = ()=>{
-  if(pageData.updated_at !== pageData.created_at){
+  if(formatDate(pageData.updated_at) !== formatDate(pageData.created_at)){
     return(
       <>
         <MdUpdate className="article_date_publish_icon"/>
         {formatDate(pageData.updated_at)}
-      </>
-      
-      
+      </> 
     )
   }
 }

@@ -21,7 +21,7 @@ class PostsController extends Controller
 {
 
     public function home(){
-        $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('published_at')->take(4)->get();
+        $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('updated_at')->take(4)->get();
         
        return Inertia::render('Home',[
         'posts'=>new BlogCollection($showBlog),
@@ -29,7 +29,7 @@ class PostsController extends Controller
     }
 
     public function index(){
-        $showBlog = Blog::where('is_show',1)->latest('published_at')->get();
+        $showBlog = Blog::where('is_show',1)->latest('updated_at')->get();
        return Inertia::render('Posts/Index',['loadPosts'=>new BlogCollection($showBlog)]);
     }
 
@@ -106,7 +106,7 @@ class PostsController extends Controller
     }
 
     public function editIndex(){
-        return Inertia::render('Posts/EditIndex',['loadPosts'=>new BlogCollection(Blog::latest()->get())]);
+        return Inertia::render('Posts/EditIndex',['loadPosts'=>new BlogCollection(Blog::latest('updated_at')->get())]);
 
     }
     

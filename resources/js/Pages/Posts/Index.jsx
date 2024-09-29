@@ -4,7 +4,7 @@ import $ from 'jquery';
 import {fixedSearch,formatDate,bg } from "@/Script";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {BsSearch} from 'react-icons/bs';
-import {MdAccessTime} from 'react-icons/md';
+import {MdAccessTime, MdUpdate} from 'react-icons/md';
 import {AiOutlineClear} from 'react-icons/ai';
 import parse from 'html-react-parser';
 
@@ -61,11 +61,27 @@ export default function Blog() {
     "LIFE",
     "JOCV"
   ]
+  
      const RendarallPage = ()=>{
         if(posts.length>0){
             return(
                 <>
                 {posts.map(({id, title, content,excerpt,thumbnail,updated_at,published_at} )=> {
+                    //console.log(`${formatDate(updated_at)} 作成日${formatDate(published_at)}`)
+                    const UpdateDate = ()=>{
+                        if(formatDate(updated_at) !== formatDate(published_at)){
+                          return(
+                            <>
+                                <p className="article_link_remarks_date">
+                                    <MdUpdate className="article_link_remarks_date_icon"/>
+                                    {formatDate(updated_at)}
+                                </p>
+                            </>
+                            
+                            
+                          )
+                        }
+                      }
                     return(
                         <div className="article fade" id={id} key={id}>
                             <Link href="/blog/page" data={{ id: id }} className='article_link'>
@@ -77,10 +93,11 @@ export default function Blog() {
                                     <div className="article_link_remarks_text">
                                         {excerpt}
                                     </div>
+                                    <UpdateDate />
                                     <p className="article_link_remarks_date">
                                        <MdAccessTime className='article_link_remarks_date_icon' />
                                        {formatDate(published_at)}<br/>
-                                    </p>
+                                    </p>    
                                 </div>
                             </Link>
                         </div>

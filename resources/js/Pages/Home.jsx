@@ -5,7 +5,7 @@ import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 
 import {formatDate } from "@/Script";
 import {Instagram} from "@/Components/Sns";
-import {MdUpdate} from 'react-icons/md';
+import {MdAccessTime,MdUpdate} from 'react-icons/md';
 import parse from 'html-react-parser';
 import {FaInstagram} from 'react-icons/fa6';
 import { MdEmojiPeople } from "react-icons/md";
@@ -21,7 +21,21 @@ export default function Home() {
     if(posts.length>0){
         return(
             <>
-            {posts.map(({id, title, content,excerpt,thumbnail,updated_at} )=> {
+            {posts.map(({id, title, content,excerpt,thumbnail,updated_at,created_at,published_at} )=> {
+              console.log(updated_at)
+                const UpdateDate = ()=>{
+                  
+                  if(formatDate(updated_at) !== formatDate(published_at)){
+                    return(
+                      <>
+                          <p className="article_link_remarks_date">
+                              <MdUpdate className='article_link_remarks_date_icon'/>
+                              {formatDate(updated_at)}
+                          </p>
+                      </>   
+                    )
+                  }
+                }
                 return(
                     <div className="article" id={id} key={id}>
                         <Link href="/blog/page" data={{ id: id }} className='article_link'>
@@ -33,10 +47,13 @@ export default function Home() {
                                 <div className="article_link_remarks_text">
                                     {excerpt}
                                 </div>
-                                <div className="article_link_remarks_date">
-                                    <MdUpdate className='article_link_remarks_date_icon' />
-                                    {formatDate(updated_at)}<br/>
-                                </div>
+                          
+                                   <UpdateDate />
+                                   <p className="article_link_remarks_date">
+                                      <MdAccessTime className='article_link_remarks_date_icon'/>
+                                      {formatDate(published_at)}
+                                   </p>
+                     
                             </div>
                         </Link>
                     </div>

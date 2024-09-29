@@ -22,7 +22,7 @@ export default function Update(){
         tag:editPost.tag?editPost.tag:"",
         keywords:editPost.keywords?editPost.keywords:"",
         thumbnail:editPost.thumbnail,
-        is_show:1,
+        is_show:editPost.is_show,
         is_top:editPost.is_top,
         published_at: editPost.published_at,
         is_preview:0,
@@ -127,14 +127,14 @@ export default function Update(){
                                     checked={data.is_top}
                                     onChange={(e) =>{
                                         setData('is_top', e.target.checked); 
-                                        console.log(data.is_top)
+                                        //console.log(data.is_top)
                                     } }
                                     className='form_control_item_checkbox'
                                 />
                             </div>
                             <div  className="form_control_item">
                                 <label htmlFor="published_at">Publish Date</label>
-                                <input type='datetime-local' className="form_control_item_select" value={formatinputDate(data.published_at)}
+                                <input type='datetime-local' className="form_control_item_select" value={data.is_show ===0? formatinputDate(new Date()): formatinputDate(data.published_at)}
                                     name='published_at' id='published_at' onChange={(e)=>handleChange(e)}
                                 />
                             </div>

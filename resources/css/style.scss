@@ -705,19 +705,15 @@ img{
 						align-items:stretch;
 						
 						.date{
-							display: flex;
-							justify-content:space-evenly;
+							
 							width: 100%;
-							font-size: .5em;
+							font-size: .7em;
 							margin-top: 10px;
 							@include mq(tab){
 								flex-flow: column;
 								align-items: end;
 							}
-							div{
-								display: flex;
-								align-items: center;
-							}
+							
 
 						}
 						.icon{

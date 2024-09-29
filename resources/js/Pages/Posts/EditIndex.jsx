@@ -112,6 +112,18 @@ export default function Blog({auth}) {
             return(
                 <>
                 {posts.map(({id, title, content,excerpt,thumbnail,created_at,updated_at,published_at,is_show} )=> {
+                    const UpdateDate = ()=>{
+                        if(formatDate(updated_at) !== formatDate(published_at)){
+                          return(
+                            <>
+                                <p className="article_link_remarks_date">
+                                    <MdUpdate />
+                                    {formatDate(updated_at)}
+                                </p>
+                            </>   
+                          )
+                        }
+                      }
                     return(
                         <div className={is_show?'article edit': 'article edit unshown'} id={id} key={id}>
                             <div className='id'>
@@ -137,12 +149,10 @@ export default function Blog({auth}) {
                                     </button>
                                 </div>
                                 <div className="date">
-                                    <div>
-                                        <MdUpdate />{formatDate(updated_at)}
-                                    </div>
-                                    <div>
-                                        <MdAccessTime /> {formatDate(published_at)} 
-                                    </div>
+                                        <UpdateDate />
+                                        <p className="article_link_remarks_date">
+                                            <MdAccessTime /> {formatDate(published_at)} 
+                                        </p>
                                 </div> 
                             </div>
                         </div>
