@@ -76,9 +76,7 @@ export default function Blog() {
                                     <MdUpdate className="article_link_remarks_date_icon"/>
                                     {formatDate(updated_at)}
                                 </p>
-                            </>
-                            
-                            
+                            </>   
                           )
                         }
                       }

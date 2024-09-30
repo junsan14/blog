@@ -29,7 +29,7 @@ class PostsController extends Controller
     }
 
     public function index(){
-        $showBlog = Blog::where('is_show',1)->latest('updated_at')->get();
+        $showBlog = Blog::where('is_show',1)->latest('created_at')->get();
        return Inertia::render('Posts/Index',['loadPosts'=>new BlogCollection($showBlog)]);
     }
 
