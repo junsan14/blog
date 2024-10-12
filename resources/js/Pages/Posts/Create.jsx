@@ -10,7 +10,6 @@ import Dropdown from '@/Components/Dropdown';
 import { formatinputDate } from '@/Script';
 import {get,set,keys,del} from 'idb-keyval';
 export default function Create({auth}){    
-   
 
     const {post} = usePage().props;
     const [is_restore, setIs_restore] = useState("false");

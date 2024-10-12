@@ -15,6 +15,7 @@ export default function Page() {
     const prevPost = usePage().props.prevPost? usePage().props.prevPost:usePage().props.post ;
 
     const nextPost = usePage().props.nextPost? usePage().props.nextPost:usePage().props.post ;
+    
     const pattern = /(src=)["|'](.*?)["|']+/g;
     const pattern2 = /(src=)/g;
     const ogExerpt = pageData.excerpt?pageData.excerpt:"";
@@ -52,18 +53,41 @@ const UpdateDate = ()=>{
                   </div>
                 </div>
               </section>
-              <RevelantPage />
+              <h3 className="revelant-title">関連記事</h3>
+              <div className="revelant posts">
+                <RevelantPage />
+              </div>
             </div>
           </>
       )    
     }
 
     const RevelantPage = ()=>{
-
-      return(
-        <>
-          <h3 className="revelant-title">関連記事</h3>
-          <div className="revelant posts">
+      if(nextPost.id === pageData.id){
+        return(
+          <>
+            <div className="article fade" id={prevPost.id} key={prevPost.id}>
+                <Link href="/blog/page" data={{ id: prevPost.id }} className='article_link'>
+                    <div className="article_link_img">
+                        {parse(prevPost.thumbnail)}
+                    </div>
+                    <div className="article_link_remarks">
+                        <h3 className="article_link_remarks_title">{prevPost.title}</h3>
+                        <div className="article_link_remarks_text">
+                            {prevPost.excerpt}
+                        </div>
+                        <p className="article_link_remarks_date">
+                            <MdAccessTime className='article_link_remarks_date_icon' />
+                            {formatDate(prevPost.published_at)}<br/>
+                        </p>
+                    </div>
+                </Link>
+            </div>
+          </>
+        )
+      }else{
+        return (
+          <>
             <div className="article fade" id={prevPost.id} key={prevPost.id}>
                 <Link href="/blog/page" data={{ id: prevPost.id }} className='article_link'>
                     <div className="article_link_img">
@@ -98,10 +122,10 @@ const UpdateDate = ()=>{
                     </div>
                 </Link>
             </div>
-          </div>
+          </>
+        )
+      }
 
-        </>
-      )
     }
 
       //console.log(homeUrl + parse(pageData.thumbnail).props.children.props.src)

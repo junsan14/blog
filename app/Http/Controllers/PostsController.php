@@ -45,10 +45,12 @@ class PostsController extends Controller
             if($post){
                 $category = $post->category;
                 $nextId = Blog::where([['id', '>', $id],['is_show', '=',1],['category','=' ,$category]])->min('id');
+                //$nextId2 = Blog::where([['id', '<', $id],['is_show', '=',1],['category','=' ,$category]])->min('id');
                 $prevId = Blog::where([['id', '<', $id],['is_show', '=',1],['category','=' ,$category]])->max('id');
-         
+   
                 $prevPost = Blog::where([['id','=' ,$prevId]])->first();
                 $nextPost = Blog::where([['id','=' ,$nextId]])->first();
+                //$nextPost2 = Blog::where([['id','=' ,$nextId2]])->first();
                 //dd(($prevPost));
                 return Inertia::render('Posts/Page',['post'=>$post, 'prevPost'=>$prevPost, 'nextPost'=> $nextPost]);
 
