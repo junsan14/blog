@@ -66,18 +66,38 @@ export default function Blog() {
         if(posts.length>0){
             return(
                 <>
-                {posts.map(({id, title, content,excerpt,thumbnail,updated_at,published_at} )=> {
+                {posts.map(({id, title, content,excerpt,thumbnail,updated_at,published_at, created_at} )=> {
                     //console.log(`${formatDate(updated_at)} 作成日${formatDate(published_at)}`)
                     const UpdateDate = ()=>{
-                        if(formatDate(updated_at) !== formatDate(published_at)){
+                        if(formatDate(published_at) == "1970/01/01"){
                           return(
                             <>
                                 <p className="article_link_remarks_date">
-                                    <MdUpdate className="article_link_remarks_date_icon"/>
-                                    {formatDate(updated_at)}
-                                </p>
+                                        <MdAccessTime className='article_link_remarks_date_icon' />
+                                        {formatDate(created_at)}<br/>
+                                </p> 
                             </>   
                           )
+                        }else if(formatDate(published_at) == formatDate(updated_at)){
+                            return(
+                                <p className="article_link_remarks_date">
+                                    <MdAccessTime className='article_link_remarks_date_icon' />
+                                    {formatDate(published_at)}<br/>
+                                </p> 
+                            )
+                        }else{
+                            return(
+                                <>
+                                    <p className="article_link_remarks_date">
+                                        <MdUpdate className="article_link_remarks_date_icon"/>
+                                        {formatDate(updated_at)}
+                                    </p>
+                                    <p className="article_link_remarks_date">
+                                        <MdAccessTime className='article_link_remarks_date_icon' />
+                                        {formatDate(published_at)}<br/>
+                                    </p>  
+                                </>
+                            )
                         }
                       }
                     return(
@@ -91,11 +111,7 @@ export default function Blog() {
                                     <div className="article_link_remarks_text">
                                         {excerpt}
                                     </div>
-                                    <UpdateDate />
-                                    <p className="article_link_remarks_date">
-                                       <MdAccessTime className='article_link_remarks_date_icon' />
-                                       {formatDate(published_at)}<br/>
-                                    </p>    
+                                    <UpdateDate />  
                                 </div>
                             </Link>
                         </div>

@@ -25,14 +25,34 @@ export default function Home() {
               console.log(updated_at)
                 const UpdateDate = ()=>{
                   
-                  if(formatDate(updated_at) !== formatDate(published_at)){
+                  if(formatDate(published_at) == "1970/01/01"){
                     return(
                       <>
-                          <p className="article_link_remarks_date">
+                           <p className="article_link_remarks_date">
+                              <MdAccessTime className='article_link_remarks_date_icon'/>
+                              {formatDate(created_at)}
+                           </p>
+                      </>   
+                    )
+                  }else if(formatDate(published_at) == formatDate(updated_at)){
+                    return(
+                      <p className="article_link_remarks_date">
+                         <MdAccessTime className='article_link_remarks_date_icon'/>
+                        {formatDate(published_at)}
+                      </p>
+                    )
+                  }else{
+                    return(
+                      <>
+                        <p className="article_link_remarks_date">
                               <MdUpdate className='article_link_remarks_date_icon'/>
                               {formatDate(updated_at)}
-                          </p>
-                      </>   
+                        </p>
+                        <p className="article_link_remarks_date">
+                              <MdAccessTime className='article_link_remarks_date_icon'/>
+                              {formatDate(published_at)}
+                        </p>
+                      </>
                     )
                   }
                 }
@@ -46,14 +66,8 @@ export default function Home() {
                                 <h3 className="article_link_remarks_title">{title}</h3>
                                 <div className="article_link_remarks_text">
                                     {excerpt}
-                                </div>
-                          
+                                </div>        
                                    <UpdateDate />
-                                   <p className="article_link_remarks_date">
-                                      <MdAccessTime className='article_link_remarks_date_icon'/>
-                                      {formatDate(published_at)}
-                                   </p>
-                     
                             </div>
                         </Link>
                     </div>

@@ -89,7 +89,12 @@ img{
 	max-width: 100%;
 }
 
-
+.sp-display{
+	@include mq(sp){
+		display: none;
+	}
+	
+}
 
 
 .header{
@@ -1361,16 +1366,24 @@ img{
 					display: flex;
 					flex-wrap: wrap;
 					dt{
-						width: 10%;
+						width: 20%;
 						padding: 15px 0;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						text-align: center;
 						@include mq(tab){
 							width: 100%;
 							padding:0;
+							display: block;
+							text-align: left;
 						}
 					}
 					dd{
-						width: 90%;
+						width: 80%;
 						padding: 15px 0;
+						display: flex;
+						align-items: center;
 						@include mq(tab){
 							width: 100%;
 							padding:5px 0 20px 20px;

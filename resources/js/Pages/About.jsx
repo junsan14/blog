@@ -56,10 +56,14 @@ export default function About() {
                       <dd>帰国後、星野リゾートに入社、4年間河口湖のほとりで過ごす</dd>
                       <dt>2022</dt>
                       <dd>転職後､WEBディレクター兼エンジニアとして東京で活動</dd>
-                      <dt>2024 Jan-Mar</dt>
-                      <dd>JICAグローカルプログラム第3期愛媛県伊予市</dd>
-                      <dt>2024 Aug</dt>
-                      <dd>青年海外協力隊24年第1期コンピュータ技術 ルワンダ派遣予定</dd>
+                      <dt>2024 <br className="sp-display"/>Jan-Mar</dt>
+                      <dd>JICAグローカルプログラム第3期愛媛県伊予市活動</dd>
+                      <dt>2024 <br className="sp-display"/>April-July</dt>
+                      <dd>JICA海外協力隊二本松訓練所にて語学訓練</dd>
+                      <dt>2024 <br className="sp-display"/>Sep-Now</dt>
+                      <dd>JICA海外協力隊24年第1期コンピュータ技術 <br className="sp-display"/>
+                        ルワンダ東部ガツィボ郡ムフラセクター<br className="sp-display"/>
+                        セント・アレクサンドレ・サウリ技術高等学校　活動中</dd>
                     </dl>
                   </div>
                 </div>

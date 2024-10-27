@@ -113,15 +113,34 @@ export default function Blog({auth}) {
                 <>
                 {posts.map(({id, title, content,excerpt,thumbnail,created_at,updated_at,published_at,is_show} )=> {
                     const UpdateDate = ()=>{
-                        if(formatDate(updated_at) !== formatDate(published_at)){
+                        if(formatDate(published_at) == '1970/01/01'){
                           return(
                             <>
                                 <p className="article_link_remarks_date">
-                                    <MdUpdate />
-                                    {formatDate(updated_at)}
+                                    not published yet
                                 </p>
                             </>   
                           )
+                        }else if(formatDate(published_at) == formatDate(updated_at)){
+                            return(
+                                <p className="article_link_remarks_date">
+                                    <MdAccessTime />
+                                    {formatDate(published_at)}
+                                </p>
+                            )
+                        }else{
+                            return(
+                                <>
+                                    <p className="article_link_remarks_date">
+                                        <MdUpdate />
+                                        {formatDate(updated_at)}
+                                    </p>
+                                    <p className="article_link_remarks_date">
+                                        <MdAccessTime />
+                                        {formatDate(published_at)}
+                                    </p>
+                                </>   
+                              ) 
                         }
                       }
                     return(
@@ -150,9 +169,6 @@ export default function Blog({auth}) {
                                 </div>
                                 <div className="date">
                                         <UpdateDate />
-                                        <p className="article_link_remarks_date">
-                                            <MdAccessTime /> {formatDate(published_at)} 
-                                        </p>
                                 </div> 
                             </div>
                         </div>

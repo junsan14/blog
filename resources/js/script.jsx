@@ -407,11 +407,11 @@ function addClassPage(){
      $(ele).attr('style', 'width:calc(100% - 30px);');
     }
 })
-  
+  /*
   $elements.each((i,ele)=>{
-    $(ele).not('h2').addClass('sub-content')
+    $(ele).has('h3').addClass('sub-content')
   })
-
+*/
 
   if($markupElements.length !== 0){
     $markupElements.each((i,ele)=>{

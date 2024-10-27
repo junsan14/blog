@@ -404,9 +404,15 @@ const otherSkill = [
       case "2024":
         return(
           <>
-            青年海外協力隊渡航準備
+            JICA海外協力隊渡航準備
           </>
         );
+      case "2024-Sep":
+      return(
+        <>
+          JICA海外協力隊ルワンダ派遣中
+        </>
+      );
       default:
     }
     
@@ -563,6 +569,10 @@ const bidographyData = [
   },
   {
     "year": "2024",
+    "Motivation": 80,
+  },
+  {
+    "year": "2024-Sep",
     "Motivation": 100,
   },
 ]

@@ -24,12 +24,13 @@ export default function Update(){
         thumbnail:editPost.thumbnail,
         is_show:editPost.is_show,
         is_top:editPost.is_top,
-        published_at: editPost.published_at,
+        published_at: editPost.is_show ==0? formatinputDate(new Date()): formatinputDate(editPost.published_at),
         is_preview:0,
         is_continue:0,
     })
     const submit = (e) => {
         e.preventDefault();
+        
         if(data.is_continue == 1){
             router.post('/blog/admin/create', data,{preserveScroll:true});
         }else{
@@ -134,7 +135,7 @@ export default function Update(){
                             </div>
                             <div  className="form_control_item">
                                 <label htmlFor="published_at">Publish Date</label>
-                                <input type='datetime-local' className="form_control_item_select" value={data.is_show ===0? formatinputDate(new Date()): formatinputDate(data.published_at)}
+                                <input type='datetime-local' className="form_control_item_select" value={data.published_at}
                                     name='published_at' id='published_at' onChange={(e)=>handleChange(e)}
                                 />
                             </div>

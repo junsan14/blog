@@ -76,7 +76,14 @@ class PostsController extends Controller
         if(!isset($thumbnailPath)){
             $thumbnailPath ='<img src="/userfiles/images/noImage.png" alt="">';
         }
-       
+        if($request->is_show == 0){
+   
+            $publish_at = null;
+        }else{
+            $publish_at = $request->published_at;
+            //dd($publish_at);
+        }
+       //dd($publish_at);
         Blog::updateOrCreate(
             ['id'=> $request->id],
             [
@@ -87,7 +94,7 @@ class PostsController extends Controller
             'keywords'=>$request->keywords,
             'category'=>$request->category,
             'tag'=>$request->tag,
-            'published_at'=>$request->published_at,
+            'published_at'=>$publish_at,
             'thumbnail'=> $thumbnailPath,
             'is_show'=>$request->is_show,
             'is_top'=>$request->is_top,
