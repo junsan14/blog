@@ -2,27 +2,24 @@ import parse from 'html-react-parser';
 import { usePage, Link, Head, router, useRemember } from '@inertiajs/react'
 import React, {useEffect, useState } from "react";
 import $ from 'jquery';
-import {BsSearch} from 'react-icons/bs';
-import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
-import { fixedSearch,formatDate} from "@/Script";
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {AiOutlineClear} from 'react-icons/ai';
 
-import { FaTrash,FaEdit } from 'react-icons/fa';
-import {MdAccessTime,MdUpdate} from 'react-icons/md';
 
-export default function Blog({auth}) {
+import BlogIndex,{ ShowCategoryTab, setCategoryName } from './Index';
+
+function OldBlog({auth}) {
     fixedSearch();
 
+    const loadPosts = usePage().props.loadPosts.data;
+    const uri = usePage().component;
+    const [posts, setPosts] = useState(loadPosts);
+    const [keyword, setKeyword] = useState("");
+    const [category, setCategory] = useState("");
+    console.log(uri)
     const [searchState, setSearchState] = useRemember({
         keyword:"",
         category:"",
     })
 
-    let loadPosts = usePage().props.loadPosts.data;
-    
-    const uri = usePage().component;
-    const [posts, setPosts] = useState(loadPosts);
     useEffect(() => { 
         setPosts(loadPosts);
         if(searchState.category && searchState.keyword){  
@@ -240,3 +237,8 @@ export default function Blog({auth}) {
         </AuthenticatedLayout> 
 	);
   }
+
+export default function Blog(){
+    
+    return <BlogIndex />;
+}

@@ -9,6 +9,7 @@ import { formatinputDate } from '@/Script';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 
+
 export default function Update(){
     const editPost = usePage().props.post[0];
     const uri = usePage().component;
@@ -197,4 +198,13 @@ export default function Update(){
  
        
     )
+}
+
+function Test(){
+    return(
+<> 
+  
+
+</>
+        )
 }

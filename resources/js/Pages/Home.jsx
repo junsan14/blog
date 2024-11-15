@@ -10,7 +10,7 @@ import parse from 'html-react-parser';
 import {FaInstagram} from 'react-icons/fa6';
 import { MdEmojiPeople } from "react-icons/md";
 import { FaBlog } from "react-icons/fa";
-
+import { ShowPosts } from './Posts/Index';
 import ogp from "../../images/ogp.png"
 
 export default function Home() {
@@ -130,7 +130,7 @@ export default function Home() {
                     <div className="section_title_jp">BLOG</div>
                   </h2>
                   <div className="section_content posts">
-                    <RendarallPage />
+                    <ShowPosts posts={posts} />
                   </div>
                   <div className="section_btn">
                     <Link href="/blog">
