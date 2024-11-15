@@ -22,9 +22,8 @@ class PostsController extends Controller
 
     public function home(){
         $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('updated_at')->take(4)->get();
-        
        return Inertia::render('Home',[
-        'posts'=>new BlogCollection($showBlog),
+        'loadPosts'=>new BlogCollection($showBlog),
     ]);
     }
 
@@ -36,7 +35,6 @@ class PostsController extends Controller
     public function show(Request $request){
         
         $id = $request->query('id');
-
         if($request->query('is_preview') == 1){
             $post = $request->query('data');
             return Inertia::render('Posts/Page',['post'=>$post]);
@@ -164,11 +162,13 @@ class PostsController extends Controller
         //dd($request);
         if($is_show){
             Blog::where('id', $id)->update([
-                'is_show'=>0
+                'is_show'=>0,
+                'updated_at' => Blog::raw('updated_at')
             ]);
         }else{
             Blog::where('id', $id)->update([
-                'is_show'=>1
+                'is_show'=>1,
+                'updated_at' => Blog::raw('updated_at')
             ]);
         }
 

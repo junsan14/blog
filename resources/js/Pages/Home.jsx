@@ -1,22 +1,19 @@
 import { usePage,Link,Head } from '@inertiajs/react';
-import React, {useState,useEffect,useCallback } from "react";
+import React, {useState } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
-
-import {formatDate } from "@/Script";
 import {Instagram} from "@/Components/Sns";
-import {MdAccessTime,MdUpdate} from 'react-icons/md';
-import parse from 'html-react-parser';
 import {FaInstagram} from 'react-icons/fa6';
 import { MdEmojiPeople } from "react-icons/md";
 import { FaBlog } from "react-icons/fa";
-import { ShowPosts } from './Posts/Index';
+import ShowPosts from './Posts/Components/ShowPosts';
 import ogp from "../../images/ogp.png"
 
 export default function Home() {
-  const loadPosts = usePage().props.posts.data;
+  const loadPosts = usePage().props.loadPosts.data;
   const [posts, setPosts] = useState(loadPosts);
 
+/*
   const RendarallPage = ()=>{
     if(posts.length>0){
         return(
@@ -77,20 +74,17 @@ export default function Home() {
         )
     }   
  }
+ */
 
     return (
       <GuestLayout>
           <Head>
             <title>HOME</title>
             <meta name="description" content="現:海外協力隊ルワンダ24年1次隊員,グローカルプログラム伊予市, それぞれに関わる情報を発信しています" />
-
             <meta head-key="og:description" name="og:description" content="現:海外協力隊ルワンダ24年1次隊員,グローカルプログラム伊予市　それぞれに関わる情報を発信しています" />
-
             <meta property="og:image" content={ogp} />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
-
-
             <meta property="og:url" content="https://junsan.info/" />
             <meta property="og:title" content="junsan14|HOME" />
             <meta property="og:type" content="website" />
@@ -130,7 +124,7 @@ export default function Home() {
                     <div className="section_title_jp">BLOG</div>
                   </h2>
                   <div className="section_content posts">
-                    <ShowPosts posts={posts} />
+                    <ShowPosts selectedPosts={posts} />
                   </div>
                   <div className="section_btn">
                     <Link href="/blog">

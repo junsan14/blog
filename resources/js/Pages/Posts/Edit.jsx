@@ -9,8 +9,32 @@ import { formatinputDate } from '@/Script';
 import { FiSave } from "react-icons/fi";
 import Dropdown from '@/Components/Dropdown';
 
+import Editor from './Components/Editor';
+import EditorHeader from './Components/EditorHeader';
 
-export default function Update(){
+export default function Update({auth}){
+    return(
+        <AuthenticatedLayout user={auth.user} >
+            <Head>
+                <title>新規投稿</title>
+            </Head>
+            <EditorHeader />
+            <div className="create">
+                <section className="section">
+                <h1 className="section_title">
+                    <div className="section_title_jp">EDIT POST</div>
+                </h1>
+                <Editor />
+                </section>
+            </div>
+        </AuthenticatedLayout>            
+ 
+       
+    )
+}
+
+
+function UpdateOld(){
     const editPost = usePage().props.post[0];
     const uri = usePage().component;
     const [is_restore, setIs_restore] = useState("false");
@@ -200,11 +224,3 @@ export default function Update(){
     )
 }
 
-function Test(){
-    return(
-<> 
-  
-
-</>
-        )
-}

@@ -1,9 +1,8 @@
-import parse from 'html-react-parser';
-import { usePage, Link, Head, router, useRemember } from '@inertiajs/react'
+import {Head, router } from '@inertiajs/react'
 import React, {useEffect, useState } from "react";
 import $ from 'jquery';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
-import {CommonBlog } from './Index';
+import SharedBlogIndex from './Components/SharedBlogIndex';
 
 
 export default function AdminBlog(){
@@ -50,7 +49,7 @@ export default function AdminBlog(){
                 <h1 className="section_title">
                     <p className="section_title_jp">BLOG ADMIN</p>
                 </h1>
-                <CommonBlog handleClickDelete={handleClickDelete} handleClickVisible={handleClickVisible}/>
+                <SharedBlogIndex handleClickDelete={handleClickDelete} handleClickVisible={handleClickVisible}/>
             </section>
         </Authenticated>
         );
