@@ -115,6 +115,7 @@ class PostsController extends Controller
     }
 
     public function editIndex(){
+
         return Inertia::render('Posts/EditIndex',['loadPosts'=>new BlogCollection(Blog::latest('updated_at')->get())]);
 
     }
@@ -172,6 +173,8 @@ class PostsController extends Controller
         }
 
         return Redirect::back();
+        //return Redirect::to('/blog/admin');
+        //return redirect()->back();
         
         
     }

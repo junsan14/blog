@@ -27,17 +27,20 @@ class PostSeeder extends Seeder
         $keywords ="laravel, interia";
         $category="5";
         $tag="laravel, interia";
-
-        DB::table('posts')->insert([
-            'title' => $title,
-            'author_id' => 5,
-            'excerpt' => $excerpt,
-            'keywords' => $keywords,
-            'content' => $content,
+        for($i=0;$i<5;$i++){
+            DB::table('posts')->insert([
+            'title' =>  str()->random(),
+            'author_id' => 0,
+            'excerpt' =>  str()->random(),
+            'keywords' =>  str()->random(),
+            'content' =>  str()->random(),
             'category' => $category,
             'tag' => $tag,
-            'eyecatch' => Str::random(10).'img',
-            'show_frag' => false,
+            'thumbnail' => Str::random(10).'img',
+            'is_top' => true,
+            'is_show' => true,
         ]);
+        }
+        
     }
 }

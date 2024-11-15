@@ -12,14 +12,13 @@ export default function AdminBlog(){
         $(e.currentTarget).parent().prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
         router.patch(
-            route('page.visible', {id:id, is_show:Number(is_show)},
-
-            )
+            route('page.visible', {id:id, is_show:Number(is_show)}),
+            {},
+            {
+                preserveScroll: true,
+                preserveState: false,
+            }     
         )
-
-
-
-
      }
      const handleClickDelete = (e, uri)=>{
         let id = e.currentTarget.id;
@@ -35,8 +34,9 @@ export default function AdminBlog(){
                         $(e.currentTarget).css('cursor', "pointer");
                     }
                     return res;
-                },
-                preserveScroll: true 
+            },
+                preserveScroll: true,
+                preserveState: false,
             },
         )
      }

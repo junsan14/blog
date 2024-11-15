@@ -1,15 +1,13 @@
 import { usePage, Link, Head,router} from '@inertiajs/react'
-import React, {useState } from "react";
+import React, {useState, useEffect } from "react";
 import $ from 'jquery';
 import {fixedSearch,formatDate,bg } from "@/Script";
 import GuestLayout from '@/Layouts/GuestLayout';
-import Authenticated from '@/Layouts/AuthenticatedLayout';
 import {BsSearch} from 'react-icons/bs';
 import {MdAccessTime, MdUpdate} from 'react-icons/md';
 import {AiOutlineClear} from 'react-icons/ai';
 import parse from 'html-react-parser';
-
-import {AiOutlineEyeInvisible,AiOutlineEye} from 'react-icons/ai'
+import {AiOutlineEye} from 'react-icons/ai'
 import { FaTrash,FaEdit } from 'react-icons/fa';
 
 
@@ -40,11 +38,10 @@ export default function GuestBlog(){
 function CommonBlog({handleClickVisible, handleClickDelete}) {
     fixedSearch();
     const loadPosts = usePage().props.loadPosts.data;
+    const uri = usePage().component;
     const [posts, setPosts] = useState(loadPosts);
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState("");
-    const uri = usePage().component;
-    
     const handleChangeKeyword = (e)=>{
         const inputKeyword = e.currentTarget.value;
         setKeyword(inputKeyword);
