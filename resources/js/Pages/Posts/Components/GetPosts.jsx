@@ -1,43 +1,12 @@
-import { MdAccessTime,MdUpdate } from "react-icons/md"
+
 import { AiOutlineEye } from "react-icons/ai"
 import { FaTrash, FaEdit } from "react-icons/fa"
 import { Link } from "@inertiajs/react"
 import parse from 'html-react-parser';
-import {formatDate } from "@/Script";
+import PostDate from "./PostDate";
+import { categoryList } from "./CategoryList";
+export default function GetPosts({selectedPosts, category, keyword, uri, handleClickVisible, handleClickDelete}){
 
-export default function ShowPosts({selectedPosts, category, keyword, uri, handleClickVisible, handleClickDelete}){
-    const UpdateDate = ({post})=>{
-        if(formatDate(post.published_at) == "1970/01/01"){
-          return(
-            <>
-                <p className="article_link_remarks_date">
-                        <MdAccessTime className='article_link_remarks_date_icon' />
-                        <span>{formatDate(post.created_at)}</span>
-                </p> 
-            </>   
-          )
-        }else if(formatDate(post.published_at) == formatDate(post.updated_at)){
-            return(
-                <p className="article_link_remarks_date">
-                    <MdAccessTime className='article_link_remarks_date_icon' />
-                    <span>{formatDate(post.published_at)} </span>
-                </p> 
-            )
-        }else{
-            return(
-                <>
-                    <p className="article_link_remarks_date">
-                        <MdUpdate className="article_link_remarks_date_icon"/>
-                        {formatDate(post.updated_at)}
-                    </p>
-                    <p className="article_link_remarks_date">
-                        <MdAccessTime className='article_link_remarks_date_icon' />
-                        <span>{formatDate(post.published_at)}</span>
-                    </p>  
-                </>
-            )
-        }
-    }
     if(uri == "Posts/EditIndex"){
         return(
             selectedPosts.map((post,i)=>(
@@ -68,7 +37,7 @@ export default function ShowPosts({selectedPosts, category, keyword, uri, handle
                             </button>
                         </div>
                         <div className="date">
-                                <UpdateDate post={post}/>
+                                <PostDate post={post}/>
                         </div> 
                     </div>
                 </div>
@@ -91,7 +60,7 @@ export default function ShowPosts({selectedPosts, category, keyword, uri, handle
                                         <div className="article_link_remarks_text">
                                             {post.excerpt}
                                         </div>
-                                        <UpdateDate post={post}/>  
+                                        <PostDate post={post}/>  
                                     </div>
                                 </Link>
                             </div>
@@ -100,12 +69,21 @@ export default function ShowPosts({selectedPosts, category, keyword, uri, handle
                 </>
             )
         }else{
-            return(
-                <div className='fade'>
-                    {category?setCategoryName[Number(category)]+"の中に､":""}
-                    {keyword}のキーワードでヒットする記事がありません｡
-                </div> 
-            )
+            if(category || keyword){
+                return(
+                    <div className='fade'>
+                        {category?categoryList[Number(category)]+"の中に､":""}
+                        {keyword}のキーワードで該当する記事がありません
+                    </div> 
+                )
+            }else{
+                return(
+                    <div className='fade'>
+                        該当記事がありません
+                    </div> 
+                )
+            }
+            
     }
     }
     

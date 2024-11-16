@@ -1,9 +1,9 @@
 import { usePage } from '@inertiajs/react'
 import { useState } from 'react';
-import {fixedSearch,bg } from "@/Script";
+import {fixedSearch} from "@/Script";
 import SearchPostsbyKeyword from "./SearchPostsByKeyword";
 import SearchPostsByCategory  from './SearchPostsByCategory';
-import ShowPosts from './ShowPosts';
+import GetPosts from './GetPosts';
 
 export default function SharedBlogIndex({handleClickVisible, handleClickDelete}) {
     fixedSearch();
@@ -21,7 +21,7 @@ export default function SharedBlogIndex({handleClickVisible, handleClickDelete})
                 <SearchPostsbyKeyword keyword={keyword} setKeyword={setKeyword} category={category} setCategory={setCategory}
                             posts={posts} selectedPosts={selectedPosts} setSelectedPosts={setSelectedPosts} />
                 <div className="section_content posts edit">
-                   <ShowPosts 
+                   <GetPosts 
                         selectedPosts={selectedPosts} category={category} keyword={keyword} uri={uri}
                         handleClickVisible={handleClickVisible} handleClickDelete={handleClickDelete}
                     />         

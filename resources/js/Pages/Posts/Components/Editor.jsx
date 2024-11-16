@@ -1,19 +1,18 @@
 
-import {useForm, router, Link, usePage, Head  } from '@inertiajs/react';
+import {useForm, router,usePage } from '@inertiajs/react';
 import {editorConfiguration,editorConfigurationThumbnail} from '@/ckeditor'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
-
 import { formatinputDate } from '@/Script';
 import {get,set,keys,del} from 'idb-keyval';
 import { useState } from 'react'; 
-
 import { categoryList } from './CategoryList';
 import EditorHeader from './EditorHeader';
 
 export default function Editor(){
 	const {post} = usePage().props;
-	//console.log(post[0])
+	const keywords= usePage().props.keywords?usePage().props.keywords[0]:"";
+	const tags= usePage().props.tags?usePage().props.tags:"";
     const [is_restore, setIs_restore] = useState("false");
     const { data, setData, progress,processing } = useForm({
         id:post === undefined?"":post[0].id,
@@ -22,7 +21,7 @@ export default function Editor(){
         excerpt:post === undefined?"":post[0].excerpt,
         category:post === undefined?5:post[0].category,
         tag:post === undefined?"":post[0].tag,
-        keywords:post === undefined?"":post[0].keywords,
+        keywords:post === undefined?keywords.keywords:post[0].keywords,
         thumbnail:post === undefined?"":post[0].thumbnail,
         is_show:post === undefined?"":post[0].is_show,
         is_top:post === undefined?0:post[0].is_top,
@@ -87,44 +86,39 @@ export default function Editor(){
 	                <div  className="form_control_item">
 	                    <label htmlFor="title" >Title</label>
 	                    <input type="text" id="title" className="form_control_item_input" value={data.title} 
-	                        onChange={handleChangeData}  disabled={processing}
-	                    />                        </div>     
+	                        onChange={handleChangeData}  disabled={processing} maxLength={30}/>                        
+	                </div>     
 	                <div className="form_control_item page_content">
 	                    <label htmlFor="content"  style={{marginBottom:'20px'}} >Content</label>
 	                    <div className='article_content edit' id="content">
-	                    <CKEditor
-	                        editor={ ClassicEditor }
-	                        config={ editorConfiguration }
-	                        data={data.content}
-	                        onChange={ ( event, editor ) => {
-	                            set("new_content", editor.getData());
-	                        } }
-	                        onBlur={ ( event, editor ) => {
-	                            setData('content', editor.getData());
-	                        } }                    
-	                    />
+		                    <CKEditor
+		                        editor={ ClassicEditor }
+		                        config={ editorConfiguration }
+		                        data={data.content}
+		                        onChange={ ( event, editor ) => {
+		                            set("content", editor.getData());
+		                        } }
+		                        onBlur={ ( event, editor ) => {
+		                            setData('content', editor.getData());
+		                        } }/>
 	                    </div>                     
 	                </div>
 	            </div>
 	            <div className='sub'>
 	                <div  className="form_control_item">
-	                    <label htmlFor="is_top">Wanna Show on TOP</label>
+	                    <label htmlFor="is_top">Show on Home</label>
 	                    <input type='checkbox'
 	                        name="is_top"
 	                        checked={data.is_top}
 	                        onChange={(e) =>{
 	                            setData('is_top', e.target.checked); 
-	                            //console.log(data.is_top)
-	                        } }
-	                        className='form_control_item_checkbox'
-	                    />
+	                        } } className='form_control_item_checkbox'/>
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="published_at">Publish Date</label>
 	                    <input type='datetime-local' className="form_control_item_select" 
 	                        value={formatinputDate(data.published_at)}
-	                        name='published_at' id='published_at' onChange={handleChangeData}
-	                     />
+	                        name='published_at' id='published_at' onChange={handleChangeData}/>
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="category">Category</label>
@@ -132,22 +126,22 @@ export default function Editor(){
 	                        name='category' id='category' onChange={
 	                            (e)=>{
 	                                handleChangeData(e);
-	                            }
-	                        }>
+	                            }}>
 	                    	{categoryList.map((category,i)=>{
 	                    		if(category !==""){
-	                    			return(
-	                    				category && <option value={i} key={i}>{category}</option>
-	                    				)
+	                    			return category && <option value={i} key={i}>{category}</option>
 	                    		}
 	                    	})}
 	                    </select>
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="tag" >Tag</label>
-	                    <textarea name="tag" id='tag' list="tag_list" className="form_control_item_input"
-	                        value={data.tag} onChange={(e)=>handleChangeData(e)} rows={5}
-	                    ></textarea>
+	                    
+	                    <input list="tags" name="tag" id="tag" 
+	                    	   className='form_control_item_input' value={data.tag} onChange={(e)=>handleChangeData(e)}  />
+	                    <datalist id="tags">
+	                    	{tags.map((tag)=>(<option value={tag.tag} />))}
+						</datalist>
 
 	                </div>
 	                <div  className="form_control_item">
@@ -175,19 +169,17 @@ export default function Editor(){
 	                <div  className="form_control_item"  style={{marginTop:'20px'}}>
 	                    <label htmlFor="excerpt" >Summary</label>
 	                    <textarea id="excerpt" name='excerpt' className="form_control_item_input"  
-	                     rows="5" value={data.excerpt} onChange={handleChangeData} >
+	                     rows="5" value={data.excerpt} onChange={handleChangeData}  maxLength={40}>
 	                    </textarea>
 	                </div>
 	                
 	            </div>
-
-	                    {progress && (
-	                            <progress value={progress.percentage} max="100">
-	                                {progress.percentage}%
-	                            </progress>
-	                    )}
+                {progress && (
+                        <progress value={progress.percentage} max="100">
+                            {progress.percentage}%
+                        </progress>
+                )}
 	        </form>
         </>
         )
-
 }

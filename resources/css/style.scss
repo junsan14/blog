@@ -631,7 +631,7 @@ img{
 							font-size: 1.0vw;
 							padding-top:1vw;
 							padding-left:2vw;
-							width: 100%;
+						
 							@include mq(tab){
 								font-size: 1.0vw;
 							}
@@ -639,21 +639,25 @@ img{
 								font-size: 2.5vw;
 							}
 						}
-						&_date{
-							display: flex;
-							justify-content: flex-end;
-							align-items: center;
-							&_icon{
-								font-size: 1rem;
-								margin-right: 5px;
+						&_dates_area{
+								display: flex;
+								width: 100%;
+								font-size: 1vw;
+								margin-top: 1vw;
+								justify-content: end;
+								align-items: center;
+							&_date{
+								display: flex;
+								justify-content: end;
+								align-items: center;
+								&_icon{
+									margin-right: 2px;
+								}
 							}
-							font-size: 0.7rem;
-							text-align: right;
-							padding-top:5px;
-							width:100%;
-							@include mq(tab){
-								font-size: .5rem;
+							@include mq(sp){
+								font-size: 2vw;
 							}
+							
 						}
 					}
 				}
@@ -1453,7 +1457,7 @@ img{
 
 //blog
 .blog{
-	min-height:calc(100vh);
+	min-height:400px;
 	
 	@include mq(sp){
 		min-height:calc(100vh); 
@@ -1496,11 +1500,16 @@ img{
 		.article, .ck-editor{
 			
 			&_date{
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
-				font-size: .9em;
+			
+				text-align: right;
+				font-size: 1em;
 				height: auto;
+				div{
+					margin-top: 5px;
+					margin-right: 0;
+					display: inline-block;
+					text-align: left;
+				}
 				@include mq(sp){
 					font-size: .7em;
 				}
@@ -1519,7 +1528,7 @@ img{
 				
 				width: 80%;
 				margin: 0 auto;
-				font-size: .9em;
+				font-size: 1em;
 				margin-top: 50px;
 				line-height: 30px;
 				&.create,&.edit{
@@ -1528,7 +1537,7 @@ img{
 				}
 			
 				@include mq(tab){
-					font-size: 0.8em;
+					font-size: 0.9em;
 					line-height: 27px;
 					margin-top: 20px;
 					width: 100%;

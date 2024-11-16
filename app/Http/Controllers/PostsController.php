@@ -41,16 +41,16 @@ class PostsController extends Controller
         }else{
             $post = Blog::find([['id','=' ,$id], ['is_show', '=',1]])->first();
             if($post){
-                $category = $post->category;
-                $nextId = Blog::where([['id', '>', $id],['is_show', '=',1],['category','=' ,$category]])->min('id');
-                //$nextId2 = Blog::where([['id', '<', $id],['is_show', '=',1],['category','=' ,$category]])->min('id');
-                $prevId = Blog::where([['id', '<', $id],['is_show', '=',1],['category','=' ,$category]])->max('id');
-   
-                $prevPost = Blog::where([['id','=' ,$prevId]])->first();
-                $nextPost = Blog::where([['id','=' ,$nextId]])->first();
-                //$nextPost2 = Blog::where([['id','=' ,$nextId2]])->first();
-                //dd(($prevPost));
-                return Inertia::render('Posts/Page',['post'=>$post, 'prevPost'=>$prevPost, 'nextPost'=> $nextPost]);
+                $tag = $post->tag;
+                $relevantNextPostId = Blog::where([
+                    ['tag', 'like', "%{$tag}%"],['is_show', '=',1],['category','=' ,$post->category],
+                    ['id','!=',$post->id], ['id','>',$post->id], ])->min('id');
+                $relevantPrevPostId = Blog::where([
+                    ['tag', 'like', "%{$tag}%"],['is_show', '=',1],['category','=' ,$post->category],
+                    ['id','!=',$post->id], ['id','<',$post->id], ])->max('id');
+                $relevantPosts =  Blog::where(['id'=>$relevantNextPostId])->orWhere(['id'=>$relevantPrevPostId])->get();
+                //dd(isEmpty($relevantPosts));
+                return Inertia::render('Posts/Page',['pageData'=>$post, 'relevantPosts'=>$relevantPosts]);
 
             }else{
                 return to_route('blog');
@@ -60,15 +60,16 @@ class PostsController extends Controller
     }
 
     public function create(Request $request){
-        //$latest_id = Blog::latest('id')->first()->id;
-        //dd($latest_id);
-        return Inertia::render('Posts/Create');
+        $keywords = Blog::latest('updated_at')->take(1)->get(['keywords']);
+        $tags = Blog::groupBy('tag')->get(['tag']);
+        return Inertia::render('Posts/Create', ['keywords'=>$keywords, 'tags'=>$tags]);
     }
 
     public function store(Request $request){
         //dd($request->is_top);
         $content= $request->content;
         $thumbnailPath = $request->thumbnail;
+       //dd($content);
         //dd(isset($thumbnailPath));
         //サムネイル格納
         if(!isset($thumbnailPath)){
@@ -121,7 +122,8 @@ class PostsController extends Controller
     public function edit(Request $request) {
         $id = $request->query('id');
         $post =Blog::where('id', $id)->get();
-        return Inertia::render('Posts/Edit',['post' =>$post]);   
+        $tags = Blog::groupBy('tag')->get(['tag']);
+        return Inertia::render('Posts/Edit',['post' =>$post, 'tags'=>$tags]);   
     }
 
     public function update(Request $request){

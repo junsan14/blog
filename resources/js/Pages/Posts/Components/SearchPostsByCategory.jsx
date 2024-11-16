@@ -6,7 +6,12 @@ export default function SearchPostsByCategory ({ category, keyword, setCategory,
         const inputCategory = e.currentTarget.value;
         setCategory(inputCategory);
         if(keyword){
-            const matchPosts = posts.filter(post => post.category === category&& String(post['keywords']).match(reg));
+            const matchPosts = posts.filter((post) =>(post.category === category && (
+                String(post['keywords']).match(reg) ||String(post['title']).match(reg) ||
+                String(post['excerpt']).match(reg) || String(post['tag']).match(reg)) )
+            );
+
+                
             setSelectedPosts(matchPosts)
         }else{
             setSelectedPosts(posts.filter(post => post.category === inputCategory));

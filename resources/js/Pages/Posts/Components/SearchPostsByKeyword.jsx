@@ -1,6 +1,7 @@
 
 import { AiOutlineClear } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
+import $ from 'jquery'
 
 export default function SearchPostsbyKeyword({keyword,category, setKeyword, setCategory,posts,selectedPosts, setSelectedPosts}) {
     const handleChangeKeyword = (e)=>{
@@ -8,10 +9,16 @@ export default function SearchPostsbyKeyword({keyword,category, setKeyword, setC
         setKeyword(inputKeyword);
         let reg = new RegExp(inputKeyword,"gi");
         if(category){
-            const matchPosts = posts.filter(post => post.category === category&& String(post['keywords']).match(reg));
+            const matchPosts = posts.filter((post) =>(
+                post.category === category && (String(post['keywords']).match(reg) ||String(post['title']).match(reg) ||
+                    String(post['excerpt']).match(reg) || String(post['tag']).match(reg))
+                )
+                );
             setSelectedPosts(matchPosts)
         }else{
-            setSelectedPosts(posts.filter(post =>  String(post['keywords']).match(reg) ));
+            setSelectedPosts(posts.filter((post) =>(
+                String(post['keywords']).match(reg) ||String(post['title']).match(reg) ||
+                String(post['excerpt']).match(reg) || String(post['tag']).match(reg)) ));
         }
     }
 
