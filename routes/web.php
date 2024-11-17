@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ShowBlogController;
+use App\Http\Controllers\WorksController;
 use App\Http\Controllers\MailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -27,11 +28,14 @@ use Inertia\Inertia;
 
 Route::get('/',  [PostsController::class, 'home'])->name('home');
 Route::get('/about', function () {return Inertia::render('About');})->name('about');
+
 Route::get('/contact', [MailController::class, 'index'])->name('contact');
 Route::post('/contact', [MailController::class, 'send'])->name('contact.send');
 Route::get('/blog', [PostsController::class, 'index'])->name('blog');
 Route::get('/blog/page', [PostsController::class, 'show'])->name('page');
 
+Route::get('/works',[WorksController::class, 'index'])->name('works');
+Route::get('/works/work', [WorksController::class, 'show'])->name('work');
 
 
 

@@ -38,6 +38,7 @@ function Layout({user,children,status}){
         <ul className="nav_ul">
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("home")}>HOME</Link></li>
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("about")}>ABOUT</Link></li>
+           <li className="nav_ul_li js-nav-ul-li"><Link href={route("works")}>WORKS</Link></li>  
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("blog")}>BLOG</Link></li>     
            <li className="nav_ul_li js-nav-ul-li"><Link href={route("contact")}>CONTACT</Link></li>
            {is_login&&  <li className="nav_ul_li js-nav-ul-li"><Link href={route("blog.edit")}>管理画面</Link></li>}

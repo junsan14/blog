@@ -43,7 +43,7 @@ function SpMenuShow(){
     
 }
 
-
+//about
 function graphShow(){
     $(function(){
       $('.js-skill-tab-li').on('click', function(){
@@ -55,7 +55,20 @@ function graphShow(){
         $content.siblings().removeClass('show');
       })     
     })
-  }
+}
+//work
+function apperanceWebShow(){
+    $(function(){
+      $('.js-skill-tab-li').on('click', function(){
+       
+        $(this).addClass("show on");
+        $(this).siblings().removeClass("on");
+        let $content = $(".js-content-"+$(this).attr('name'));
+        $content.addClass('show');
+        $content.siblings().removeClass('show');
+      })     
+    })
+}
 
 function bg(){
    
@@ -481,4 +494,9 @@ function smoothScroll(){
 
 
 
-export {graphShow,ModalShow,fixedSearch,SpMenuShow, formatDate,addClassPage,formatinputDate, showMsg,bg,smoothScroll};
+export {graphShow,ModalShow,fixedSearch,SpMenuShow, 
+        formatDate,addClassPage,formatinputDate,showMsg,bg,smoothScroll,apperanceWebShow};
+
+
+
+

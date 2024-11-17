@@ -53,13 +53,31 @@ $breakpoint: (
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeShowBlock {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 
 $background-color:linear-gradient(to bottom,rgba(249, 249, 249,1),rgba(255, 255, 255,1));
-
 $content-width :85vw;
 $no-focus-style:1px solid rgba(#111,.1);
 $focus-style:1px solid rgba(#111,.8);
 $border-color:rgba(209,213,219,1);
+
 body{
   font-size: 100%;
   font-family: 'Murecho', sans-serif;
@@ -75,9 +93,11 @@ pre,.code{
 a{
   color: #333;
   text-decoration: none;
+  word-wrap:break-word;
   &:hover{
-	color: rgba(#111,1);
+		color: rgba(#111,1);
   }
+
 }
 
 ul{
@@ -461,19 +481,19 @@ img{
 
 
 	& .section{
-		padding: 100px 0;
+		padding-top: 60px;
 		z-index: 10;
 	
 		&_title{
 			position: relative;
 			text-align: center;
-			margin-bottom: 100px;
+			margin-bottom: 60px;
 			@include mq(tab){
 				margin-bottom: 30px;
 			}
 			&_jp{
 				font-size: 3em;
-				text-align: center;		
+	
 				@include mq(tab){
 					font-size: 2.0em;
 				}
@@ -484,8 +504,8 @@ img{
 			&_title{
 				text-align: center;
 				font-size: 1.6em;
-				margin-bottom: 80px;
-				margin-top: 80px;
+				margin-bottom: 60px;
+				margin-top: 60px;
 				font-weight: bold;
 				@include mq(sp){
 					font-size: 1em;
@@ -1455,6 +1475,157 @@ img{
 	}
 }
 
+//works
+.works{
+	&_content{
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
+			
+		&_work{
+			width: 45%;
+			transition: all .5s;
+			z-index: 10;
+			padding: 2%;
+			border-radius: 3px;
+			margin-top: 60px;
+			@include mq(tab){
+			width: 100%;
+			}
+			&:hover{
+					transition: all .5s;
+					transform: translateY(-5px);
+					cursor: pointer;
+					box-shadow:3px 3px 3px 3px rgba(1,1,1,.3) ;
+					box-sizing: border-box;
+			}
+			&_title{
+				text-align: center;
+				margin-top: 30px;
+				font-size: 1.5em;
+			}
+
+		}
+			
+
+			}
+}
+
+
+
+//work
+.work{
+	position: relative;
+	z-index: 1;
+	.desc{
+		dl{
+			
+			width: 100%;
+			margin: 0 auto;
+			@include mq(sp){
+				width: 100%;
+			}
+			dt{
+				margin-top: 30px;
+				margin-bottom: 10px;
+				text-decoration: underline;
+				font-size: 1.2em;
+			}
+			dd{
+				width: 100%;
+				font-size: 1.1em;
+				padding-left: 30px;
+				a{
+					text-decoration: underline;
+				}
+				@include mq(sp){
+					padding-left: 15px;
+				}
+
+			}
+		}
+	}
+	.appearance{
+		.tab{
+				display: flex;
+				width: 100%;
+				justify-content: space-between;
+				font-size: 1.4em;
+				margin: 0 auto 40px auto ;
+				flex-wrap: wrap;
+				margin-right: 5px;
+				position: relative;
+				@include mq(sp){
+					width: 100%;
+					margin: 0 auto 10px auto ;
+					justify-content: center;
+				}
+
+				li{
+					counter-increment: li;
+					cursor: pointer;
+					padding: 10px 0;
+					transition: .5s all;
+					font-size: .8em;
+					text-align: center;
+					
+					width: calc(100% / 2 - 1px);
+					margin-bottom: 30px;
+					background:rgba(#eee,.5);
+					&.on{
+						background:#fff;
+						transition: .5s all;
+						transform: translateY(-1px);
+					}
+					@include mq(tab){
+
+						padding: 5px 0;
+						font-size: .7em;
+						margin-bottom: 20px;
+						
+					}
+
+					&.skill_tab_li{
+						width: calc(100% / 2 - 1px);
+						@include mq(tab){
+							width: calc(100% / 2 - 1px);
+						}
+					}
+					
+					
+					&:hover{
+						background:#fff;
+						transition: .5s all;
+						
+					}
+					
+				}
+
+			}
+		&_content{
+			display: none;
+			opacity: 0;
+			animation: fadeShowBlock .8s linear 0s;
+			&.show{
+				opacity: 1;
+				display: block;
+			}			
+			&_imgs{
+
+				display: flex;
+				justify-content: space-between;
+				&_item{
+					width: 45%;
+					border: 2px solid;
+					border-radius: 10px;
+					margin: 2%;			
+				}
+			}
+		}
+		
+	}
+
+}
 //blog
 .blog{
 	min-height:400px;
