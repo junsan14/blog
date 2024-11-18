@@ -481,7 +481,7 @@ img{
 
 
 	& .section{
-		padding-top: 60px;
+		padding-top: 80px;
 		z-index: 10;
 	
 		&_title{
@@ -1489,7 +1489,7 @@ img{
 			padding: 2%;
 			border-radius: 3px;
 			margin-top: 60px;
-			@include mq(tab){
+			@include mq(sp){
 			width: 100%;
 			}
 			&:hover{
@@ -1613,8 +1613,8 @@ img{
 			&_imgs{
 
 				display: flex;
-				justify-content: space-between;
-				&_item{
+				justify-content: center;
+				img{
 					width: 45%;
 					border: 2px solid;
 					border-radius: 10px;
@@ -1624,8 +1624,22 @@ img{
 		}
 		
 	}
-
 }
+
+//admin work(create/ edit)
+.adminwork{
+	width: 80%;
+	margin: 0 auto;
+	.form_control{
+		margin-bottom: 80px;
+		&_item{
+			margin: 20px 0;
+		}
+	}
+	
+}
+
+
 //blog
 .blog{
 	min-height:400px;

@@ -59,7 +59,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/blog/admin/edit', [PostsController::class, 'update'])->name('page.update');
    
 
-    
+    Route::get('/works/work/create', [WorksController::class, 'create'])->name('work.create');
+    Route::get('/works/editIndex', [WorksController::class, 'editIndex'])->name('work.editIndex');
+    Route::get('/works/work/edit', [WorksController::class, 'edit'])->name('work.edit');
+    Route::post('/works/work/create', [WorksController::class, 'store'])->name('work.store');
+    Route::post('/works/work/edit', [WorksController::class, 'store'])->name('work.store');
+
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

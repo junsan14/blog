@@ -1,8 +1,5 @@
 import GuestLayout from '@/Layouts/GuestLayout';
-import appearance01_01 from './appearance01_01_pc.png'
-import appearance01_02 from './appearance01_02_pc.png'
-import appearance01_01_sp from './appearance01_01_sp.png'
-import appearance01_02_sp from './appearance01_02_sp.png'
+import parse from 'html-react-parser';
 
 import { apperanceWebShow } from '@/Script';
 import { usePage } from '@inertiajs/react';
@@ -18,7 +15,7 @@ apperanceWebShow();
             </div>
             <section className="section work">
               <h1 className="section_title">
-                <div className="section_title_en">SHIMONADA SHOTEN</div>
+                <div className="section_title_en">{work.title}</div>
                 <div className="section_title_jp">WORK</div>
               </h1>
                      
@@ -57,14 +54,14 @@ apperanceWebShow();
                   </ul>
 	            <div className='appearance_content show js-content-pc'>
 	            	<div className='appearance_content_imgs'>
-	            		<img src={work.pc_appearance}alt="" className='appearance_content_imgs_item'/>
-	            		<img src={work.pc_appearance} alt="" className='appearance_content_imgs_item' />
+	            		{parse(work.pc_appearance)}
+	            		
 	            	</div>
 	            </div>
 	            <div className='appearance_content js-content-sp'>
 	            	<div className='appearance_content_imgs'>
-	            		<img src={work.sp_appearance} alt="" className='appearance_content_imgs_item'/>
-	            		<img src={work.sp_appearance} alt="" className='appearance_content_imgs_item' />
+	            		{parse(work.sp_appearance) }
+	            	
 	            	</div>
 	            	
 	            </div>
