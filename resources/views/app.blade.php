@@ -27,7 +27,6 @@
         <meta property="og:title" content="{{ 'junsan14'.'｜'.$meta['title'] }}"/>
         <meta property="og:description" content="{{ $meta['excerpt'] }}"/>
         <meta property="og:image" content="{{$thumbnail_path}}"/>
-
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="{{ config('app.name', 'junsan14').'｜'.$meta['title'] }}" />
         <meta name="twitter:description" content="{{ $meta['excerpt'] }}" />
@@ -37,7 +36,6 @@
         <meta property="og:description" content="元ホテルマン・Webエンジニアが、ルワンダで挑戦する社会貢献活動とスキルの記録を発信。キャリアと学びを一体化したサイト" />
         <meta property="og:title" content="junsan14|JICA海外協力隊" />
         <meta property="og:image" content="{{ asset('ogp.png') }}" />
-
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="{{ config('app.name', 'junsan14') }}">
         <meta name="twitter:description" content="元ホテルマン・Webエンジニアが、ルワンダで挑戦する社会貢献活動とスキルの記録を発信。キャリアと学びを一体化したサイト">

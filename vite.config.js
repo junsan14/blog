@@ -10,7 +10,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/js/app.jsx',
-                    'resources/js/Meta.jsx',
                     'resources/css/style.scss',
                     ],
             refresh: true,

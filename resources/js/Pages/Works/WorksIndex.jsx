@@ -1,8 +1,6 @@
 import GuestLayout from '@/Layouts/GuestLayout';
-
 import { Link,usePage } from '@inertiajs/react';
 import GetWorks from './Components/GetWorks';
-
 export default function WorkIndex(){
 	const works = usePage().props.works;
 	const uri = usePage().component;

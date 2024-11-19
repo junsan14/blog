@@ -5,7 +5,6 @@ import { apperanceWebShow } from '@/Script';
 import { usePage } from '@inertiajs/react';
 export default function Work(){
 	const work = usePage().props.work;
-	console.log(work)
 	apperanceWebShow();
 	return(
 		<GuestLayout>        

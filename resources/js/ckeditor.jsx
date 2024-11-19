@@ -6,7 +6,7 @@ import { FontColor } from '@ckeditor/ckeditor5-font';
 
 import { FontSize } from '@ckeditor/ckeditor5-font';
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
-import { Bold, Italic, Strikethrough } from '@ckeditor/ckeditor5-basic-styles';
+import { Bold, Italic, Strikethrough, Superscript,Subscript } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { Heading } from '@ckeditor/ckeditor5-heading';
 import { Link } from '@ckeditor/ckeditor5-link';
@@ -41,6 +41,8 @@ export const editorConfiguration = {
         Bold,
         Italic,
         Strikethrough,
+        Superscript,
+        Subscript,
         BlockQuote,
         Heading,
         Link,
