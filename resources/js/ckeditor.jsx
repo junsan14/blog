@@ -3,9 +3,10 @@
 import { Autosave } from '@ckeditor/ckeditor5-autosave';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
 import { FontColor } from '@ckeditor/ckeditor5-font';
+
 import { FontSize } from '@ckeditor/ckeditor5-font';
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
-import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { Bold, Italic, Strikethrough } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { Heading } from '@ckeditor/ckeditor5-heading';
 import { Link } from '@ckeditor/ckeditor5-link';
@@ -39,6 +40,7 @@ export const editorConfiguration = {
         Autoformat,
         Bold,
         Italic,
+        Strikethrough,
         BlockQuote,
         Heading,
         Link,
@@ -69,38 +71,52 @@ export const editorConfiguration = {
      ],
     toolbar: [
         'heading',
-        'bold',
-        'italic',
-        '|',
-        'fontColor',
-        'fontSize',
-        'highlight',
-        '|',
-        'outdent',
-        'indent',
+        {
+         label: 'Styles',
+         icon:'text',
+         items: [ 'bold','italic','strikethrough', 'superscript', 'subscript' ]
+        },
         '|',
         'link',
-        'bulletedList',
-        'numberedList',
-        'blockQuote',
-        'insertTable',
-        'mediaEmbed',
-        'codeBlock',
+         'codeBlock',
         'imageUpload',
         'CKFinder',
-        'sourceEditing',
-        'undo',
-        'redo',
+        {
+         label: 'Lists',
+         withText: true,
+         items: [ 'bulletedList','numberedList']
+        },
+
+        {
+         label: 'More',
+         icon:'plus',
+         items: ['blockQuote','insertTable','mediaEmbed','sourceEditing']
+        },
+        {
+         label: 'Indent',
+         withText: true,
+         items: [ 'outdent','indent']
+        },
+        {
+         label: 'MoreStyles',
+         icon: 'text',
+         items: [ 'fontColor','fontSize', 'highlight',]
+        },
+        {
+         label: 'func',
+         items: [ 'undo','redo']
+        },
 
 
      ],
-     heading: {
+    heading: {
         options: [
-            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'paragraph', title: 'p', class: 'ck-heading_paragraph' },
             { model: 'heading2', view: 'h2', title: 'H2', class: 'ck-heading_heading2' },
             { model: 'heading3', view: 'h3', title: 'H3', class: 'ck-heading_heading3' },
         ]
     },
+    
      image: {
         toolbar: [
             'imageTextAlternative',
@@ -175,8 +191,7 @@ export const editorConfigurationThumbnail = {
         Image,
         UploadAdapter,
         CKFinder,
-        Link,
-     ],
+        Link     ],
     toolbar: [
         'imageUpload',
         'CKFinder',

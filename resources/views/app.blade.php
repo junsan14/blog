@@ -15,35 +15,34 @@
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="{{ url()->current() }}" />
-        <link rel="icon" type="svg+xml" sizes="32x32" href="{{ asset('icon.png') }}"" />
-       
-        @if(isset($page['props']['post']))
-            @php
-                $post = $page['props']['post'];
-                $pattern = '/<img.*?src\s*=\s*[\"|\'](.*?)[\"|\'].*?>/i';
-                preg_match( $pattern, $post['thumbnail'], $thumbnail );
-                $thumbnail_path = $thumbnail[1]?url('').$thumbnail[1]:url('').'/ogp.png' ;
-            @endphp
-            <title>{{ (isset($post['title'])) ? (config('app.name', 'junsan14').'｜'.$post['title']) : 'My Website | Page' }}</title>
-            <meta property="og:title" content="{{ (isset($post['title'])) ? (config('app.name', 'junsan14').'｜'.$post['title']) : 'junsan14' }}"/>
-            <meta property="og:description" content="{{ (isset($post['excerpt'])) ? $post['excerpt'] : '' }}"/>
-            <meta property="og:image" content="{{$thumbnail_path}}"/>
+        <link rel="icon" type="svg+xml" sizes="32x32" href="{{ asset('icon.png') }}" />
+    @if(isset($meta))
+        @php
+        
+        $pattern = '/<img.*?src\s*=\s*[\"|\'](.*?)[\"|\'].*?>/i';
+        preg_match( $pattern, $meta['thumbnail'], $thumbnail );
+        $thumbnail_path = $thumbnail[1]?url('').$thumbnail[1]:url('').'/ogp.png' ;
+        @endphp
+        <title>{{ 'junsan14'.'｜'.$meta['title'] }}</title>
+        <meta property="og:title" content="{{ 'junsan14'.'｜'.$meta['title'] }}"/>
+        <meta property="og:description" content="{{ $meta['excerpt'] }}"/>
+        <meta property="og:image" content="{{$thumbnail_path}}"/>
 
-            <meta name="twitter:card" content="summary" />
-            <meta name="twitter:title" content="{{ (isset($post['title'])) ? (config('app.name', 'junsan14').'｜'.$post['title']) : 'junsan14' }}" />
-            <meta name="twitter:description" content="{{ (isset($post['excerpt'])) ? $post['excerpt'] : '' }}" />
-            <meta name="twitter:image" content="{{$thumbnail_path}}" />
-        @else
-            <title>{{ config('app.name', 'junsan14') }}</title>
-            <meta property="og:description" content="現:海外協力隊ルワンダ24年1次隊員,グローカルプログラム伊予市　それぞれに関わる情報を発信しています!長年未使用だった駅室の一角で伊予市ならではのお土産やJR商品を販売しています。" />
-            <meta property="og:title" content="junsan14|JICA海外協力隊" />
-            <meta property="og:image" content="{{ asset('ogp.png') }}" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="{{ config('app.name', 'junsan14').'｜'.$meta['title'] }}" />
+        <meta name="twitter:description" content="{{ $meta['excerpt'] }}" />
+        <meta name="twitter:image" content="{{$thumbnail_path}}" />
+    @else
+        <title>{{ config('app.name', 'junsan14') }}</title>
+        <meta property="og:description" content="元ホテルマン・Webエンジニアが、ルワンダで挑戦する社会貢献活動とスキルの記録を発信。キャリアと学びを一体化したサイト" />
+        <meta property="og:title" content="junsan14|JICA海外協力隊" />
+        <meta property="og:image" content="{{ asset('ogp.png') }}" />
 
-            <meta name="twitter:card" content="summary">
-            <meta name="twitter:title" content="{{ config('app.name', 'junsan14') }}">
-            <meta name="twitter:description" content="現:海外協力隊ルワンダ24年1次隊員,グローカルプログラム伊予市　それぞれに関わる情報を発信しています!長年未使用だった駅室の一角で伊予市ならではのお土産やJR商品を販売しています。">
-            <meta name="twitter:image" content="{{ asset('ogp.png') }}">
-        @endif
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="{{ config('app.name', 'junsan14') }}">
+        <meta name="twitter:description" content="元ホテルマン・Webエンジニアが、ルワンダで挑戦する社会貢献活動とスキルの記録を発信。キャリアと学びを一体化したサイト">
+        <meta name="twitter:image" content="{{ asset('ogp.png') }}">
+    @endif
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -63,5 +62,6 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->       
         @inertia
+      
     </body>
 </html>

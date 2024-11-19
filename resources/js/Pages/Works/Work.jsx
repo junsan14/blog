@@ -6,7 +6,7 @@ import { usePage } from '@inertiajs/react';
 export default function Work(){
 	const work = usePage().props.work;
 	console.log(work)
-apperanceWebShow();
+	apperanceWebShow();
 	return(
 		<GuestLayout>        
             <div className='background'>
@@ -26,8 +26,8 @@ apperanceWebShow();
                	<dl>
                   <dt>Period</dt>
                   <dd>{work.period}</dd>
-                  <dt>Frameworks</dt>
-                  <dd>{work.frameworks} </dd>
+                  <dt>Used Skills</dt>
+                  <dd>{work.skills}</dd>
                   <dt>Work Time</dt>
                   <dd>{work.worktime}</dd>
                   <dt>URL</dt>
@@ -39,7 +39,7 @@ apperanceWebShow();
                   	<a href={work.git} target='_blank'>{work.git}</a> 
                   </dd> 
                   <dt>Remarks</dt>
-                  <dd>
+                  <dd className='remarks'>
                   	{work.remarks}
                   </dd> 
                 </dl>
@@ -55,13 +55,15 @@ apperanceWebShow();
 	            <div className='appearance_content show js-content-pc'>
 	            	<div className='appearance_content_imgs'>
 	            		{parse(work.pc_appearance)}
+	            		{work.pc_appearance02?parse(work.pc_appearance02):""}
 	            		
 	            	</div>
 	            </div>
 	            <div className='appearance_content js-content-sp'>
 	            	<div className='appearance_content_imgs'>
-	            		{parse(work.sp_appearance) }
-	            	
+	            		{parse(work.sp_appearance)}
+	            		{work.sp_appearance02?parse(work.sp_appearance02):""}
+	 
 	            	</div>
 	            	
 	            </div>

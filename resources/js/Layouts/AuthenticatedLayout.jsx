@@ -5,11 +5,12 @@ import { CgProfile} from 'react-icons/cg';
 import { RxHome} from 'react-icons/rx';
 import { BsClipboardPlus} from 'react-icons/bs';
 import {FaRegListAlt} from 'react-icons/fa';
+import { IoIosSwitch } from "react-icons/io";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     let uri =usePage().component;
- 
+
     return (
         <>
             <header className="header auth">
@@ -20,14 +21,19 @@ export default function Authenticated({ user, header, children }) {
                         </Link>
                     </li>
                     <li className='header_ul_li'>
-                        <Link href='/blog/admin'>
+                        <Link href={uri.indexOf("Works") !== -1 ?'/blog/admin':'/works/editIndex'}>
+                            <IoIosSwitch  className='header_ul_li_icon'/>
+                        </Link>  
+                    </li>
+                    <li className='header_ul_li'>
+                        <Link href={uri.indexOf("Works") === -1 ?'/blog/admin':'/works/editIndex'}>
                             <FaRegListAlt className='header_ul_li_icon'/>
                         </Link>
                     </li>
                     <li className='header_ul_li'>
-                        <Link href='/blog/admin/create'>
+                        <Link href={uri.indexOf("Works") === -1 ?'/blog/admin/create':'/works/work/create'}>
                             <BsClipboardPlus className='header_ul_li_icon'/>
-                        </Link>
+                        </Link>  
                     </li>
                     <li className='header_ul_li'>
                         <Dropdown>

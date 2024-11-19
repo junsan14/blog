@@ -6,7 +6,6 @@ import parse from 'html-react-parser';
 
 
 export default function GetWorks({works, uri}){
-console.log(works)
     if(uri == "Works/WorksEditIndex"){
         return(
             works.map((work,i)=>(

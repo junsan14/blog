@@ -140,7 +140,7 @@ export default function Editor(){
 	                    <input list="tags" name="tag" id="tag" 
 	                    	   className='form_control_item_input' value={data.tag} onChange={(e)=>handleChangeData(e)}  />
 	                    <datalist id="tags">
-	                    	{tags.map((tag)=>(<option value={tag.tag} />))}
+	                    	{tags.map((tag, key)=>(<option value={tag.tag} key={key} />))}
 						</datalist>
 
 	                </div>

@@ -19,6 +19,7 @@ use Intervention\Image\ImageManagerStatic as InterventionImage;
 
 class PostsController extends Controller
 {
+    
 
     public function home(){
         $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('updated_at')->take(4)->get();
@@ -50,7 +51,11 @@ class PostsController extends Controller
                     ['id','!=',$post->id], ['id','<',$post->id], ])->max('id');
                 $relevantPosts =  Blog::where(['id'=>$relevantNextPostId])->orWhere(['id'=>$relevantPrevPostId])->get();
                 //dd(isEmpty($relevantPosts));
-                return Inertia::render('Posts/Page',['pageData'=>$post, 'relevantPosts'=>$relevantPosts]);
+                return Inertia::render('Posts/Page',['pageData'=>$post, 'relevantPosts'=>$relevantPosts])
+                ->withViewData(['meta'=> 
+                        ['title'=>"Post_".$post['title'],
+                         'thumbnail'=>$post['thumbnail'],
+                         'excerpt'=>$post['excerpt']]]);
 
             }else{
                 return to_route('blog');

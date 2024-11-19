@@ -22,9 +22,13 @@ class WorksController extends Controller
      public function show(Request $request){
         $id = $request->query('id');
         $work = Work::find([['id','=' ,$id]])->first();
-          //dd($work);
+    
         if($work){
-            return Inertia::render('Works/Work',['work'=>$work]);
+            return Inertia::render('Works/Work',['work'=>$work])
+                    ->withViewData(['meta'=> 
+                        ['title'=>"Works_".$work['title'],
+                         'thumbnail'=>$work['thumbnail'],
+                         'excerpt'=>$work['remarks']]]);;
 
         }else{
             return to_route('works');
@@ -36,7 +40,7 @@ class WorksController extends Controller
      public function store(Request $request){
         
         $content= $request->content;
-       //dd($request->title);
+       //dd($request->skills);
         //dd(isset($thumbnailPath));
        //dd(Auth::id());
         Work::updateOrCreate(
@@ -45,7 +49,7 @@ class WorksController extends Controller
             'title' => $request->title,
             'author_id'=>Auth::id(),
             'period'=>$request->period,
-            'frameworks'=>$request->frameworks,
+            'skills'=>$request->skills,
             'worktime'=>$request->worktime,
             'url'=>$request->url,
             'git'=>$request->git,
@@ -55,8 +59,7 @@ class WorksController extends Controller
             'pc_appearance02'=>$request->pc_appearance02,
             'sp_appearance'=>$request->sp_appearance,
             'sp_appearance02'=>$request->sp_appearance02,
-            'created_at'=>$request->created_at,
-            'updated_at'=>$request->updated_at,
+
         ]);
 
         

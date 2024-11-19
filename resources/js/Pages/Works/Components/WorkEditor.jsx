@@ -15,14 +15,14 @@ export default function CreateEditor(){
         id:work === undefined?"":work[0].id,
         title:work === undefined?"":work[0].title,
         period: work === undefined?"":work[0].period,
-        frameworks:work === undefined?"":work[0].frameworks,
+        skills:work === undefined?"":work[0].skills,
         worktime:work === undefined?"":work[0].worktime,
         url:work === undefined?"":work[0].url,
         git:work === undefined?"":work[0].git,
         remarks:work === undefined?"":work[0].remarks,
         thumbnail:work === undefined?"":work[0].thumbnail,
         is_top:work === undefined?0:work[0].is_top,
-        pc_appearance:work === undefined?"":`<img src="${work[0].pc_appearance}" />`,
+        pc_appearance:work === undefined?"":work[0].pc_appearance,
         pc_appearance02:work === undefined?"":work[0].pc_appearance02,
         sp_appearance:work === undefined?"":work[0].sp_appearance,
         sp_appearance02:work === undefined?"":work[0].sp_appearance02,
@@ -87,29 +87,29 @@ export default function CreateEditor(){
 	                <div  className="form_control_item">
 	                    <label htmlFor="title" >PERIOD</label>
 	                    <input type="text" id="period" className="form_control_item_input" value={data.period} 
-	                        onChange={handleChangeData}  disabled={processing} maxLength={30}/>                        
+	                        onChange={handleChangeData}  disabled={processing} />                        
 	                </div>
 	                <div  className="form_control_item">
-	                    <label htmlFor="title" >FRAMEWORKS</label>
-	                    <input type="text" id="frameworks" className="form_control_item_input" value={data.frameworks} 
-	                        onChange={handleChangeData}  disabled={processing} maxLength={30}/>                        
+	                    <label htmlFor="title" >Used SKILLS</label>
+	                    <input type="text" id="skills" className="form_control_item_input" value={data.skills} 
+	                        onChange={handleChangeData}  disabled={processing}/>                        
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="title" >WORK TIME</label>
 	                    <input type="text" id="worktime" className="form_control_item_input" value={data.worktime} 
-	                        onChange={handleChangeData}  disabled={processing} maxLength={30}/>                        
+	                        onChange={handleChangeData}  disabled={processing} />                        
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="title" >URL</label>
 	                    <input type="text" id="url" className="form_control_item_input" value={data.url} 
-	                        onChange={handleChangeData}  disabled={processing} maxLength={30}/>                        
+	                        onChange={handleChangeData}  disabled={processing}/>                        
 	                </div> 
 
 
 	                <div  className="form_control_item">
 	                    <label htmlFor="title" >Git URL</label>
 	                    <input type="text" id="git" className="form_control_item_input" value={data.git} 
-	                        onChange={handleChangeData}  disabled={processing} maxLength={30}/>                        
+	                        onChange={handleChangeData}  disabled={processing} />                        
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="remarks" >REMARKS</label>

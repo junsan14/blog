@@ -77,6 +77,10 @@ $content-width :85vw;
 $no-focus-style:1px solid rgba(#111,.1);
 $focus-style:1px solid rgba(#111,.8);
 $border-color:rgba(209,213,219,1);
+$pc_textsize:1em;
+$sp_textsize:0.7em;
+$line-height:30px;
+$line-height-sp:20px ;
 
 body{
   font-size: 100%;
@@ -123,11 +127,10 @@ img{
 		position: fixed;
 		right: 0;
 		height: 100%;
-		top:15vh;
 		@include mq(tab){
 			width: 100%;
 			right: 0px;
-			z-index: 10;
+			z-index: 1000;
 			height: 60px;
 			top: 0;
 			background: rgba(#fff, .8);
@@ -187,14 +190,12 @@ img{
 		.nav{
 			justify-content:center;
 			align-items:center;
-			
 			@include mq(tab){
 				opacity: 0;
 				pointer-events: none;
 				transition: .5s ease;
 				z-index: 0;
 				margin-top: 0px;
-				padding-top: 10vh;
 				&.show{
 					
 					opacity: 1;
@@ -215,12 +216,21 @@ img{
 			}
 			
 			&_ul{
-	
-				text-align: center;
-				padding-top: 10%;
+				height: 90vh;
+				flex-wrap: wrap;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				@include mq(tab){
+					height: calc(90vh - 60px);
+				}
 				&_li{
-					padding: 30px 0px;
+					width: 100%;
 					font-size: 1.5em;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 					:hover{
 						color: #111;
 					}
@@ -229,8 +239,9 @@ img{
 			}
 			&_sns{
 				display: flex;
-				margin-top: 100px;
+				height: 10vh;
 				justify-content: center;
+				align-items: center;
 				a{
 					width: 40%;
 					display: flex;
@@ -402,7 +413,7 @@ img{
 			position:absolute;
 			top:calc(50% + 50px);
 			left:50%;
-			line-height:30px;
+			line-height:$line-height;
 			transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
@@ -553,12 +564,12 @@ img{
 		.custom-tooltip{
 			background:rgba(#eee,.8);
 			padding: 20px;
-			line-height: 30px;
+			line-height: $line-height;
 			border-radius: 1px;
 			font-size: .5em;
 			border: 1px solid rgba(#eee,.8);
 			@include mq(tab){
-				line-height: 20px;
+				line-height: $line-height-sp;
 				font-size: .3em;
 				padding: 5px;
 			}
@@ -1054,11 +1065,11 @@ img{
 				width: 35vw;
 				text-align: left;
 				font-size: 1.0em;
-				line-height: 30px;
+				line-height: $line-height;
 				white-space: pre-wrap;
 				@include mq(sp){
 					width: 70vw;
-					line-height: 20px;
+					line-height: $line-height-sp;
 				}
 				@include mq(tab){
 					font-size: .7em;
@@ -1289,7 +1300,6 @@ img{
 					}
 				}
 				.post_desc{
-					
 					width: 100%;
 					height: 30px;
 					position: absolute;
@@ -1370,9 +1380,9 @@ img{
 							margin-bottom: 10px;	
 						}
 						
-						font-size: 0.8em;
+						font-size: $pc_textsize;
 						
-						line-height: 20px;
+						line-height: $line-height-sp;
 					}
 				}
 
@@ -1528,18 +1538,20 @@ img{
 			dt{
 				margin-top: 30px;
 				margin-bottom: 10px;
-				text-decoration: underline;
-				font-size: 1.2em;
+
 			}
 			dd{
 				width: 100%;
-				font-size: 1.1em;
+				font-size: $pc_textsize;
 				padding-left: 30px;
 				a{
 					text-decoration: underline;
 				}
 				@include mq(sp){
 					padding-left: 15px;
+				}
+				&.remarks{
+					line-height: $line-height;
 				}
 
 			}
@@ -1614,11 +1626,19 @@ img{
 
 				display: flex;
 				justify-content: center;
-				img{
+				.image{
 					width: 45%;
-					border: 2px solid;
-					border-radius: 10px;
-					margin: 2%;			
+					
+					margin: 2%;
+					display: flex;
+					justify-content: center;
+					img{
+						border: 2px solid;
+						border-radius: 10px;
+						margin: 2%;
+						text-align: center;
+						width: 100%;
+					}			
 				}
 			}
 		}

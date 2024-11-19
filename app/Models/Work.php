@@ -12,7 +12,7 @@ class Work extends Model
 
     protected $fillable = [
         'period',
-        'frameworks',
+        'skills',
         'worktime',
         'url',
         'git',
@@ -24,9 +24,6 @@ class Work extends Model
         'sp_appearance',
         'sp_appearance02',
         'author_id',
-        'updated_at'
-
-
        
     ];
 }
