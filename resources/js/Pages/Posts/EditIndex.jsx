@@ -8,7 +8,7 @@ import SharedBlogIndex from './Components/SharedBlogIndex';
 export default function AdminBlog(){
     const [editInfo, setEditInfo] = useState([]);
     const handleClickVisible = (e,is_show)=>{
-        let id = e.currentTarget.id;
+        let id = Number(e.currentTarget.id);
 
         $(".btn-" + id).prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
@@ -21,7 +21,7 @@ export default function AdminBlog(){
         )
      }
      const handleClickDelete = (e, uri)=>{
-        let id = e.currentTarget.id;
+        let id = Number(e.currentTarget.id);
         $(e.currentTarget).parent().prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
         setEditInfo([id, "", "delete"]);

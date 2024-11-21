@@ -16,7 +16,6 @@ export default function SharedBlogIndex({handleClickVisible, handleClickDelete, 
     const [category, setCategory] = useState("");
 
     useEffect(()=>{
-      
         if(editInfo[2] === "visible"){
             setSelectedPosts(
                     selectedPosts.map((post)=>{
@@ -29,11 +28,12 @@ export default function SharedBlogIndex({handleClickVisible, handleClickDelete, 
                 )
             }else{
                 setSelectedPosts(selectedPosts.filter((post)=> post.id !== editInfo[0]));
-                  console.log(editInfo)
             }
         $(".btn-" + editInfo[0]).prop('disabled', false);
         $(".btn-" + editInfo[0]).children().css('cursor', "allowed");
     },[loadPosts])
+
+
     return(
             <>
                 <SearchPostsByCategory  category={category} keyword={keyword} 
