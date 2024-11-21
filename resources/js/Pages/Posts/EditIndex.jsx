@@ -6,23 +6,25 @@ import SharedBlogIndex from './Components/SharedBlogIndex';
 
 
 export default function AdminBlog(){
+    const [editInfo, setEditInfo] = useState([]);
     const handleClickVisible = (e,is_show)=>{
         let id = e.currentTarget.id;
-        $(e.currentTarget).parent().prop('disabled', true);
+
+        $(".btn-" + id).prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
+
+        setEditInfo([id, is_show, "visible"]);
         router.patch(
             route('page.visible', {id:id, is_show:Number(is_show)}),
             {},
-            {
-                preserveScroll: true,
-                preserveState: false,
-            }     
+            {preserveScroll: true,}     
         )
      }
      const handleClickDelete = (e, uri)=>{
         let id = e.currentTarget.id;
         $(e.currentTarget).parent().prop('disabled', true);
         $(e.currentTarget).css('cursor', "not-allowed");
+        setEditInfo([id, "", "delete"]);
         router.delete(
             route("page.destroy", {id:id, url:uri}), 
             {
@@ -35,7 +37,7 @@ export default function AdminBlog(){
                     return res;
             },
                 preserveScroll: true,
-                preserveState: false,
+            
             },
         )
      }
@@ -49,7 +51,7 @@ export default function AdminBlog(){
                 <h1 className="section_title">
                     <p className="section_title_jp">BLOG ADMIN</p>
                 </h1>
-                <SharedBlogIndex handleClickDelete={handleClickDelete} handleClickVisible={handleClickVisible}/>
+                <SharedBlogIndex handleClickDelete={handleClickDelete} handleClickVisible={handleClickVisible} editInfo={editInfo}/>
             </section>
         </Authenticated>
         );

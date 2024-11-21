@@ -1,5 +1,5 @@
 
-import { AiOutlineEye } from "react-icons/ai"
+import { AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai"
 import { FaTrash, FaEdit } from "react-icons/fa"
 import { Link } from "@inertiajs/react"
 import parse from 'html-react-parser';
@@ -25,13 +25,13 @@ export default function GetPosts({selectedPosts, category, keyword, uri, handleC
                             <Link href="/blog/admin/edit" data={{ id: post.id }}>
                                 <FaEdit className='icon'/>
                             </Link>
-                            <button>
+                            <button className={"btn-"+post.id} >
                                 {post.is_show
-                                    ?<AiOutlineEye className='icon' id={post.id} alt='表示する' onClick={(e)=>handleClickVisible(e,1)}/>
+                                    ?<AiOutlineEyeInvisible className='icon' id={post.id} alt='表示する' onClick={(e)=>handleClickVisible(e,1)}/>
                                     :<AiOutlineEye className='icon' id={post.id} alt='表示する' onClick={(e)=>handleClickVisible(e,0)}/>
                                  }
                             </button>
-                            <button>
+                            <button className={"btn-"+post.id}>
                                 <FaTrash className='icon' id={post.id} 
                                   onClick={(e)=>handleClickDelete(e,uri)}/>
                             </button>

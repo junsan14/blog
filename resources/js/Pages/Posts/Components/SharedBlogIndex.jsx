@@ -1,11 +1,12 @@
 import { usePage } from '@inertiajs/react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {fixedSearch} from "@/Script";
 import SearchPostsbyKeyword from "./SearchPostsByKeyword";
 import SearchPostsByCategory  from './SearchPostsByCategory';
 import GetPosts from './GetPosts';
+import $ from 'jquery';
 
-export default function SharedBlogIndex({handleClickVisible, handleClickDelete}) {
+export default function SharedBlogIndex({handleClickVisible, handleClickDelete, editInfo}) {
     fixedSearch();
     const loadPosts = usePage().props.loadPosts.data;
     const uri = usePage().component;
@@ -14,6 +15,25 @@ export default function SharedBlogIndex({handleClickVisible, handleClickDelete})
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState("");
 
+    useEffect(()=>{
+      
+        if(editInfo[2] === "visible"){
+            setSelectedPosts(
+                    selectedPosts.map((post)=>{
+                        if(post.id == editInfo[0] && editInfo[2] == "visible" ){
+                            return {...post,is_show:!Boolean(editInfo[1])};
+                        }else{
+                            return {...post};
+                        }
+                    })
+                )
+            }else{
+                setSelectedPosts(selectedPosts.filter((post)=> post.id !== editInfo[0]));
+                  console.log(editInfo)
+            }
+        $(".btn-" + editInfo[0]).prop('disabled', false);
+        $(".btn-" + editInfo[0]).children().css('cursor', "allowed");
+    },[loadPosts])
     return(
             <>
                 <SearchPostsByCategory  category={category} keyword={keyword} 
