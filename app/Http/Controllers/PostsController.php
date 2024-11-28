@@ -22,7 +22,7 @@ class PostsController extends Controller
     
 
     public function home(){
-        $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('updated_at')->take(4)->get();
+        $showBlog = Blog::where(['is_show'=>1, 'is_top'=>1])->latest('published_at')->take(4)->get();
        return Inertia::render('Home',[
         'loadPosts'=>new BlogCollection($showBlog),
     ]);
@@ -65,7 +65,7 @@ class PostsController extends Controller
     }
 
     public function create(Request $request){
-        $keywords = Blog::latest('updated_at')->take(1)->get(['keywords']);
+        $keywords = Blog::latest('updated_at')->take(6)->get(['keywords']);
         $tags = Blog::groupBy('tag')->get(['tag']);
         return Inertia::render('Posts/Create', ['keywords'=>$keywords, 'tags'=>$tags]);
     }
@@ -81,11 +81,18 @@ class PostsController extends Controller
             $thumbnailPath ='<img src="/userfiles/images/noImage.png" alt="">';
         }
         if($request->is_show == 0){
-   
+       
             $publish_at = null;
         }else{
-            $publish_at = $request->published_at;
-            //dd($publish_at);
+            if($request->published_at){
+                $publish_at = $request->published_at;
+            }else{
+                //dd(Carbon::now()->toDateTimeString());
+                $today = Carbon::now()->toDateTimeString();
+                $publish_at = $today;
+                //dd($publish_at);
+            }
+            
         }
        //dd($publish_at);
         Blog::updateOrCreate(

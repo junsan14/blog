@@ -11,7 +11,7 @@ import EditorHeader from './EditorHeader';
 
 export default function Editor(){
 	const {post} = usePage().props;
-	const keywords= usePage().props.keywords?usePage().props.keywords[0]:"";
+	const keywords= usePage().props.keywords?usePage().props.keywords:"";
 	const tags= usePage().props.tags?usePage().props.tags:"";
     const [is_restore, setIs_restore] = useState("false");
     const { data, setData, progress,processing } = useForm({
@@ -136,7 +136,6 @@ export default function Editor(){
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="tag" >Tag</label>
-	                    
 	                    <input list="tags" name="tag" id="tag" 
 	                    	   className='form_control_item_input' value={data.tag} onChange={(e)=>handleChangeData(e)}  />
 	                    <datalist id="tags">
@@ -144,16 +143,16 @@ export default function Editor(){
 						</datalist>
 
 	                </div>
+	                
 	                <div  className="form_control_item">
-	                    <label htmlFor="keywords" >Keywords</label>
-	                    <textarea name="keywords" list="keyword_list" id='keywords' className="form_control_item_input"
-	                        value={data.keywords} onChange={(e)=>handleChangeData(e)} rows={5}
-	                        
-	                    ></textarea>
-	                    <datalist id='keyword_list'>
-	                        <option value='keyword1' />
-	                        <option value='keyword2' />
-	                    </datalist>
+	                    <label htmlFor="keyword" >Keywords</label>
+
+	                    <input list="keywords" name="keyword" id="keyword" 
+	                    	   className='form_control_item_input' value={data.keywords} onChange={(e)=>handleChangeData(e)}  />
+	                    <datalist id="keywords">
+	                    	{keywords.map((keyword, key)=>(<option value={keyword.keywords} key={key} />))}
+						</datalist>
+
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="thumbnail" style={{marginBottom:'20px'}} >Thumbnail</label>

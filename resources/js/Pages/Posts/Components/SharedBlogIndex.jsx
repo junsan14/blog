@@ -14,23 +14,26 @@ export default function SharedBlogIndex({handleClickVisible, handleClickDelete, 
     const [selectedPosts, setSelectedPosts] = useState(loadPosts);
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState("");
-
+    
     useEffect(()=>{
-        if(editInfo[2] === "visible"){
-            setSelectedPosts(
-                    selectedPosts.map((post)=>{
-                        if(post.id == editInfo[0] && editInfo[2] == "visible" ){
-                            return {...post,is_show:!Boolean(editInfo[1])};
-                        }else{
-                            return {...post};
-                        }
-                    })
-                )
+        if(editInfo){
+            if(editInfo[2] === "visible"){
+                setSelectedPosts(
+                        selectedPosts.map((post)=>{
+                            if(post.id == editInfo[0] && editInfo[2] == "visible" ){
+                                return {...post,is_show:!Boolean(editInfo[1])};
+                            }else{
+                                return {...post};
+                            }
+                        })
+                    )
             }else{
                 setSelectedPosts(selectedPosts.filter((post)=> post.id !== editInfo[0]));
             }
-        $(".btn-" + editInfo[0]).prop('disabled', false);
-        $(".btn-" + editInfo[0]).children().css('cursor', "allowed");
+            $(".btn-" + editInfo[0]).prop('disabled', false);
+            $(".btn-" + editInfo[0]).children().css('cursor', "allowed");
+            }
+        
     },[loadPosts])
 
 

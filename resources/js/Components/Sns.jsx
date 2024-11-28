@@ -70,6 +70,73 @@ function Instagram(){
   return (
     <Render />
   );
+}
+
+function Threads(){  
+  const page = usePage();
+  const [posted, setPosted] = useState("");
+  useEffect(()=>{
+    const user_name = "junsan_junsan14" //ビジネスorクリエイターアカウントの必要あり
+    const ACCESS_TOKEN = import.meta.env.VITE_APP_Instagram_access_token_KEY;
+    const THREADS_USER_ID = import.meta.env.VITE_Instagram_user_id_KEY;
+    const get_count = 9 //取得したい投稿数
+    //console.log(process.env.REACT_APP_Instagram_user_id_KEY);
+    //console.log(import.meta.env.VITE_APP_Instagram_access_token_KEY ) // "123"
+
+    axios
+      .get(
+        `https://graph.threads.net/v1.0/${THREADS_USER_ID}/threads?media_type=IMAGE&image_url=https://www.example.com/images/bronz-fonz.jpg&text=#BronzFonz&access_token=${ACCESS_TOKEN}`
+
+      )
+      .then((res) => {
+        setPosted(res.data);   
+      });
+    
+  }, [])
+//console.log(posted)
+    const Render = ()=>{
+      if(posted){
+        let posts =posted.business_discovery.media.data; 
+        //console.log(posts)
+        //ModalShow(posts,"instagram");
+        return(
+          <>
+            <ModalShow posts={posts} />
+            
+            {posts.map((post,i) => {
+              //console.log(post)
+              const Source = ()=>{
+                if(String(post.media_url).indexOf('mp4') !== -1){
+                 return (
+                    <video src={post.media_url} alt="" 
+                      className="post_image js-modal-img" data-url={post.media_url} data-index={i}
+                      muted autoPlay 
+                    ></video>            
+                 )
+                }else{
+                  return (
+                    <img src={post.media_url} alt="" className="post_image js-modal-img" data-url={post.media_url} data-index={i}/>            
+                   )
+                }
+              }
+              return(
+                <div className='post' key={i}>
+                  <div className='js-show-modal' id="grid" data-posts={posts} data-url={post.media_url} data-index={i}>
+                    <img src={post.media_url} className="post_image js-modal-img" />
+                  </div> 
+                  <figcaption className="post_desc_caption" >{parse(post.caption)}</figcaption>   
+                </div>
+              )          
+            })}           
+          </>
+        )
+      }
+
+    }
+   
+  return (
+    <Render />
+  );
 
 
  

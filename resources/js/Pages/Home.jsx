@@ -58,6 +58,23 @@ export default function Home() {
                 </section>
                 <section className="section">
                   <h2 className="section_title">
+                    <div className="section_title_jp">Threads</div>
+                  </h2>
+                  <div className="section_content sns js-sns">
+                    <div className="threads js-threads">
+                      <div className="threads_wrapper js-threads-wrapper">
+                       
+                      </div>
+                      <div className="section_btn">
+                        <a href='https://www.threads.com/junsan_junsan14/'>
+                          <FaInstagram />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section className="section">
+                  <h2 className="section_title">
                     <div className="section_title_jp">Instagram</div>
                   </h2>
                   <div className="section_content sns js-sns">
