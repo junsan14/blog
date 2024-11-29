@@ -164,7 +164,7 @@ function Threads(){
       }
 
     }
-   const Swiper = () =>{
+   const SwiperDet = () =>{
     if(posted){
       let posts =posted.data;
       return(
@@ -216,8 +216,8 @@ function Threads(){
    }
   return (
     <>
-      <Render />
-      <Swiper />
+
+      <SwiperDet />
     </>
   );
 
