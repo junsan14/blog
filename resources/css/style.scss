@@ -1261,10 +1261,16 @@ img{
 							align-items:center;
 							img{
 								width:50%;
+								@include mq(sp){
+									width: 100%;
+								}
 							}
 						}
 						&_content{
 							width:85%;
+							@include mq(sp){
+								font-size: .8rem;
+							}
 							&_title{
 								display:flex;
 								justify-content:space-around;
@@ -1273,12 +1279,30 @@ img{
 								}
 								.date{
 									width:20%;
+									text-align: right;
 								}
 							
 							}
 							&_text{
-								margin-top:20px;
+								width: 100%;
+								margin-top:10px;
 								margin-left:10px;
+								display: flex;
+								align-items: end;
+								justify-content: space-around;
+								.text{
+									width: 85%;
+									line-height: $line-height;
+									@include mq(sp){
+										line-height: $line-height-sp;
+										width: 100%;
+									}
+								}
+								.icon{
+									width: 15%;
+									display: flex;
+									justify-content: space-around;
+								}
 							}
 						}
 						

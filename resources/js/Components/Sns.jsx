@@ -3,10 +3,26 @@ import React, { useState, useEffect } from 'react'
 import { usePage } from '@inertiajs/react';
 import profile from '../../images/profile.png';
 import { ModalShow,formatDate } from '@/Script';
+import { FaRegHeart } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
+import { FaRetweet } from "react-icons/fa6";
+import { LuSend } from "react-icons/lu";
+
 
 import parse from 'html-react-parser';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { ja } from 'date-fns/locale'
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+
+// import required modules
+import { Pagination } from 'swiper/modules';
+
 
 function Instagram(){  
 
@@ -104,13 +120,14 @@ function Threads(){
     const Render = ()=>{
       if(posted){
         let posts =posted.data;
-        console.log(posted)
+        //console.log(posted)
         //ModalShow(posts,"instagram");
         return(
           <>
             {posts.map((post,i) => {
               console.log(post.permalink)
               return(
+              <>
                 <a href={post.permalink} target="_blank">
                   <div className='post' key={i}>
                     <div className="post_img">
@@ -122,11 +139,20 @@ function Threads(){
                         <p className="date">{formatDistanceToNow(post.timestamp,{locale: ja})}前 </p>
                       </div>
                       <div className='post_content_text'>
+                        <div className='text'>
                         <p>{post.text}</p>
+                         </div>
+                        <div className='icon'>
+                          <FaRegHeart />
+                          <FaRegComment />
+                          <FaRetweet />
+                          <LuSend />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </a>
+              </>
               )          
             })}           
           </>
@@ -138,9 +164,61 @@ function Threads(){
       }
 
     }
-   
+   const Swiper = () =>{
+    if(posted){
+      let posts =posted.data;
+      return(
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {posts.map((post,i)=>(
+              <SwiperSlide>
+                
+              <a href={post.permalink} target="_blank">
+                  <div className='post' key={i}>
+                    <div className="post_img">
+                      <img src={profile} alt="" />
+                    </div>
+                    <div className='post_content'>
+                      <div className='post_content_title'>
+                        <h2 className="title">{post.username}</h2>
+                        <p className="date">{formatDistanceToNow(post.timestamp,{locale: ja})}前 </p>
+                      </div>
+                      <div className='post_content_text'>
+                        <div className='text'>
+                        <p>{post.text}</p>
+                         </div>
+                        <div className='icon'>
+                          <FaRegHeart />
+                          <FaRegComment />
+                          <FaRetweet />
+                          <LuSend />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+
+              </SwiperSlide>
+
+            ))}
+        </Swiper>
+
+
+        )
+      }
+   }
   return (
-    <Render />
+    <>
+      <Render />
+      <Swiper />
+    </>
   );
 
 
