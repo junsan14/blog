@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { usePage } from '@inertiajs/react';
 
-import { ModalShow } from '@/Script';
+import { ModalShow,formatDate } from '@/Script';
 import {AiFillHeart} from 'react-icons/ai';
 import parse from 'html-react-parser';
 
@@ -77,15 +77,17 @@ function Threads(){
   const [posted, setPosted] = useState("");
   useEffect(()=>{
     const user_name = "junsan_junsan14" //ビジネスorクリエイターアカウントの必要あり
-    const ACCESS_TOKEN = import.meta.env.VITE_APP_Instagram_access_token_KEY;
-    const THREADS_USER_ID = import.meta.env.VITE_Instagram_user_id_KEY;
+    const ACCESS_TOKEN = import.meta.env.VITE_APP_threads_access_token;
+    const THREADS_USER_ID = import.meta.env.VITE_threads_user_id;
     const get_count = 9 //取得したい投稿数
-    //console.log(process.env.REACT_APP_Instagram_user_id_KEY);
+    //console.log(THREADS_USER_ID);
     //console.log(import.meta.env.VITE_APP_Instagram_access_token_KEY ) // "123"
+  //console.log(`https:graph.threads.net/v1.0/${THREADS_USER_ID}/threads_publishing_limit?fields=quota_usage,config&access_token=${ACCESS_TOKEN}`)
+    //console.log(`https://graph.threads.net/v1.0/me/threads?fields=id,permalink,owner,username,text,timestamp,shortcode,thumbnail_url,children,is_quote_post&since=2024-10-15&until=2024-11-29&limit=1&access_token=${ACCESS_TOKEN}`)
 
     axios
       .get(
-        `https://graph.threads.net/v1.0/${THREADS_USER_ID}/threads?media_type=IMAGE&image_url=https://www.example.com/images/bronz-fonz.jpg&text=#BronzFonz&access_token=${ACCESS_TOKEN}`
+        `https://graph.threads.net/v1.0/me/threads?fields=id,media_product_type,media_type,media_url,permalink,owner,username,text,timestamp,shortcode,thumbnail_url,children,is_quote_post&since=2024-10-15&until=2024-11-29&limit=10&access_token=${ACCESS_TOKEN}`
 
       )
       .then((res) => {
@@ -93,38 +95,21 @@ function Threads(){
       });
     
   }, [])
-//console.log(posted)
+
     const Render = ()=>{
       if(posted){
-        let posts =posted.business_discovery.media.data; 
-        //console.log(posts)
+        let posts =posted.data;
+        //console.log(posted)
         //ModalShow(posts,"instagram");
         return(
           <>
-            <ModalShow posts={posts} />
-            
+           
             {posts.map((post,i) => {
               //console.log(post)
-              const Source = ()=>{
-                if(String(post.media_url).indexOf('mp4') !== -1){
-                 return (
-                    <video src={post.media_url} alt="" 
-                      className="post_image js-modal-img" data-url={post.media_url} data-index={i}
-                      muted autoPlay 
-                    ></video>            
-                 )
-                }else{
-                  return (
-                    <img src={post.media_url} alt="" className="post_image js-modal-img" data-url={post.media_url} data-index={i}/>            
-                   )
-                }
-              }
               return(
                 <div className='post' key={i}>
-                  <div className='js-show-modal' id="grid" data-posts={posts} data-url={post.media_url} data-index={i}>
-                    <img src={post.media_url} className="post_image js-modal-img" />
-                  </div> 
-                  <figcaption className="post_desc_caption" >{parse(post.caption)}</figcaption>   
+                  <p>{post.text}</p>  
+                  <p>{formatDate(post.timestamp)}</p>  
                 </div>
               )          
             })}           
@@ -142,7 +127,7 @@ function Threads(){
  
 }
 
-export {Instagram};
+export {Instagram, Threads};
 
 
 

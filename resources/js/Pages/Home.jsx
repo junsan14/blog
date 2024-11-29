@@ -2,13 +2,15 @@ import { usePage,Link } from '@inertiajs/react';
 import React, {useState } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
-import {Instagram} from "@/Components/Sns";
+import {Instagram, Threads} from "@/Components/Sns";
 import {FaInstagram} from 'react-icons/fa6';
 import { MdEmojiPeople } from "react-icons/md";
 import { FaBlog } from "react-icons/fa";
 import GetPosts from './Posts/Components/GetPosts';
 
 export default function Home() {
+
+
   const loadPosts = usePage().props.loadPosts.data;
   const [posts, setPosts] = useState(loadPosts);
     return (
@@ -63,11 +65,11 @@ export default function Home() {
                   <div className="section_content sns js-sns">
                     <div className="threads js-threads">
                       <div className="threads_wrapper js-threads-wrapper">
-                       
+                        <Threads />
                       </div>
                       <div className="section_btn">
                         <a href='https://www.threads.com/junsan_junsan14/'>
-                          <FaInstagram />
+                          
                         </a>
                       </div>
                     </div>

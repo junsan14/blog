@@ -1242,6 +1242,17 @@ img{
 		}
 		
 		& .sns{	
+			.threads{
+				&_wrapper{
+					
+					.post{
+						border: 1px solid rgba(0, 0, 0, 0.5);
+						border-radius: 10px;
+						padding: 10px;
+						margin-top: 20px;
+					}
+				}
+			}
 		 .instagram{
 			position: relative;
 			width: 100%;
