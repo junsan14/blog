@@ -1242,14 +1242,47 @@ img{
 		}
 		
 		& .sns{	
+			position:relative;
+			z-index:200;
 			.threads{
 				&_wrapper{
-					
+					height:70vh;
+					overflow-y:scroll;
 					.post{
-						border: 1px solid rgba(0, 0, 0, 0.5);
-						border-radius: 10px;
+						border-top: 1px solid rgba(0, 0, 0, 0.2);
 						padding: 10px;
-						margin-top: 20px;
+						display:flex;
+						margin-top:10px;
+						align-items:center;
+						&_img{
+							width:15%;
+							display:flex;
+							justify-content:center;
+							align-items:center;
+							img{
+								width:50%;
+							}
+						}
+						&_content{
+							width:85%;
+							&_title{
+								display:flex;
+								justify-content:space-around;
+								.title{
+									width:80%;
+								}
+								.date{
+									width:20%;
+								}
+							
+							}
+							&_text{
+								margin-top:20px;
+								margin-left:10px;
+							}
+						}
+						
+						
 					}
 				}
 			}

@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import {SpMenuShow, showMsg} from "@/Script";
-import {FaXTwitter,FaInstagram} from 'react-icons/fa6';
+import {FaInstagram,FaThreads} from 'react-icons/fa6';
 import {bg } from "@/Script";
 import $ from 'jquery';
 
@@ -44,8 +44,8 @@ function Layout({user,children,status}){
            {is_login&&  <li className="nav_ul_li js-nav-ul-li"><Link href={route("blog.edit")}>管理画面</Link></li>}
         </ul>
         <div className="nav_sns">
-          <a href="https://twitter.com/junsan147" target="_blank" rel="noopener noreferrer">
-            <FaXTwitter className='nav_sns_icon'/>
+          <a href="https://www.threads.com/junsan_junsan14/" target="_blank" rel="noopener noreferrer">
+            <FaThreads className='nav_sns_icon'/>
           </a>
           <a href="https://www.instagram.com/junsan_junsan14" rel="noopener noreferrer" target='_blank'>
             <FaInstagram className='nav_sns_icon'/>

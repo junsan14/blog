@@ -3,7 +3,8 @@ import React, {useState } from "react";
 import GuestLayout from '@/Layouts/GuestLayout';
 import {EnginerSkillGraph,MotivationChart} from '@/Components/SkillGraph';
 import {Instagram, Threads} from "@/Components/Sns";
-import {FaInstagram} from 'react-icons/fa6';
+import {FaInstagram,FaThreads} from 'react-icons/fa6';
+
 import { MdEmojiPeople } from "react-icons/md";
 import { FaBlog } from "react-icons/fa";
 import GetPosts from './Posts/Components/GetPosts';
@@ -69,7 +70,7 @@ export default function Home() {
                       </div>
                       <div className="section_btn">
                         <a href='https://www.threads.com/junsan_junsan14/'>
-                          
+                          <FaThreads />
                         </a>
                       </div>
                     </div>
