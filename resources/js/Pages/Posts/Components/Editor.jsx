@@ -29,6 +29,7 @@ export default function Editor(){
         is_continue:post === undefined?"":post[0].is_continue,
         is_restore:"false"
     });
+   
 	function handleSubmitPageData(e){
         e.preventDefault();
         keys().then((keys)=>{
@@ -57,6 +58,7 @@ export default function Editor(){
             [key]: value,
         }))
        set("new_" +[key], value);
+       //console.log(key)
     }
     function handleClickRestore(e){
         e.preventDefault();
@@ -105,14 +107,15 @@ export default function Editor(){
 	                </div>
 	            </div>
 	            <div className='sub'>
-	                <div  className="form_control_item">
-	                    <label htmlFor="is_top">Show on Home</label>
+	                <div  className="form_control_item showTop">
 	                    <input type='checkbox'
 	                        name="is_top"
 	                        checked={data.is_top}
+	                        id="is_top"
 	                        onChange={(e) =>{
 	                            setData('is_top', e.target.checked); 
 	                        } } className='form_control_item_checkbox'/>
+	                        <label htmlFor="is_top">Show on Home</label>
 	                </div>
 	                <div  className="form_control_item">
 	                    <label htmlFor="published_at">Publish Date</label>
@@ -146,12 +149,10 @@ export default function Editor(){
 	                
 	                <div  className="form_control_item">
 	                    <label htmlFor="keyword" >Keywords</label>
-
-	                    <input list="keywords" name="keyword" id="keyword" 
-	                    	   className='form_control_item_input' value={data.keywords} onChange={(e)=>handleChangeData(e)}  />
-	                    <datalist id="keywords">
-	                    	{keywords.map((keyword, key)=>(<option value={keyword.keywords} key={key} />))}
-						</datalist>
+						<textarea id="keywords" name='keywords' className="form_control_item_input"  
+	                     rows="5" value={data.keywords} onChange={(e)=>handleChangeData(e)} >
+	                     {post.keywords}
+	                    </textarea>
 
 	                </div>
 	                <div  className="form_control_item">

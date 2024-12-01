@@ -3,6 +3,7 @@ import React,{useState,useEffect, Component } from "react";
 import transparentImg from '../images/transparent.png';
 import hljs from 'highlight.js';
 import '../../node_modules/highlight.js/styles/foundation.css'
+import parse from 'html-react-parser';
 
 function SpMenuShow(){
   const [loadState, setLoadState]= useState(false);
@@ -158,8 +159,10 @@ function ModalShow(){
         $(".js-right-arrow").addClass("hide");
       }
       $(".js-slide-number").text(`${index+1}/${images.length}`)
-      $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
-      
+      $(".js-slide-figcaption").text($($showModal[index]).siblings(".js-figcaption-text").text());
+      $(".js-slide-date").text($($showModal[index]).siblings(".js-figcaption-date").text());
+      //console.log($($showModal[index]).siblings(".js-figcaption-date").text());
+     
       //console.log($($showModal[index]).next("figcaption").text())
       //モバイルスワイプ処理
       const minimumDistance = 30
@@ -206,7 +209,8 @@ function ModalShow(){
           
           $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src")); 
           $(".js-slide-number").text(`${index+1}/${images.length}`);
-          $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
+          $(".js-slide-figcaption").text($($showModal[index]).siblings(".js-figcaption-text").text());
+          $(".js-slide-date").text($($showModal[index]).siblings(".js-figcaption-date").text());
      
         }
       })
@@ -228,7 +232,8 @@ function ModalShow(){
           $imageModal.find(".js-modal-pic").attr("src", $(images[index]).attr("src"));
 
           $(".js-slide-number").text(`${index+1}/${images.length}`)
-          $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
+          $(".js-slide-figcaption").text($($showModal[index]).siblings(".js-figcaption-text").text());
+          $(".js-slide-date").text($($showModal[index]).siblings(".js-figcaption-date").text());
       
         }else if($(e.target).hasClass("js-right-arrow")){
           if(index === images.length-1){
@@ -241,14 +246,16 @@ function ModalShow(){
 
           console.log($(images[index]).attr("src"))
           $(".js-slide-number").text(`${index+1}/${images.length}`);
-          $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
+          $(".js-slide-figcaption").text($($showModal[index]).siblings(".js-figcaption-text").text());
+          $(".js-slide-date").text($($showModal[index]).siblings(".js-figcaption-date").text());
           
 
         }else if(!$(e.target).hasClass("js-modal-pic")){
           
           $(".js-close-image-modal-btn").parent().removeClass("show");
           $imageModal.find(".js-modal-pic").attr("src", transparentImg);
-          $(".js-slide-figcaption").text($($showModal[index]).next("figcaption").text());
+          $(".js-slide-figcaption").text($($showModal[index]).siblings(".js-figcaption-text").text());
+          $(".js-slide-date").text($($showModal[index]).siblings(".js-figcaption-date").text());
           $("body").removeClass("noscroll");
           
         }
@@ -265,6 +272,7 @@ function ModalShow(){
           <button className="js-close-image-modal-btn">✕</button>
           <div className="js-content content">
             <img className="js-modal-pic modal-pic" src='' alt="" />
+            <p className='js-slide-date slide-date'></p> 
             <p className='js-slide-figcaption slide-figcaption'>a</p> 
             <span className='js-slide-number slide-number'></span> 
           </div>

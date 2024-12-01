@@ -69,7 +69,7 @@ export default function Home() {
                         <Threads />
                       </div>
                       <div className="section_btn">
-                        <a href='https://www.threads.com/junsan_junsan14/'>
+                        <a href='https://www.threads.net/@junsan_junsan14/' target='_blank'>
                           <FaThreads />
                         </a>
                       </div>
@@ -83,10 +83,10 @@ export default function Home() {
                   <div className="section_content sns js-sns">
                     <div className="instagram js-instagram">
                       <div className="instagram_wrapper js-instagram-wrapper">
-                       <Instagram />
+                          <Instagram />
                       </div>
                       <div className="section_btn">
-                        <a href='https://www.instagram.com/junsan_junsan14/'>
+                        <a href='https://www.instagram.com/junsan_junsan14/' target='_blank'>
                           <FaInstagram />
                         </a>
                       </div>

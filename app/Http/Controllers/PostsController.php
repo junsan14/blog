@@ -65,7 +65,7 @@ class PostsController extends Controller
     }
 
     public function create(Request $request){
-        $keywords = Blog::latest('updated_at')->take(6)->get(['keywords']);
+        $keywords = Blog::latest('updated_at')->get(['keywords']);
         $tags = Blog::groupBy('tag')->get(['tag']);
         return Inertia::render('Posts/Create', ['keywords'=>$keywords, 'tags'=>$tags]);
     }
@@ -74,7 +74,7 @@ class PostsController extends Controller
         //dd($request->is_top);
         $content= $request->content;
         $thumbnailPath = $request->thumbnail;
-       //dd($content);
+       //dd($request);
         //dd(isset($thumbnailPath));
         //サムネイル格納
         if(!isset($thumbnailPath)){
@@ -133,15 +133,16 @@ class PostsController extends Controller
     
     public function edit(Request $request) {
         $id = $request->query('id');
+        $keywords = Blog::latest('updated_at')->get(['keywords']);
         $post =Blog::where('id', $id)->get();
         $tags = Blog::groupBy('tag')->get(['tag']);
-        return Inertia::render('Posts/Edit',['post' =>$post, 'tags'=>$tags]);   
+        return Inertia::render('Posts/Edit',['post' =>$post, 'tags'=>$tags,'keywords'=>$keywords,]);   
     }
 
     public function update(Request $request){
         $content= $request->content;
         $thumbnailPath = $request->thumbnail;
-        //dd(isset($thumbnailPath));
+        dd($request);
         //サムネイル格納
         if(!isset($thumbnailPath)){
             $thumbnailPath ='<img src="/userfiles/images/noImage.png" alt="">';

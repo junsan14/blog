@@ -45,32 +45,32 @@ const enginerSkill = [
 const frontSkill = [
     {
       subject: 'HTML/CSS/SASS',
-      A: 4,
+      A: 4.5,
       fullMark: 5,
     },
     {
       subject: 'JavaScript',
-      A: 4,
+      A: 4.5,
       fullMark: 5,
     },
     {
       subject: 'jQuery',
-      A: 4,
+      A: 4.5,
       fullMark: 5,
     },
     {
       subject: 'Google App Script',
-      A: 4,
+      A: 4.5,
       fullMark: 5,
     },
     {
       subject: 'React',
-      A: 3,
+      A: 4,
       fullMark: 5,
     },
     {
-      subject: 'RN',
-      A: 1.5,
+      subject: 'Git',
+      A: 3.5,
       fullMark: 5,
     },
 
@@ -80,22 +80,22 @@ const frontSkill = [
 const backSkill = [
   {
     subject: 'PHP',
-    A: 2.5,
+    A: 3,
     fullMark: 5,
   },
   {
     subject: 'Laravel',
-    A: 3.5,
+    A: 4,
     fullMark: 5,
   },
   {
     subject: 'Wordpress',
-    A: 3.0,
+    A: 3.5,
     fullMark: 5,
   },
   {
     subject: 'mySQL',
-    A: 3,
+    A: 3.5,
     fullMark: 5,
   },
   {
@@ -104,7 +104,7 @@ const backSkill = [
     fullMark: 5,
   },
   {
-    subject: 'API',
+    subject: 'API接続',
     A: 3,
     fullMark: 5,
   },
@@ -410,7 +410,7 @@ const otherSkill = [
       case "2024-Sep":
       return(
         <>
-          JICA海外協力隊ルワンダ派遣中
+          JICA海外協力隊ルワンダ活動中
         </>
       );
       default:

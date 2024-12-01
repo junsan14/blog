@@ -3,23 +3,18 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import {FrontSKillGraph,BackSKillGraph,OtherSkillGraph} from '@/Components/SkillGraph';
 import profile from '../../images/profile.png';
 import {Head } from '@inertiajs/react';
-export default function About() {
+export default function Goal() {
   graphShow();
 
  
   return (
       <GuestLayout>
             <Head>
-              <title>ABOUT</title>
-              <meta name="description" content="WEBエンジニアとしてのポートフォリオ､またWEB制作やWEB開発に関わる知識を発信しています" />
+              <title>Goal</title>
             </Head>
-            <div className='background'>
-              <div className="images">
-              </div>
-            </div>
-            <section className="section about">
+            <section className="section goal">
               <h1 className="section_title">
-                <div className="section_title_jp">ABOUT</div>
+                <div className="section_title_jp">Goal</div>
               </h1>
                      
               <div className="section_content about_content">

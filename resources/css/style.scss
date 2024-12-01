@@ -130,7 +130,7 @@ img{
 		@include mq(tab){
 			width: 100%;
 			right: 0px;
-			z-index: 1000;
+			z-index: 100;
 			height: 60px;
 			top: 0;
 			background: rgba(#fff, .8);
@@ -197,14 +197,17 @@ img{
 				z-index: 0;
 				margin-top: 0px;
 				&.show{
-					
 					opacity: 1;
 					transition: .5s ease;
 					background: white;
-					height: 100vh;
+					height: 100svh;
 					width: 100%;
 					pointer-events: auto;
 					z-index: 20;
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					justify-content: center;
 				}
 			}
 			&_logo{
@@ -216,15 +219,13 @@ img{
 			}
 			
 			&_ul{
-				height: 90vh;
+
 				flex-wrap: wrap;
 				display: flex;
-				justify-content: center;
-				align-items: center;
+				justify-content: end;
+				align-items: end;
 				width: 100%;
-				@include mq(tab){
-					height: calc(90vh - 60px);
-				}
+			  height: 100svh;
 				&_li{
 					width: 100%;
 					font-size: 1.5em;
@@ -239,15 +240,21 @@ img{
 			}
 			&_sns{
 				display: flex;
-				height: 10vh;
+				height: 10%;
+				width: 100%;
 				justify-content: center;
 				align-items: center;
+				position: absolute;
+				top:0%;
+				@include mq(sp){
+					top:50%;
+				}
 				a{
-					width: 40%;
+					width: 100%;
 					display: flex;
 					justify-content: center;
-					@include mq(tab){
-						width: 15%;
+					@include mq(sp){
+						width: 20%;
 					}
 					.nav_sns_icon{
 						
@@ -314,7 +321,7 @@ img{
 		top:0;
 		left:0;
 		width:100%;
-		height:100%;
+		height:100dvh;
 		position:fixed;
 		&.show{
 			inset: 0;
@@ -1021,7 +1028,7 @@ img{
 	transition: .8s ease;
 	opacity: 0;
 	width: 100%;
-	height: 100%;
+	height: 100dvh;
 	left: 0;
 	right: 0;
 	top: 0;
@@ -1029,7 +1036,7 @@ img{
 	position: fixed;
 	z-index: -100;
 	&.show{
-		background:rgba(#111,.8);
+		background:rgba(#111,.7);
 		z-index: 200;
 		opacity: 1;
 
@@ -1054,10 +1061,24 @@ img{
 				width: 35vw;
 				margin: 0 auto;
 				object-fit: cover;
+				border-radius: 5px;
 				@include mq(sp){
 					width: 70vw;
 				}
 				
+			}
+			& .slide-date{
+				text-align: right;
+				color: #fff;
+				display: flex;
+				justify-content: end;
+				width: 35vw;
+				font-size: .7em;
+				margin-top: 5px;
+				@include mq(sp){
+					width: 70vw;
+					line-height: $line-height-sp;
+				}
 			}
 			& .slide-figcaption{
 				margin-top: 30px;
@@ -1242,18 +1263,46 @@ img{
 		}
 		
 		& .sns{	
-			position:relative;
-			z-index:200;
+			
 			.threads{
+				position: relative;
 				&_wrapper{
-					height:70vh;
-					overflow-y:scroll;
+				
 					.post{
-						border-top: 1px solid rgba(0, 0, 0, 0.2);
+						border: 1px solid rgba(0, 0, 0, 0.2);
+						border-radius: 10px;
 						padding: 10px;
-						display:flex;
 						margin-top:10px;
-						align-items:center;
+						min-height: 50vh;
+						max-height: 50vh;
+						@include mq(sp){
+							width: 100%;
+							border-top: 1px solid rgba(0, 0, 0, 0.2);
+							border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+							min-height: 38vh;
+							max-height: 38vh;
+						}
+						&_header{
+							display: flex;
+							align-items: center;
+							font-size: .9rem;
+							justify-content: space-around;
+							img{
+								width:20%;
+								@include mq(sp){
+									width: 15%;
+								}
+							}
+							h2{
+								margin-left:1vw ;
+							}
+							p{
+								margin-left:1vw ;
+								@include mq(sp){
+									margin-left: 7vw;
+								}
+							}
+						}
 						&_img{
 							width:15%;
 							display:flex;
@@ -1268,42 +1317,40 @@ img{
 						}
 						&_content{
 							width:85%;
+							min-height: 25vh;
+							width: 100%;
+							margin-top:10px;
+							padding: 0 10px;
+							line-height: $line-height;
+							font-size: .8rem;
+							p{
+								display: -webkit-box;
+								-webkit-box-orient: vertical;
+								-webkit-line-clamp: 6; 
+								overflow: hidden;
+								@include mq(sp){
+									-webkit-line-clamp: 5; 
+
+							}
+
+							}
 							@include mq(sp){
 								font-size: .8rem;
+								min-height: 20vh;
+
 							}
-							&_title{
-								display:flex;
-								justify-content:space-around;
-								.title{
-									width:80%;
-								}
-								.date{
-									width:20%;
-									text-align: right;
-								}
-							
-							}
-							&_text{
-								width: 100%;
-								margin-top:10px;
-								margin-left:10px;
-								display: flex;
-								align-items: end;
-								justify-content: space-around;
-								.text{
-									width: 85%;
-									line-height: $line-height;
-									@include mq(sp){
-										line-height: $line-height-sp;
-										width: 100%;
-									}
-								}
-								.icon{
-									width: 15%;
+								
+						}
+						.icon{
+									width: 100%;
 									display: flex;
-									justify-content: space-around;
-								}
-							}
+									justify-content: end;
+									margin-top: 20px;
+									align-items: end;
+									svg{
+										margin-left: 20px;
+									}
+
 						}
 						
 						
@@ -1395,6 +1442,7 @@ img{
 			figcaption{
 				display: none;
 			}
+
 			
 		}
 		 .twitter{		
@@ -1442,6 +1490,7 @@ img{
 					margin: 0 auto;
 					width: 80%;
 					margin-bottom: 20px;
+
 					p{	
 						&:nth-child(1){
 							font-size: 1.1em;
@@ -1449,8 +1498,10 @@ img{
 						}
 						
 						font-size: $pc_textsize;
-						
-						line-height: $line-height-sp;
+						line-height: $line-height;
+						@include mq(sp){
+							line-height: $line-height-sp;
+						}
 					}
 				}
 
@@ -2055,6 +2106,7 @@ img{
 
 //admin
 .create{
+	position: relative;
 	.admin-content{
 		display: flex;
 		flex-wrap: wrap;
@@ -2078,6 +2130,11 @@ img{
 			width:calc(30% - 5px);
 			padding: 20px 30px;
 			background: rgba(#fff,.6);
+			position: sticky;
+			right: 20px;
+			top: 80px;
+			height: calc(100vh - 80px);
+			overflow-y: scroll;
 			@include mq(sp){
 				width: 100%;
 				padding: 20px 10px;
@@ -2140,6 +2197,10 @@ img{
 
 	&_item{
 		width: 100%;
+		&.showTop{
+			display: flex;
+			
+		}
 		label{
 			display: block;
 		}
@@ -2174,6 +2235,11 @@ img{
 				border: $focus-style;
 				border-radius: 3px;
 			}
+			&.datalist{
+				height: 500px;
+				word-break	:break-all;
+  white-space: normal;
+			}
 		}
 		&_checkbox{
 			color: #111;
@@ -2181,6 +2247,8 @@ img{
 			height: 100px;
 			background: yellow;
 			all: revert;
+			border: 1px solid rgba(0, 0, 0, 0.5);
+			margin-right: 20px;
 		}
 		&_textarea{
 			margin: 20px 0;
