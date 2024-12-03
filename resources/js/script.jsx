@@ -271,11 +271,15 @@ function ModalShow(){
           <span className='js-left-arrow left-arrow'></span>
           <button className="js-close-image-modal-btn">✕</button>
           <div className="js-content content">
-            <img className="js-modal-pic modal-pic" src='' alt="" />
-            <p className='js-slide-date slide-date'></p> 
-            <p className='js-slide-figcaption slide-figcaption'>a</p> 
-            <span className='js-slide-number slide-number'></span> 
+            <div className="content_area">
+              <img className="js-modal-pic modal-pic" src='' alt="" />
+
+              <p className='js-slide-date slide-date'></p> 
+              <p className='js-slide-figcaption slide-figcaption'>a</p> 
+              <p className='js-slide-number slide-number'></p> 
+            </div>
           </div>
+        
           <span className='js-right-arrow right-arrow'></span> 
           
           
@@ -394,6 +398,10 @@ function addClassPage(){
       $(ele).addClass("js-modal-img");
       $(ele).wrap(`<div class="js-show-modal" data-index="${i}"></div>`);
       $(ele).append(`<div class="image_modal js-image-modal"></div>`);    
+  })
+  //figcation 
+  $(".article_content").find("figcaption").each((i,ele)=>{
+      $(ele).addClass("js-figcaption-text");   
   })
 //目次追加
   if($h2.length >0){

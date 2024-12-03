@@ -148,10 +148,10 @@ export default function Editor(){
 	                </div>
 	                
 	                <div  className="form_control_item">
-	                    <label htmlFor="keyword" >Keywords</label>
+	                    <label htmlFor="keywords" >Keywords</label>
 						<textarea id="keywords" name='keywords' className="form_control_item_input"  
 	                     rows="5" value={data.keywords} onChange={(e)=>handleChangeData(e)} >
-	                     {post.keywords}
+	                 
 	                    </textarea>
 
 	                </div>

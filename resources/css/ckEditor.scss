@@ -477,11 +477,12 @@
       }
   
       > figcaption {
-        display: inline-block;
+        display: block;
         word-break: break-word;
         text-align: right;
         font-size: .8em;
         outline-offset: -1px;
+        font-style: italic;
       }
     }
   

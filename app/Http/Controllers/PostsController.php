@@ -65,8 +65,9 @@ class PostsController extends Controller
     }
 
     public function create(Request $request){
-        $keywords = Blog::latest('updated_at')->get(['keywords']);
+        $keywords = Blog::latest('updated_at')->first(['keywords']);
         $tags = Blog::groupBy('tag')->get(['tag']);
+        //dd($keywords);
         return Inertia::render('Posts/Create', ['keywords'=>$keywords, 'tags'=>$tags]);
     }
 
@@ -133,7 +134,7 @@ class PostsController extends Controller
     
     public function edit(Request $request) {
         $id = $request->query('id');
-        $keywords = Blog::latest('updated_at')->get(['keywords']);
+        $keywords = Blog::latest('updated_at')->first(['keywords']);
         $post =Blog::where('id', $id)->get();
         $tags = Blog::groupBy('tag')->get(['tag']);
         return Inertia::render('Posts/Edit',['post' =>$post, 'tags'=>$tags,'keywords'=>$keywords,]);   

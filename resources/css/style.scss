@@ -191,7 +191,7 @@ img{
 			justify-content:center;
 			align-items:center;
 			height: 100vh;
-			@include mq(sp){
+			@include mq(tab){
 				opacity: 0;
 				pointer-events: none;
 				transition: .5s ease;
@@ -535,7 +535,7 @@ img{
 		&_btn{
 			margin-top: 20px;
 			display: flex;
-			justify-content: end;
+			justify-content: flex-end;
 			
 			a{
 				font-size: 2em;
@@ -683,11 +683,11 @@ img{
 								width: 100%;
 								font-size: 1vw;
 								margin-top: 1vw;
-								justify-content: end;
+								justify-content: flex-end;
 								align-items: center;
 							&_date{
 								display: flex;
-								justify-content: end;
+								justify-content: flex-end;
 								align-items: center;
 								&_icon{
 									margin-right: 2px;
@@ -1049,63 +1049,97 @@ img{
 			top:20px;
 		}
 		.content{
+			width: 100%;
+			height: 100dvh;
+			top:0;
+			left: 0;
+			margin: 0 auto;
 			display: flex;
 			justify-content: center;
-			align-items: center;
-			width: 100%;
-			height: 100%;
-			flex-flow: column;	
-			
-			
-			& .modal-pic{
+			flex-wrap: wrap;
+			color: #fff;
+						&_area{
+							width: 100%;
+							display: flex;
+							flex-wrap: wrap;
+							justify-content: center;
+							@include mq(sp){
+								padding: 4%;
 				
-				width: 35vw;
-				margin: 0 auto;
-				object-fit: cover;
-				border-radius: 5px;
-				@include mq(sp){
-					width: 70vw;
-				}
+							}
+							.modal-pic{
+								object-fit: cover;
+								border-radius: 5px;
+								width: 450px;
+								height: auto;
+								max-height: 450px;
+								max-width: 450px;
+								margin-top: 5%;
+								@include mq(tab){
+									width: 400px;
+									max-width: 400px;
+									max-height: 400px;
+								}
+								@include mq(sp){
+									margin-top:10vh;
+									width: 350px;
+									max-width: 350px;
+									max-height: 350px;
+
+								}
+							}
+							
+							.slide-date{
+								font-size: .9em;
+								width: 100%;
+								text-align: right;
+								margin-right: calc((100% - 450px)/2);
+								margin-top: 5px;
+								@include mq(tab){
+									margin-right:calc((100% - 400px)/2);
+								}
+								@include mq(sp){
+									line-height: $line-height-sp;
+									font-size: .8em;
+									margin-right:calc((100% - 350px)/2);
+									
+								}
+							}
+							.slide-figcaption{
+								width: 100%;
+								font-size: 1.0em;
+								line-height: $line-height;
+								white-space: pre-wrap;
+								margin-left: calc((100% - 450px)/2);
+								@include mq(tab){
+									margin-left:calc((100% - 400px)/2);
+								}
+								
+								@include mq(sp){
+									line-height: $line-height-sp;
+									font-size: .7.0em;
+									margin-left: calc((100% - 350px)/2);
+								}
+								
+								
+								
+							}
+							.slide-number{
+								font-size: .9rem;
+								width: 100%;
+								margin-right:0;
+								margin-right: calc((100% - 450px)/2);
+								text-align: right;
+								@include mq(tab){
+									margin-right: calc((100% - 400px)/2);
+								}
+								@include mq(sp){
+									margin-right: calc((100% - 350px)/2);
+								}
+							}
+						}
+						
 				
-			}
-			& .slide-date{
-				text-align: right;
-				color: #fff;
-				display: flex;
-				justify-content: end;
-				width: 35vw;
-				font-size: .7em;
-				margin-top: 5px;
-				@include mq(sp){
-					width: 70vw;
-					line-height: $line-height-sp;
-				}
-			}
-			& .slide-figcaption{
-				margin-top: 30px;
-				color: #fff;
-				width: 35vw;
-				text-align: left;
-				font-size: 1.0em;
-				line-height: $line-height;
-				white-space: pre-wrap;
-				@include mq(sp){
-					width: 70vw;
-					line-height: $line-height-sp;
-				}
-				@include mq(tab){
-					font-size: .7em;
-				}
-				
-			}
-			& .slide-number{
-				margin-left:auto;
-				margin-right: 10%;
-				color: #fff;
-				@include mq(tab){
-					font-size: .7em;
-				}
-			}
 		}
 		
 		& .left-arrow{
@@ -1345,7 +1379,7 @@ img{
 						.icon{
 									width: 100%;
 									display: flex;
-									justify-content: end;
+									justify-content: flex-end;
 									margin-top: 20px;
 									align-items: end;
 									svg{
