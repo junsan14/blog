@@ -113,6 +113,8 @@ img{
 	max-width: 100%;
 }
 
+
+
 .sp-display{
 	@include mq(sp){
 		display: none;
@@ -1081,7 +1083,7 @@ img{
 									max-height: 400px;
 								}
 								@include mq(sp){
-									margin-top:10vh;
+									margin-top:20vh;
 									width: 350px;
 									max-width: 350px;
 									max-height: 350px;
@@ -1117,7 +1119,7 @@ img{
 								
 								@include mq(sp){
 									line-height: $line-height-sp;
-									font-size: .7.0em;
+									font-size: .9rem;
 									margin-left: calc((100% - 350px)/2);
 								}
 								

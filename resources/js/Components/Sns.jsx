@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect } from 'react'
 import { usePage } from '@inertiajs/react';
 import profile from '../../images/profile.png';
 import { ModalShow,formatDate } from '@/Script';
@@ -21,7 +21,6 @@ import 'swiper/css/pagination';
 // import required modules
 import { Pagination, Autoplay} from 'swiper/modules';
 
-
 function Instagram(){  
 
   const [posted, setPosted] = useState("");
@@ -29,7 +28,12 @@ function Instagram(){
     const user_name = "junsan_junsan14" //ビジネスorクリエイターアカウントの必要あり
     const ACCESS_TOKEN = import.meta.env.VITE_APP_INSTAGRAM_ACCESS_TOKEN;
     const USER_ID = import.meta.env.VITE_INSTAGRAM_USER_ID;
+    const INSTAGRAM_ID = import.meta.env.VITE_APP_Instagram_app_id;
     const get_count = 9 //取得したい投稿数
+    const url = `https://graph.facebook.com/v22.0/1117396250003165`;
+   
+    //`https://graph.instagram.com/v21.0/me/media?fields=id,media_type,media_url,username,timestamp,caption&limit=${get_count}&access_token=${ACCESS_TOKEN}`
+    //
     //const a = `https://graph.instagram.com/v21.0/${user_id}?fields=business_discovery.username(${user_name}){id,followers_count,media_count,ig_id,media.limit(${get_count}){caption,media_url,like_count}}&access_token=${ACCESS_TOKEN}`;
     //const a = `https://graph.instagram.com/me/media?fields=id,media_type,media_url,username,timestamp,caption&access_token=${ACCESS_TOKEN}`
     //console.log(a)
@@ -39,7 +43,9 @@ function Instagram(){
     ////https://graph.facebook.com/v16.0/${user_id}?fields=business_discovery.username(${user_name}){id,followers_count,media_count,ig_id,media.limit(${get_count}){caption,media_url,like_count}}&access_token=${access_token}
     axios
       .get(
-        `https://graph.instagram.com/v21.0/me/media?fields=id,media_type,media_url,username,timestamp,caption&limit=${get_count}&access_token=${ACCESS_TOKEN}`
+        
+        `https://graph.instagram.com/v22.0/me/media?fields=id,media_type,media_url,username,timestamp,caption&limit=${get_count}&access_token=${ACCESS_TOKEN}`
+
       )
       .then((res) => {
         setPosted(res.data);   
@@ -48,17 +54,11 @@ function Instagram(){
   }, [])
 
     const Render = ()=>{
-
-      if(posted){
-       
+      if(posted){  
         let posts =posted.data;
-        //  console.log(posts)
-        //console.log(posts)
-        //ModalShow(posts,"instagram");
         return(
           <>
             <ModalShow/>
-            
             {posts.map((post,i) => {
               const MediaType = ()=>{
                 if(String(post.media_type) === "VIDEO"){
@@ -89,15 +89,13 @@ function Instagram(){
           </>
         )
       }else{
-        return(
-          <>接続に問題があるようです</>
-          )
+        return(<>データを読込中です...</>)
       }
 
     }
    
   return (
-    <Render />
+      <Render />
   );
 }
 
@@ -125,54 +123,6 @@ function Threads(){
     
   }, [])
 
-    const Render = ()=>{
-      if(posted){
-        let posts =posted.data;
-        //console.log(posted)
-        //ModalShow(posts,"instagram");
-        return(
-          <>
-            {posts.map((post,i) => {
-              console.log(post.permalink)
-              return(
-              <>
-                <a href={post.permalink} target="_blank">
-                  <div className='post' key={i}>
-                    <div className="post_img">
-                      <img src={profile} alt="" />
-                    </div>
-                    <div className='post_content'>
-                      <div className='post_content_title'>
-                        <h2 className="title">{post.username}</h2>
-                        <p className="date">{formatDistanceToNow(post.timestamp,{locale: ja})}前 </p>
-                      </div>
-                      <div className='post_content_text'>
-                        <div className='text'>
-                        <p>{post.text}</p>
-                         </div>
-                        <div className='icon'>
-                          <FaRegHeart />
-                          <FaRegComment />
-                          <FaRetweet />
-                          <LuSend />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </>
-              )          
-            })}           
-          </>
-        )
-      }else{
-        return(
-          <>接続中です。</>
-          )
-      }
-
-    }
-
    const SwiperDet = () =>{
     if(posted){
       let posts =posted.data;
@@ -186,21 +136,21 @@ function Threads(){
           loop={true}
           centeredSlides={true}
           breakpoints={{
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 1.5,
-            spaceBetween: 50,
-          },
-          960: {
-            slidesPerView: 2.8,
-            spaceBetween: 50,
-          },
-        }}
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 1.5,
+              spaceBetween: 50,
+            },
+            960: {
+              slidesPerView: 2.8,
+              spaceBetween: 50,
+            },
+          }}
           autoplay={{
-            delay: 5000,
+            delay: 7000,
             disableOnInteraction: false,
           }}
           modules={[Pagination,Autoplay]}
@@ -226,25 +176,15 @@ function Threads(){
                     </div>
                   </div>
                 </a>
-
               </SwiperSlide>
-
             ))}
         </Swiper>
-
-
         )
       }else{
-        return(
-          <>接続に問題があるようです</>
-          )
+        return(<>データを読込中です...</>)
       }
    }
-  return (
-    <>
-      <SwiperDet />
-    </>
-  );
+  return (<SwiperDet />);
 
 
  
